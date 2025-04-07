@@ -1,4 +1,4 @@
-package _v3r.project.common.apiResponse;
+package _v3r.project.common.domain;
 
 public enum ResultType {
     FAIL,SUCCESS

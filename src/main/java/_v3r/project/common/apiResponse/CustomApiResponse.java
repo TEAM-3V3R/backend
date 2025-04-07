@@ -1,5 +1,6 @@
 package _v3r.project.common.apiResponse;
 
+import _v3r.project.common.domain.ResultType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
