@@ -1,4 +1,4 @@
-package _v3r.project.common.prompt.domain;
+package _v3r.project.prompt.domain;
 
 import _v3r.project.common.domain.BaseEntity;
 import _v3r.project.user.domain.User;
