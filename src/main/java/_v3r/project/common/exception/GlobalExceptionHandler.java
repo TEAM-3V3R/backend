@@ -73,5 +73,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.internalServerError()
                 .body(CustomApiResponse.fail(ErrorCode.INTERNAL_SERVER_ERROR));
     }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<CustomApiResponse<?>> handleRuntime(RuntimeException e) {
+        log.error(">>> RuntimeException ", e);
+        return ResponseEntity.internalServerError()
+                .body(CustomApiResponse.fail(ErrorCode.INTERNAL_SERVER_ERROR, List.of("서버 처리 중 오류가 발생했습니다.")));
+    }
+
 }
 
