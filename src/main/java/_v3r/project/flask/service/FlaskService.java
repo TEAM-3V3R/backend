@@ -2,7 +2,6 @@ package _v3r.project.flask.service;
 
 import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.prompt.dto.PromptRequest;
-import _v3r.project.prompt.dto.PromptResponse;
 import _v3r.project.flask.dto.FlaskResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
