@@ -1,6 +1,7 @@
 package _v3r.project.flask.service;
 
 import _v3r.project.common.apiResponse.CustomApiResponse;
+import _v3r.project.flask.dto.CategoryFlaskResponse;
 import _v3r.project.prompt.dto.PromptRequest;
 import _v3r.project.flask.dto.FlaskResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,24 @@ public class FlaskService {
         FlaskResponse flaskResponse = response.getBody();
 
         return CustomApiResponse.success(flaskResponse,200,"프롬프트 전송 성공");
+    }
+
+    public CustomApiResponse<CategoryFlaskResponse> receiveCategory(Long promptId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Long> entity = new HttpEntity<>(promptId, headers);
+
+        ResponseEntity<CategoryFlaskResponse> response = restTemplate.exchange(
+                "http://localhost:5000/prompt",
+                HttpMethod.POST,
+                entity,
+                CategoryFlaskResponse.class
+        );
+
+        CategoryFlaskResponse flaskResponse = response.getBody();
+
+        return CustomApiResponse.success(flaskResponse, 200, "카테고리 수신 성공");
     }
 
 }
