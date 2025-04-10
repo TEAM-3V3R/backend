@@ -10,6 +10,8 @@ import _v3r.project.flask.dto.CategoryFlaskResponse;
 import _v3r.project.flask.service.FlaskService;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.prompt.repository.PromptRepository;
+import _v3r.project.user.domain.User;
+import _v3r.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +22,13 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final FlaskService flaskService;
     private final PromptRepository promptRepository;
+    private final UserRepository userRepository;
 
-    public ReceiveCategoryResonse receiveCategory(Long promptId){
+    public ReceiveCategoryResonse receiveCategory(Long userId,Long promptId){
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
         Prompt prompt = promptRepository.findById(promptId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 

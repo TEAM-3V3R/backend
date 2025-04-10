@@ -22,7 +22,7 @@ public class FlaskService {
         HttpEntity<PromptRequest> entity = new HttpEntity<>(request, headers);
 
         ResponseEntity<FlaskResponse> response = restTemplate.exchange(
-                "http://localhost:5000/prompt",
+                "https://2200-118-32-120-228.ngrok-free.app/process",//TODO 후에 배포된 url로 경로 지정 예정
                 HttpMethod.POST,
                 entity,
                 FlaskResponse.class
@@ -39,7 +39,7 @@ public class FlaskService {
         HttpEntity<Long> entity = new HttpEntity<>(promptId, headers);
 
         ResponseEntity<CategoryFlaskResponse> response = restTemplate.exchange(
-                "http://localhost:5000/prompt",
+                "https://2200-118-32-120-228.ngrok-free.app/process",
                 HttpMethod.POST,
                 entity,
                 CategoryFlaskResponse.class

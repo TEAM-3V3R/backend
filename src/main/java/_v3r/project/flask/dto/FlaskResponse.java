@@ -1,5 +1,7 @@
 package _v3r.project.flask.dto;
 
-public record FlaskResponse(Long statusCode,String message) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record FlaskResponse(@JsonProperty("status") Long statusCode, String message) {
 
 }
