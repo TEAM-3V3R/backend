@@ -3,6 +3,8 @@ package _v3r.project.category.dto.response;
 import _v3r.project.category.domain.Category;
 import _v3r.project.flask.dto.CategoryFlaskResponse;
 import _v3r.project.prompt.domain.Prompt;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Builder;
 
 @Builder
@@ -18,6 +20,18 @@ public record ReceiveCategoryResonse(
                 .classification(response.classification())
                 .build();
     }
+
+
+    public static List<ReceiveCategoryResonse> of(List<Category> categoryList) {
+        return categoryList.stream()
+                .map(category -> ReceiveCategoryResonse.builder()
+                        .promptId(category.getPrompt().getId())
+                        .text(category.getText())
+                        .classification(category.getClassification())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
 
     public Category toEntity(final Prompt prompt) {
         return Category.builder()

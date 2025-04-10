@@ -12,6 +12,7 @@ import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -45,4 +46,16 @@ public class CategoryService {
         return response;
     }
 
+    public List<ReceiveCategoryResonse> showAllCategoryText(Long userId,Long promptId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        Prompt prompt = promptRepository.findById(promptId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        List<Category> categoryList = categoryRepository.findAllByPromptId(promptId);
+
+        return ReceiveCategoryResonse.of(categoryList);
+
+    }
 }
