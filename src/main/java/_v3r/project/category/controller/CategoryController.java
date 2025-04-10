@@ -1,5 +1,6 @@
 package _v3r.project.category.controller;
 
+import _v3r.project.category.dto.response.ClassificationListResponse;
 import _v3r.project.category.dto.response.ReceiveCategoryResonse;
 import _v3r.project.category.service.CategoryService;
 import _v3r.project.common.apiResponse.CustomApiResponse;
@@ -33,6 +34,15 @@ public class CategoryController {
             @RequestParam("prompt-id") Long promptId) {
         List<ReceiveCategoryResonse> resonse = categoryService.showAllCategoryText(userId,promptId);
         return CustomApiResponse.success(resonse,200,"해당 프롬프트에 대한 카테고리-텍스트 조회 성공");
+    }
+
+
+    @GetMapping("/show-categorylist")
+    public CustomApiResponse<List<ClassificationListResponse>> showCategoryList(
+            @RequestHeader("user-no") Long userId,
+            @RequestParam("prompt-id") Long promptId) {
+        List<ClassificationListResponse> resonse = categoryService.showCategoryList(userId,promptId);
+        return CustomApiResponse.success(resonse,200,"해당 프롬프트에 대한 카테고리 리스트 조회 성공");
     }
 
 }

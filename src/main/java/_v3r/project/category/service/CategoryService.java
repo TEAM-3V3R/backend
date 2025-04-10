@@ -1,6 +1,7 @@
 package _v3r.project.category.service;
 
 import _v3r.project.category.domain.Category;
+import _v3r.project.category.dto.response.ClassificationListResponse;
 import _v3r.project.category.dto.response.ReceiveCategoryResonse;
 import _v3r.project.category.repository.CategoryRepository;
 import _v3r.project.common.apiResponse.CustomApiResponse;
@@ -53,9 +54,31 @@ public class CategoryService {
         Prompt prompt = promptRepository.findById(promptId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
+
         List<Category> categoryList = categoryRepository.findAllByPromptId(promptId);
 
+        if (categoryList.isEmpty()) {
+            throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
+        }
+
         return ReceiveCategoryResonse.of(categoryList);
+    }
+    public List<ClassificationListResponse> showCategoryList(Long userId,Long promptId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        Prompt prompt = promptRepository.findById(promptId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        List<Category> categoryList = categoryRepository.findAllByPromptId(promptId);
+
+        if (categoryList.isEmpty()) {
+            throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
+        }
+
+        return categoryList.stream()
+                .map(ClassificationListResponse::of)
+                .toList();
 
     }
 }
