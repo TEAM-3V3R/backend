@@ -1,7 +1,6 @@
 package _v3r.project.category.dto.response;
 
 import _v3r.project.category.domain.Category;
-import _v3r.project.flask.dto.CategoryFlaskResponse;
 import _v3r.project.prompt.domain.Prompt;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,11 +12,11 @@ public record ReceiveCategoryResonse(
         String text,
         String classification) {
 
-    public static ReceiveCategoryResonse of(Long promptId, CategoryFlaskResponse response) {
+    public static ReceiveCategoryResonse of(Long promptId, String text, String classification) {
         return ReceiveCategoryResonse.builder()
                 .promptId(promptId)
-                .text(response.text())
-                .classification(response.classification())
+                .text(text)
+                .classification(classification)
                 .build();
     }
 

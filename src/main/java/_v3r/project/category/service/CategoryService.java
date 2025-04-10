@@ -34,11 +34,10 @@ public class CategoryService {
         Prompt prompt = promptRepository.findById(promptId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        CustomApiResponse<CategoryFlaskResponse> flaskResponse = flaskService.receiveCategory(promptId);
+        CustomApiResponse<ReceiveCategoryResonse> flaskResponse = flaskService.receiveCategory(promptId);
+        ReceiveCategoryResonse categoryData = flaskResponse.data();
 
-        CategoryFlaskResponse categoryData = flaskResponse.data();
-
-        ReceiveCategoryResonse response = ReceiveCategoryResonse.of(promptId,categoryData);
+        ReceiveCategoryResonse response = ReceiveCategoryResonse.of(promptId,categoryData.text(),categoryData.classification());
 
         Category category = response.toEntity(prompt);
 
