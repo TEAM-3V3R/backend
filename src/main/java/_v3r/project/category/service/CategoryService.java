@@ -15,6 +15,7 @@ import _v3r.project.user.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,7 @@ public class CategoryService {
     private final PromptRepository promptRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public ReceiveCategoryResonse receiveCategory(Long userId,Long promptId){
 
         User user = userRepository.findById(userId)
@@ -44,7 +46,7 @@ public class CategoryService {
 
         return response;
     }
-
+    @Transactional(readOnly = true)
     public List<ReceiveCategoryResonse> showAllCategoryText(Long userId,Long promptId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
@@ -61,6 +63,7 @@ public class CategoryService {
 
         return ReceiveCategoryResonse.of(categoryList);
     }
+    @Transactional(readOnly = true)
     public List<ClassificationListResponse> showCategoryList(Long userId,Long promptId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));

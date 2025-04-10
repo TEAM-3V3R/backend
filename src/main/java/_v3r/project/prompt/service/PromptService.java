@@ -12,6 +12,7 @@ import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class PromptService {
     private final UserRepository userRepository;
     private final FlaskService flaskService;
 
+    @Transactional
     public PromptResponse sendPrompt(Long userId, PromptRequest request) {
 
         User user = userRepository.findById(userId)
