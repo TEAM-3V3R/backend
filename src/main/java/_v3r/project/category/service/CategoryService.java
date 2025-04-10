@@ -7,7 +7,6 @@ import _v3r.project.category.repository.CategoryRepository;
 import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
-import _v3r.project.flask.dto.CategoryFlaskResponse;
 import _v3r.project.flask.service.FlaskService;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.prompt.repository.PromptRepository;
