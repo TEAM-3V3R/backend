@@ -17,7 +17,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/signin")
     public CustomApiResponse<CreateUserResponse> createUser(@RequestBody CreateUserRequest request) {
         CreateUserResponse response = userService.createUser(request);
         return CustomApiResponse.success(response,200,"사용자 등록 성공");

@@ -1,7 +1,7 @@
 package _v3r.project.category.domain;
 
 import _v3r.project.common.domain.BaseEntity;
-import _v3r.project.common.prompt.domain.Prompt;
+import _v3r.project.prompt.domain.Prompt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,11 +1,16 @@
 package _v3r.project.morpheme.domain;
 
 import _v3r.project.common.domain.BaseEntity;
+import _v3r.project.prompt.domain.Prompt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,7 +20,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "category")
+@Table(name = "morpheme")
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -25,17 +30,17 @@ public class Morpheme extends BaseEntity {
     @Column(name = "morpheme_id")
     private Long id;
 
-    //TODO 카테고리랑만 조인할지, prompt와도 조인할지 검토
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prompt_id")
+    private Prompt prompt;
 
     @Column(name = "josa_sum")
-    private Long josaSum;
+    private Double josaSum;
 
     @Column(name = "noun_sum")
-    private Long nounSum;
+    private Double nounSum;
 
     @Column(name = "verb_sum")
-    private Long verbSum;
+    private Double verbSum;
 
-    @Column(name = "punctuation_sum")
-    private Long punctuationSum;
 }
