@@ -1,8 +1,8 @@
 package _v3r.project.prompt.controller;
 
 import _v3r.project.common.apiResponse.CustomApiResponse;
-import _v3r.project.prompt.dto.PromptRequest;
-import _v3r.project.prompt.dto.PromptResponse;
+import _v3r.project.prompt.dto.request.PromptRequest;
+import _v3r.project.prompt.dto.response.PromptResponse;
 import _v3r.project.prompt.service.PromptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
