@@ -1,7 +1,7 @@
 package _v3r.project.prompt.controller;
 
 import _v3r.project.prompt.dto.request.ChatRequest;
-import _v3r.project.prompt.dto.response.ChatResponse;
+import _v3r.project.prompt.dto.response.ImageResponse;
 import _v3r.project.prompt.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatController {
     private final ChatService chatService;
     @PostMapping("")
-    public ChatResponse chat(@RequestBody ChatRequest request) {
+    public String chat(@RequestBody ChatRequest request) {
         return chatService.getChatResponse(request.promptContent());
     }
+
+    @PostMapping("/fish-image")
+    public ImageResponse generateFishImage(@RequestBody ChatRequest request) {
+        return chatService.generateImage(request.promptContent());
+    }
+
+
 
 }
