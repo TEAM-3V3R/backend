@@ -1,5 +1,6 @@
 package _v3r.project.prompt.service;
 
+import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.response.ChatResponse;
 import _v3r.project.prompt.dto.response.ImageResponse;
 import lombok.RequiredArgsConstructor;
@@ -41,11 +42,11 @@ public class ChatService {
         return response.getBody().choices().get(0).text().trim();
     }
 
-    public ImageResponse generateImage(String promptContent) {
+    //TODO 어해도 인지 검증 필요
+    public ImageResponse generateFishImage(Paints paints,String promptContent) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(apiKey);
-
 
         String styledPrompt = "Generate an artwork in the 어해도 (Korean Minhwa) style. "
                 + "A traditional Korean Minhwa-style painting featuring seven freshwater fish of various sizes (carp, catfish, trout) arranged in a vertical, "
@@ -56,6 +57,32 @@ public class ChatService {
                 + " The brushwork is delicate, the lines are sharp without any ink bleeding, evoking a serene, still atmosphere where nature and life coexist harmoniously in stillness. "
                 + "The painting features vivid, saturated traditional" + promptContent;
 
+        Map<String, Object> body = Map.of(
+                "model","dall-e-3",
+                "prompt", styledPrompt,
+                "n", 1,
+                "size", "1024x1024"
+        );
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
+
+        ResponseEntity<ImageResponse> response = restTemplate.postForEntity(
+                "https://api.openai.com/v1/images/generations",
+                request,
+                ImageResponse.class
+        );
+
+        return response.getBody();
+    }
+
+    public ImageResponse generateMountainImage(Paints paints,String promptContent) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(apiKey);
+
+        String styledPrompt = "Generate an artwork in the style of traditional Korean ink landscape painting (산수화, 山水畫). "
+                + "The scene should include: " + promptContent + ". "
+                + "Use ink wash techniques only, with soft gradients of black, gray, and a warm yellowed paper texture to simulate aged hanji.";
 
 
 
