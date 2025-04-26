@@ -97,7 +97,7 @@ public class CategoryService {
         Prompt prompt = promptRepository.findById(promptId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        List<Category> userClassification = categoryRepository.findAllByPromptId(promptId);
+        categoryRepository.findAllByPromptId(promptId);
 
         Set<String> userClassifications = categoryRepository.findAllByPromptId(promptId).stream()
                 .map(Category::getClassification)
