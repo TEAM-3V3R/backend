@@ -35,4 +35,13 @@ public class Prompt extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(name = "category_matching_sum")
+    Double categoryMatchingSum;
+
+    public void updateCategoryMatchingSum(double categoryMatchingSum) {
+        this.categoryMatchingSum = categoryMatchingSum;
+    }
+
 }
+
