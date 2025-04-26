@@ -1,4 +1,4 @@
-package _v3r.project.prompt.dto;
+package _v3r.project.prompt.dto.response;
 
 import _v3r.project.prompt.domain.Prompt;
 import lombok.Builder;

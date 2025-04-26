@@ -1,4 +1,4 @@
-package _v3r.project.prompt.dto;
+package _v3r.project.prompt.dto.request;
 
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.user.domain.User;

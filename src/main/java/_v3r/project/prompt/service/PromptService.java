@@ -1,12 +1,11 @@
 package _v3r.project.prompt.service;
 
-import _v3r.project.common.annotation.AuthUser;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.flask.service.FlaskService;
 import _v3r.project.prompt.domain.Prompt;
-import _v3r.project.prompt.dto.PromptRequest;
-import _v3r.project.prompt.dto.PromptResponse;
+import _v3r.project.prompt.dto.request.PromptRequest;
+import _v3r.project.prompt.dto.response.PromptResponse;
 import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;

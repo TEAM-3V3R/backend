@@ -6,7 +6,7 @@ import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.morpheme.dto.response.MorphemeResponse;
 import _v3r.project.prompt.domain.Prompt;
-import _v3r.project.prompt.dto.PromptRequest;
+import _v3r.project.prompt.dto.request.PromptRequest;
 import _v3r.project.flask.dto.FlaskResponse;
 import _v3r.project.prompt.repository.PromptRepository;
 import java.util.HashMap;
