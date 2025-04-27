@@ -18,6 +18,7 @@ import _v3r.project.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -107,11 +108,16 @@ public class CategoryService {
 
         Set<String> userClassifications = categoryRepository.findAllByPromptId(promptId).stream()
                 .map(Category::getClassification)
+                .filter(value -> value != null && !"null".equals(value))
+                .map(String::trim)
                 .collect(Collectors.toSet());
+
+        System.out.println("[DEBUG] userClassifications = " + userClassifications);
 
         DummyCategory matchedDummy = dummyCategoryRepository.findAll().stream()
                 .filter(dummy -> {
                     Set<String> dummySet = Arrays.stream(dummy.getCategoryCombination().split("-"))
+                            .map(String::trim)
                             .collect(Collectors.toSet());
                     return dummySet.equals(userClassifications);
                 })
