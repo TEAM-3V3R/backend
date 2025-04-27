@@ -4,7 +4,7 @@ import _v3r.project.category.domain.Category;
 import _v3r.project.category.domain.DummyCategory;
 import _v3r.project.category.dto.response.CategoryMatchResponse;
 import _v3r.project.category.dto.response.ClassificationListResponse;
-import _v3r.project.category.dto.response.ReceiveCategoryResonse;
+import _v3r.project.category.dto.response.ReceiveCategoryResponse;
 import _v3r.project.category.repository.CategoryRepository;
 import _v3r.project.category.repository.DummyCategoryRepository;
 import _v3r.project.common.apiResponse.CustomApiResponse;
@@ -15,6 +15,7 @@ import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class CategoryService {
     private final DummyCategoryRepository dummyCategoryRepository;
 
     @Transactional
-    public ReceiveCategoryResonse receiveCategory(Long userId,Long promptId){
+    public List<ReceiveCategoryResponse> receiveCategory(Long userId, Long promptId) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
@@ -42,19 +43,24 @@ public class CategoryService {
         Prompt prompt = promptRepository.findById(promptId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        CustomApiResponse<ReceiveCategoryResonse> flaskResponse = flaskService.receiveCategory(promptId);
-        ReceiveCategoryResonse categoryData = flaskResponse.data();
+        CustomApiResponse<List<ReceiveCategoryResponse>> flaskResponse = flaskService.receiveCategory(promptId);
+        List<ReceiveCategoryResponse> categoryDataList = flaskResponse.data();
 
-        ReceiveCategoryResonse response = ReceiveCategoryResonse.of(promptId,categoryData.text(),categoryData.classification());
+        List<Category> categories = new ArrayList<>();
 
-        Category category = response.toEntity(prompt);
+        for (ReceiveCategoryResponse categoryData : categoryDataList) {
+            ReceiveCategoryResponse response = ReceiveCategoryResponse.of(categoryData.text(), categoryData.classification());
+            Category category = response.toEntity(prompt);
+            categories.add(category);
+        }
 
-        categoryRepository.save(category);
+        categoryRepository.saveAll(categories);
 
-        return response;
+        return categoryDataList;
     }
+
     @Transactional(readOnly = true)
-    public List<ReceiveCategoryResonse> showAllCategoryText(Long userId,Long promptId) {
+    public List<ReceiveCategoryResponse> showAllCategoryText(Long userId,Long promptId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
@@ -68,7 +74,7 @@ public class CategoryService {
             throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
         }
 
-        return ReceiveCategoryResonse.of(categoryList);
+        return ReceiveCategoryResponse.of(categoryList);
     }
     @Transactional(readOnly = true)
     public List<ClassificationListResponse> showCategoryList(Long userId,Long promptId) {
