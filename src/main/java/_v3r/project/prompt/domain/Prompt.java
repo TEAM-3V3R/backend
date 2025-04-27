@@ -42,6 +42,12 @@ public class Prompt extends BaseEntity {
     public void updateCategoryMatchingSum(double categoryMatchingSum) {
         this.categoryMatchingSum = categoryMatchingSum;
     }
+    public static Prompt create(User user, String promptContent) {
+        return Prompt.builder()
+                .user(user)
+                .promptContent(promptContent)
+                .build();
+    }
 
 }
 

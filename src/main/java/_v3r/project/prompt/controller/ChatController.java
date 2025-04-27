@@ -7,6 +7,7 @@ import _v3r.project.prompt.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,18 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatController {
     private final ChatService chatService;
     @PostMapping("")
-    public String chat(@RequestBody ChatRequest request) {
-        return chatService.getChatResponse(request.promptContent());
+    public String chat(@RequestHeader("user-no") Long userId,@RequestBody ChatRequest request) {
+        return chatService.getChatResponse(userId,request.promptContent());
     }
 
     @PostMapping("/fish-image")
-    public ImageResponse generateFishImage(@RequestParam(name = "paints") Paints paints, @RequestBody ChatRequest request) {
-        return chatService.generateFishImage(paints.어해도,request.promptContent());
+    public ImageResponse generateFishImage(@RequestHeader("user-no") Long userId,@RequestParam(name = "paints") Paints paints, @RequestBody ChatRequest request) {
+        return chatService.generateFishImage(userId,paints.어해도,request.promptContent());
     }
 
     @PostMapping("/mountain-image")
-    public ImageResponse generateMountainImage(@RequestParam(name = "paints") Paints paints, @RequestBody ChatRequest request) {
-        return chatService.generateMountainImage(paints.산수도,request.promptContent());
+    public ImageResponse generateMountainImage(@RequestHeader("user-no") Long userId,@RequestParam(name = "paints") Paints paints, @RequestBody ChatRequest request) {
+        return chatService.generateMountainImage(userId,paints.산수도,request.promptContent());
     }
 
 

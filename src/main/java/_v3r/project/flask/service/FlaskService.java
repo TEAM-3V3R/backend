@@ -6,7 +6,6 @@ import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.morpheme.dto.response.MorphemeResponse;
 import _v3r.project.prompt.domain.Prompt;
-import _v3r.project.prompt.dto.request.PromptRequest;
 import _v3r.project.flask.dto.FlaskResponse;
 import _v3r.project.prompt.repository.PromptRepository;
 import java.util.HashMap;
@@ -23,24 +22,30 @@ public class FlaskService {
     private final RestTemplate restTemplate;
     private final PromptRepository promptRepository;
 
-    public CustomApiResponse<FlaskResponse> sendPromptToFlask(PromptRequest request) {
+    public CustomApiResponse<FlaskResponse> sendPromptToFlask(String promptContent) {
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<PromptRequest> entity = new HttpEntity<>(request, headers);
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("promptContent", promptContent);
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<FlaskResponse> response = restTemplate.exchange(
-                "https://fd62-115-139-95-92.ngrok-free.app/prompt",//TODO 후에 배포된 url로 경로 지정 예정
+                "https://fd62-115-139-95-92.ngrok-free.app/prompt", // TODO: 배포 후 URL 수정
                 HttpMethod.POST,
                 entity,
                 FlaskResponse.class
         );
+
         FlaskResponse flaskResponse = response.getBody();
 
-        return CustomApiResponse.success(flaskResponse,200,"프롬프트 전송 성공");
+        return CustomApiResponse.success(flaskResponse, 200, "프롬프트 전송 성공");
     }
 
     public CustomApiResponse<ReceiveCategoryResonse> receiveCategory(Long promptId) {
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -67,6 +72,7 @@ public class FlaskService {
     }
 
     public CustomApiResponse<MorphemeResponse> receiveMorpheme(Long promptId) {
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
