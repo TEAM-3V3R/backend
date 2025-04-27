@@ -1,6 +1,6 @@
 package _v3r.project.flask.service;
 
-import _v3r.project.category.dto.response.ReceiveCategoryResonse;
+import _v3r.project.category.dto.response.ReceiveCategoryResponse;
 import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
@@ -8,7 +8,12 @@ import _v3r.project.morpheme.dto.response.MorphemeResponse;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.flask.dto.FlaskResponse;
 import _v3r.project.prompt.repository.PromptRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -33,7 +38,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<FlaskResponse> response = restTemplate.exchange(
-                "https://fd62-115-139-95-92.ngrok-free.app/prompt", // TODO: 배포 후 URL 수정
+                "https://e8f9-115-139-95-92.ngrok-free.app/prompt", // TODO: 배포 후 URL 수정
                 HttpMethod.POST,
                 entity,
                 FlaskResponse.class
@@ -44,7 +49,7 @@ public class FlaskService {
         return CustomApiResponse.success(flaskResponse, 200, "프롬프트 전송 성공");
     }
 
-    public CustomApiResponse<ReceiveCategoryResonse> receiveCategory(Long promptId) {
+    public CustomApiResponse<List<ReceiveCategoryResponse>> receiveCategory(Long promptId) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -59,17 +64,38 @@ public class FlaskService {
 
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
 
-        ResponseEntity<ReceiveCategoryResonse> response = restTemplate.exchange(
-                "https://fd62-115-139-95-92.ngrok-free.app/category",
+        ResponseEntity<String> response = restTemplate.exchange(
+                "https://c3c4-115-139-95-92.ngrok-free.app/homonym",
                 HttpMethod.POST,
                 entity,
-                ReceiveCategoryResonse.class
+                String.class
         );
 
-        ReceiveCategoryResonse flaskResponse = response.getBody();
+        try {
+            String responseBody = response.getBody();
 
-        return CustomApiResponse.success(flaskResponse, 200, "카테고리 수신 성공");
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            JsonNode rootNode = objectMapper.readTree(responseBody);
+            List<ReceiveCategoryResponse> results = new ArrayList<>();
+
+            if (rootNode.has("results")) {
+                for (JsonNode node : rootNode.get("results")) {
+                    String text = node.get("text").asText();
+                    String classification = node.has("classification") ? node.get("classification").asText() : null;
+
+                    results.add(ReceiveCategoryResponse.of(text, classification));
+                }
+            }
+
+            return CustomApiResponse.success(results, 200, "카테고리 수신 성공");
+
+        } catch (Exception e) {
+            throw new EverException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
+
+
 
     public CustomApiResponse<MorphemeResponse> receiveMorpheme(Long promptId) {
 
@@ -87,7 +113,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
 
         ResponseEntity<MorphemeResponse> response = restTemplate.exchange(
-                "https://18d4-115-139-95-92.ngrok-free.app/morpheme",
+                "https://c3c4-115-139-95-92.ngrok-free.app/homonym",
                 HttpMethod.POST,
                 entity,
                 MorphemeResponse.class
