@@ -112,8 +112,6 @@ public class CategoryService {
                 .map(String::trim)
                 .collect(Collectors.toSet());
 
-        System.out.println("[DEBUG] userClassifications = " + userClassifications);
-
         DummyCategory matchedDummy = dummyCategoryRepository.findAll().stream()
                 .filter(dummy -> {
                     Set<String> dummySet = Arrays.stream(dummy.getCategoryCombination().split("-"))
