@@ -4,7 +4,6 @@ import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.flask.service.FlaskService;
 import _v3r.project.prompt.domain.Prompt;
-import _v3r.project.prompt.dto.request.PromptRequest;
 import _v3r.project.prompt.dto.response.PromptResponse;
 import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
@@ -21,14 +20,14 @@ public class PromptService {
     private final FlaskService flaskService;
 
     @Transactional
-    public PromptResponse sendPrompt(Long userId, PromptRequest request) {
+    public PromptResponse sendAndSavePrompt(Long userId, String promptContent) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        flaskService.sendPromptToFlask(request);
+        flaskService.sendPromptToFlask(promptContent);
 
-        Prompt prompt = request.toEntity(user);
+        Prompt prompt = Prompt.create(user, promptContent);
 
         promptRepository.save(prompt);
 

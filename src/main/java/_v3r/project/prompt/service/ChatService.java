@@ -1,8 +1,12 @@
 package _v3r.project.prompt.service;
 
+import _v3r.project.common.apiResponse.ErrorCode;
+import _v3r.project.common.exception.EverException;
 import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.response.ChatResponse;
 import _v3r.project.prompt.dto.response.ImageResponse;
+import _v3r.project.user.domain.User;
+import _v3r.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -16,11 +20,18 @@ import java.util.Map;
 public class ChatService {
 
     private final RestTemplate restTemplate;
+    private final PromptService promptService;
+    private final UserRepository userRepository;
 
     @Value("${chatgpt.api-key}")
     private String apiKey;
 
-    public String getChatResponse(String promptContent) {
+    public String getChatResponse(Long userId,String promptContent) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        promptService.sendAndSavePrompt(userId, promptContent);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(apiKey);
@@ -43,7 +54,13 @@ public class ChatService {
     }
 
     //TODO 어해도 인지 검증 필요
-    public ImageResponse generateFishImage(Paints paints,String promptContent) {
+    public ImageResponse generateFishImage(Long userId,Paints paints,String promptContent) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        promptService.sendAndSavePrompt(userId, promptContent);
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(apiKey);
@@ -75,7 +92,13 @@ public class ChatService {
         return response.getBody();
     }
 
-    public ImageResponse generateMountainImage(Paints paints,String promptContent) {
+    public ImageResponse generateMountainImage(Long userId,Paints paints,String promptContent) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        promptService.sendAndSavePrompt(userId, promptContent);
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(apiKey);
