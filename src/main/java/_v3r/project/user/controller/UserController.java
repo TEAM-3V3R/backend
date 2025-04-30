@@ -5,8 +5,10 @@ import _v3r.project.user.dto.request.CreateUserRequest;
 import _v3r.project.user.dto.response.CreateUserResponse;
 import _v3r.project.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,11 @@ public class UserController {
     public CustomApiResponse<CreateUserResponse> createUser(@RequestBody CreateUserRequest request) {
         CreateUserResponse response = userService.createUser(request);
         return CustomApiResponse.success(response,200,"사용자 등록 성공");
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteUser(@RequestHeader(name = "user-no") Long userId) {
+        userService.deleteUser(userId);
     }
 
 
