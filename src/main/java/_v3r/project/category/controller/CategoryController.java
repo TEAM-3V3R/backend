@@ -2,7 +2,7 @@ package _v3r.project.category.controller;
 
 import _v3r.project.category.dto.response.CategoryMatchResponse;
 import _v3r.project.category.dto.response.ClassificationListResponse;
-import _v3r.project.category.dto.response.ReceiveCategoryResonse;
+import _v3r.project.category.dto.response.ReceiveCategoryResponse;
 import _v3r.project.category.service.CategoryService;
 import _v3r.project.common.apiResponse.CustomApiResponse;
 import java.util.List;
@@ -23,18 +23,19 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping("/receive-category")
-    public CustomApiResponse<ReceiveCategoryResonse> receiveCategory(
+    public CustomApiResponse<List<ReceiveCategoryResponse>> receiveCategory(
             @RequestHeader("user-no") Long userId,
             @RequestParam("prompt-id") Long promptId) {
-        ReceiveCategoryResonse response = categoryService.receiveCategory(userId,promptId);
-        return CustomApiResponse.success(response, 200, "카테고리 저장 및 응답 성공");
+
+        List<ReceiveCategoryResponse> responses = categoryService.receiveCategory(userId, promptId);
+        return CustomApiResponse.success(responses, 200, "카테고리 저장 및 응답 성공");
     }
 
     @GetMapping("/show-all-category-text")
-    public CustomApiResponse<List<ReceiveCategoryResonse>> showAllCategoryText(
+    public CustomApiResponse<List<ReceiveCategoryResponse>> showAllCategoryText(
             @RequestHeader("user-no") Long userId,
             @RequestParam("prompt-id") Long promptId) {
-        List<ReceiveCategoryResonse> resonse = categoryService.showAllCategoryText(userId,promptId);
+        List<ReceiveCategoryResponse> resonse = categoryService.showAllCategoryText(userId,promptId);
         return CustomApiResponse.success(resonse,200,"해당 프롬프트에 대한 카테고리-텍스트 조회 성공");
     }
 
