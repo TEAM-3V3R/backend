@@ -4,7 +4,9 @@ import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.user.domain.User;
 import _v3r.project.user.dto.request.CreateUserRequest;
+import _v3r.project.user.dto.request.UpdateUserRequest;
 import _v3r.project.user.dto.response.CreateUserResponse;
+import _v3r.project.user.dto.response.UpdateUserResponse;
 import _v3r.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,16 @@ public class UserService {
         User user = request.toEntity();
         userRepository.save(user);
         return CreateUserResponse.of(user);
+    }
+
+    public UpdateUserResponse updateUser(Long userId, UpdateUserRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+        user.updateUser(request.name());
+
+        userRepository.save(user);
+
+        return UpdateUserResponse.of(user);
     }
 
     public void deleteUser(Long userId) {
