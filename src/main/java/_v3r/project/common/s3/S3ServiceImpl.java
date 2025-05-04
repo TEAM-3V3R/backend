@@ -20,6 +20,7 @@ public class S3ServiceImpl implements S3Service {
     private String bucket;
 
     @Override
+    //TODO 유저/키워드 경로로 자동저장되도록 경로 고정시키기
     public String uploadFile(MultipartFile multipartFile, String url) {
         String fileName = url+"/"+ UUID.randomUUID().toString() + "_" + multipartFile.getOriginalFilename();
         ObjectMetadata objMeta = new ObjectMetadata();

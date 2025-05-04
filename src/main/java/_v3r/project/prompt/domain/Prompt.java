@@ -36,12 +36,20 @@ public class Prompt extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Column(name = "category_matching_sum")
     Double categoryMatchingSum;
 
     public void updateCategoryMatchingSum(double categoryMatchingSum) {
         this.categoryMatchingSum = categoryMatchingSum;
     }
+
+    public void updateImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public static Prompt create(User user, String promptContent) {
         return Prompt.builder()
                 .user(user)
