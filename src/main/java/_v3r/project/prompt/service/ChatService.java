@@ -3,16 +3,21 @@ package _v3r.project.prompt.service;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.prompt.domain.Chat;
+import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.response.ChatResponse;
 import _v3r.project.prompt.dto.response.CreateChatResponse;
+import _v3r.project.prompt.dto.response.FindAllChatResponse;
 import _v3r.project.prompt.repository.ChatRepository;
+import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
@@ -25,6 +30,7 @@ public class ChatService {
     private final PromptService promptService;
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
+    private final PromptRepository promptRepository;
 
     @Value("${chatgpt.api-key}")
     private String apiKey;
@@ -55,12 +61,34 @@ public class ChatService {
 
         return response.getBody().choices().get(0).text().trim();
     }
+    @Transactional
+    public CreateChatResponse createChat(Long userId,Paints paints) {
 
-    public CreateChatResponse createChat(Paints paints) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
         Chat newChat = Chat.toEntity(paints);
         chatRepository.save(newChat);
         return CreateChatResponse.of(newChat);
     }
-    //채팅방 조회
+
+    @Transactional(readOnly = true)
+    public List<FindAllChatResponse> findAllChats(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        List<Chat> chats = chatRepository.findAllByOrderByCreatedAtDesc();
+
+        return chats.stream()
+                .map(chat -> {
+                    Prompt prompt = promptRepository.findFirstByChatIdOrderByCreatedAtAsc(chat.getId())
+                            .orElse(null);
+
+                    return new FindAllChatResponse(chat.getId(),
+                            prompt != null ? prompt.getPromptContent() : null);
+                })
+                .toList();
+    }
+
 
 }
