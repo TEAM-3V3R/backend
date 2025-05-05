@@ -93,6 +93,7 @@ public class PromptService {
         String s3ImageUrl = s3Service.uploadImageFromUrl(ImageUrl, "fish-images", ".png",userId);
 
         prompt.updateImageUrl(s3ImageUrl);
+        promptRepository.save(prompt);
 
         return response.getBody();
     }
@@ -128,6 +129,7 @@ public class PromptService {
         String s3ImageUrl = s3Service.uploadImageFromUrl(imageUrl, "mountain-images", ".png",userId);
 
         prompt.updateImageUrl(s3ImageUrl);
+        promptRepository.save(prompt);
 
         return response.getBody();
     }
