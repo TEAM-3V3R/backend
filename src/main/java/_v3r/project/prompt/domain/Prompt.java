@@ -32,6 +32,7 @@ public class Prompt extends BaseEntity {
     @Column(name = "prompt_content")
     private String promptContent;
 
+    // user 끊고 chat과 연결하는게 효율적일듯
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

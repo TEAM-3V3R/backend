@@ -8,6 +8,7 @@ import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.response.ChatResponse;
 import _v3r.project.prompt.dto.response.CreateChatResponse;
 import _v3r.project.prompt.dto.response.FindAllChatResponse;
+import _v3r.project.prompt.dto.response.FindChatResponse;
 import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
@@ -77,17 +78,35 @@ public class ChatService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
+
         List<Chat> chats = chatRepository.findAllByOrderByCreatedAtDesc();
 
         return chats.stream()
-                .map(chat -> {
-                    Prompt prompt = promptRepository.findFirstByChatIdOrderByCreatedAtAsc(chat.getId())
+                .map(chatRoom -> {
+                    Prompt prompt = promptRepository.findFirstByChatIdOrderByCreatedAtAsc(chatRoom.getId())
                             .orElse(null);
 
-                    return new FindAllChatResponse(chat.getId(),
+                    return new FindAllChatResponse(chatRoom.getId(),
                             prompt != null ? prompt.getPromptContent() : null);
                 })
                 .toList();
+    }
+    @Transactional(readOnly = true)
+    public FindChatResponse findChat(Long userId,Long chatId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        List<Prompt> prompts = promptRepository.findAllByChatIdOrderByCreatedAtAsc(chatId);
+
+        List<FindChatResponse.PromptItem> promptItems = prompts.stream()
+                .map(p -> new FindChatResponse.PromptItem(p.getPromptContent(), p.getImageUrl()))
+                .toList();
+
+        return new FindChatResponse(chat.getId(), chat.getPaints(), promptItems);
     }
 
 

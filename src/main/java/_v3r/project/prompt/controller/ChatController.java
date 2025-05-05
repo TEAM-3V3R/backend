@@ -5,6 +5,7 @@ import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.request.ChatRequest;
 import _v3r.project.prompt.dto.response.CreateChatResponse;
 import _v3r.project.prompt.dto.response.FindAllChatResponse;
+import _v3r.project.prompt.dto.response.FindChatResponse;
 import _v3r.project.prompt.service.ChatService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,14 @@ public class ChatController {
     public CustomApiResponse<List<FindAllChatResponse>> findAllChats(@RequestHeader("user-no") Long userId) {
         List<FindAllChatResponse> response = chatService.findAllChats(userId);
         return CustomApiResponse.success(response,200,"전체 채팅방 조회 성공");
+    }
+    @GetMapping("/find-chat")
+    public CustomApiResponse<List<FindChatResponse>> findChat(
+            @RequestHeader("user-no") Long userId,
+            @RequestParam(name = "chatId") Long chatId
+    ) {
+        FindChatResponse response =chatService.findChat(userId, chatId);
+        return CustomApiResponse.success(List.of(response),200,"특정 채팅방 조회 성공");
     }
 
 }
