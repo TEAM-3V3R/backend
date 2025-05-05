@@ -79,7 +79,7 @@ public class ChatService {
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
 
-        List<Chat> chats = chatRepository.findAllByOrderByCreatedAtDesc();
+        List<Chat> chats = chatRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
 
         return chats.stream()
                 .map(chatRoom -> {
