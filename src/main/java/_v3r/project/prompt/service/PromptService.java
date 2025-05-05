@@ -3,10 +3,12 @@ package _v3r.project.prompt.service;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.flask.service.FlaskService;
+import _v3r.project.prompt.domain.Chat;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.response.ImageResponse;
 import _v3r.project.prompt.dto.response.PromptResponse;
+import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
@@ -28,19 +30,24 @@ public class PromptService {
     private final UserRepository userRepository;
     private final FlaskService flaskService;
     private final RestTemplate restTemplate;
+    private final ChatRepository chatRepository;
 
     @Value("${chatgpt.api-key}")
     private String apiKey;
 
     @Transactional
-    public PromptResponse sendAndSavePrompt(Long userId, String promptContent) {
+    public PromptResponse sendAndSavePrompt(Long userId,Long chatId,String promptContent) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+
         flaskService.sendPromptToFlask(promptContent);
 
-        Prompt prompt = Prompt.create(user, promptContent);
+        Prompt prompt = Prompt.create(user, promptContent,chat);
 
         promptRepository.save(prompt);
 
@@ -48,12 +55,12 @@ public class PromptService {
     }
 
     //TODO 어해도 인지 검증 필요
-    public ImageResponse generateFishImage(Long userId, Paints paints,String promptContent) {
+    public ImageResponse generateFishImage(Long userId,Long chatId ,Paints paints,String promptContent) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        sendAndSavePrompt(userId, promptContent);
+        sendAndSavePrompt(userId,chatId,promptContent);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -86,12 +93,12 @@ public class PromptService {
         return response.getBody();
     }
 
-    public ImageResponse generateMountainImage(Long userId,Paints paints,String promptContent) {
+    public ImageResponse generateMountainImage(Long userId,Long chatId,Paints paints,String promptContent) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        sendAndSavePrompt(userId, promptContent);
+        sendAndSavePrompt(userId,chatId,promptContent);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

@@ -19,12 +19,12 @@ public class PromptController {
     private final PromptService promptService;
     @PostMapping("/fish-image")
     public ImageResponse generateFishImage(@RequestHeader("user-no") Long userId,@RequestParam(name = "paints") Paints paints, @RequestBody ChatRequest request) {
-        return promptService.generateFishImage(userId,paints.어해도,request.promptContent());
+        return promptService.generateFishImage(userId, request.ChatId(),paints.어해도,request.promptContent());
     }
 
     @PostMapping("/mountain-image")
     public ImageResponse generateMountainImage(@RequestHeader("user-no") Long userId,@RequestParam(name = "paints") Paints paints, @RequestBody ChatRequest request) {
-        return promptService.generateMountainImage(userId,paints.산수도,request.promptContent());
+        return promptService.generateMountainImage(userId, request.ChatId(), paints.산수도,request.promptContent());
     }
 
 }

@@ -24,7 +24,7 @@ public class ChatController {
     @PostMapping("")
     public String chat(@RequestHeader("user-no") Long userId,
             @RequestBody ChatRequest request) {
-        return chatService.getChatResponse(userId,request.promptContent());
+        return chatService.getChatResponse(userId, request.ChatId(),request.promptContent());
     }
 
     @PostMapping("/create")

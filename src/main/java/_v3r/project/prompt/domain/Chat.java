@@ -34,10 +34,6 @@ public class Chat extends BaseEntity {
     @Column(name = "paints_type")
     private Paints paints;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "chat_id")
-    private List<Prompt> prompts = new ArrayList<>();
-
     public static Chat toEntity(Paints paints) {
         return Chat.builder()
                 .paints(paints)

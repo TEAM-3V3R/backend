@@ -29,12 +29,12 @@ public class ChatService {
     @Value("${chatgpt.api-key}")
     private String apiKey;
 
-    public String getChatResponse(Long userId,String promptContent) {
+    public String getChatResponse(Long userId,Long chatId,String promptContent) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        promptService.sendAndSavePrompt(userId, promptContent);
+        promptService.sendAndSavePrompt(userId,chatId,promptContent);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(apiKey);
