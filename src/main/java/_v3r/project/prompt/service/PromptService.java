@@ -2,12 +2,12 @@ package _v3r.project.prompt.service;
 
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
+import _v3r.project.common.s3.S3Service;
 import _v3r.project.flask.service.FlaskService;
 import _v3r.project.prompt.domain.Chat;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.response.ImageResponse;
-import _v3r.project.prompt.dto.response.PromptResponse;
 import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
@@ -31,12 +31,13 @@ public class PromptService {
     private final FlaskService flaskService;
     private final RestTemplate restTemplate;
     private final ChatRepository chatRepository;
+    private final S3Service s3Service;
 
     @Value("${chatgpt.api-key}")
     private String apiKey;
 
     @Transactional
-    public PromptResponse sendAndSavePrompt(Long userId,Long chatId,String promptContent) {
+    public Prompt sendAndSavePrompt(Long userId,Long chatId,String promptContent) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
@@ -51,16 +52,13 @@ public class PromptService {
 
         promptRepository.save(prompt);
 
-        return PromptResponse.of(prompt);
+        return prompt;
     }
 
     //TODO 어해도 인지 검증 필요
-    public ImageResponse generateFishImage(Long userId,Long chatId ,Paints paints,String promptContent) {
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        sendAndSavePrompt(userId,chatId,promptContent);
+    @Transactional
+    public ImageResponse generateFishImage(Long userId, Long chatId, Paints paints, String promptContent) {
+        Prompt prompt = sendAndSavePrompt(userId, chatId, promptContent);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -71,12 +69,12 @@ public class PromptService {
                 + "flat composition with no perspective. The fish are calmly floating in pale water among soft, ink-brushed aquatic plants. On the left side,"
                 + " a large natural rock is depicted with red flowers (resembling Chinese lantern flowers or bleeding hearts) blooming from its cracks."
                 + " The painting uses soft, muted traditional colors like grey, brown, and pale yellow for the fish, with a light grayish background. "
-                + "A splash of red from the flowers adds contrast."
-                + " The brushwork is delicate, the lines are sharp without any ink bleeding, evoking a serene, still atmosphere where nature and life coexist harmoniously in stillness. "
-                + "The painting features vivid, saturated traditional" + promptContent;
+                + "A splash of red from the flowers adds contrast. "
+                + "The brushwork is delicate, the lines are sharp without any ink bleeding, evoking a serene, still atmosphere where nature and life coexist harmoniously in stillness. "
+                + "The painting features vivid, saturated traditional " + promptContent;
 
         Map<String, Object> body = Map.of(
-                "model","dall-e-3",
+                "model", "dall-e-3",
                 "prompt", styledPrompt,
                 "n", 1,
                 "size", "1024x1024"
@@ -90,15 +88,18 @@ public class PromptService {
                 ImageResponse.class
         );
 
+        String ImageUrl = response.getBody().data().get(0).url();
+
+        String s3ImageUrl = s3Service.uploadImageFromUrl(ImageUrl, "fish-images", ".png",userId);
+
+        prompt.updateImageUrl(s3ImageUrl);
+
         return response.getBody();
     }
 
-    public ImageResponse generateMountainImage(Long userId,Long chatId,Paints paints,String promptContent) {
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        sendAndSavePrompt(userId,chatId,promptContent);
+    @Transactional
+    public ImageResponse generateMountainImage(Long userId, Long chatId, Paints paints, String promptContent) {
+        Prompt prompt = sendAndSavePrompt(userId, chatId, promptContent);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -108,10 +109,8 @@ public class PromptService {
                 + "The scene should include: " + promptContent + ". "
                 + "Use ink wash techniques only, with soft gradients of black, gray, and a warm yellowed paper texture to simulate aged hanji.";
 
-
-
         Map<String, Object> body = Map.of(
-                "model","dall-e-3",
+                "model", "dall-e-3",
                 "prompt", styledPrompt,
                 "n", 1,
                 "size", "1024x1024"
@@ -124,6 +123,11 @@ public class PromptService {
                 request,
                 ImageResponse.class
         );
+
+        String imageUrl = response.getBody().data().get(0).url();
+        String s3ImageUrl = s3Service.uploadImageFromUrl(imageUrl, "mountain-images", ".png",userId);
+
+        prompt.updateImageUrl(s3ImageUrl);
 
         return response.getBody();
     }

@@ -21,17 +21,21 @@ public class S3ServiceImpl implements S3Service {
 
     @Override
     //TODO 유저/키워드 경로로 자동저장되도록 경로 고정시키기
-    public String uploadFile(MultipartFile multipartFile, String url) {
-        String fileName = url+"/"+ UUID.randomUUID().toString() + "_" + multipartFile.getOriginalFilename();
-        ObjectMetadata objMeta = new ObjectMetadata();
-        objMeta.setContentLength(multipartFile.getSize());
-        try {
-            amazonS3.putObject(bucket, fileName, multipartFile.getInputStream(), objMeta);
+    public String uploadImageFromUrl(String imageUrl, String directory, String fileExtension,Long userId) {
+        try (var inputStream = new java.net.URL(imageUrl).openStream()) {
+            String fileName = "user-" + userId + "/" + directory + "/" + UUID.randomUUID() + fileExtension;
+
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType("image/" + fileExtension.replace(".", ""));
+
+            amazonS3.putObject(bucket, fileName, inputStream, metadata);
+
+            return amazonS3.getUrl(bucket, fileName).toString();
         } catch (IOException e) {
             throw new EverException(ErrorCode.BAD_REQUEST);
         }
-        return amazonS3.getUrl(bucket, fileName).toString();
     }
+
 
     @Override
     public boolean delete(String fileUrl) {

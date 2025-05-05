@@ -1,8 +1,7 @@
 package _v3r.project.common.s3;
 
-import org.springframework.web.multipart.MultipartFile;
 
 public interface S3Service {
-    String uploadFile(MultipartFile multipartFile, String url);
+    String uploadImageFromUrl(String imageUrl, String directory, String fileExtension,Long userId);
     boolean delete(String fileUrl);
 }
