@@ -1,0 +1,30 @@
+package _v3r.project.history.controller;
+
+import _v3r.project.common.apiResponse.CustomApiResponse;
+import _v3r.project.history.dto.AllHistoryResponse;
+import _v3r.project.history.service.HistoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/history")
+@Tag(name = "히스토리 컨트롤러", description = "히스토리 관련 API입니다.")
+public class HistoryController {
+    private final HistoryService historyService;
+
+    @GetMapping("/all")
+    @Operation(description = "히스토리 조회  -> 키워드 별로 추가 예정")
+    public CustomApiResponse<List<AllHistoryResponse>> findAllHistory(
+            @RequestHeader(name = "user-no") Long userId) {
+        List<AllHistoryResponse> response = historyService.findAllHistory(userId);
+        return CustomApiResponse.success(response,200,"히스토리 전체조회 성공");
+    }
+
+}

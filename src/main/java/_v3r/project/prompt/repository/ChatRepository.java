@@ -8,4 +8,5 @@ public interface ChatRepository extends JpaRepository<Chat,Long> {
     List<Chat> findAllByUserIdOrderByCreatedAtDesc(Long userId);
 
 
+
 }
