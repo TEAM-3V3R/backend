@@ -23,6 +23,7 @@ public class HistoryController {
     private final HistoryService historyService;
 
     @GetMapping
+    @Operation(description = "히스토리 조회 기능 - default : 최신순 정렬")
     public CustomApiResponse<List<AllHistoryResponse>> findHistory(
             @RequestHeader("user-no") Long userId,
             @RequestParam(value = "paints", required = false) Paints paints,
