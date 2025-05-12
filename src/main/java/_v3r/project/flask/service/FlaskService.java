@@ -38,7 +38,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<FlaskResponse> response = restTemplate.exchange(
-                "https://e8f9-115-139-95-92.ngrok-free.app/prompt", // TODO: 배포 후 URL 수정
+                "https://3d16-183-96-108-86.ngrok-free.app/prompt", // TODO: 배포 후 URL 수정
                 HttpMethod.POST,
                 entity,
                 FlaskResponse.class
@@ -65,7 +65,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                "https://c3c4-115-139-95-92.ngrok-free.app/homonym",
+                "https://3d16-183-96-108-86.ngrok-free.app/homonym",
                 HttpMethod.POST,
                 entity,
                 String.class
@@ -113,7 +113,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
 
         ResponseEntity<MorphemeResponse> response = restTemplate.exchange(
-                "https://c3c4-115-139-95-92.ngrok-free.app/homonym",
+                "https://3d16-183-96-108-86.ngrok-free.app/morpheme",
                 HttpMethod.POST,
                 entity,
                 MorphemeResponse.class
