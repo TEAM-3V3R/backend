@@ -1,9 +1,12 @@
 package _v3r.project.history.service;
 
+import _v3r.project.category.domain.Category;
+import _v3r.project.category.repository.CategoryRepository;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.history.domain.enumType.SortType;
 import _v3r.project.history.dto.AllHistoryResponse;
+import _v3r.project.history.dto.DetailHistoryResponse;
 import _v3r.project.prompt.domain.Chat;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.prompt.domain.enumtype.Paints;
@@ -26,6 +29,7 @@ public class HistoryService {
     private final PromptRepository promptRepository;
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
     public List<AllHistoryResponse> findHistory(Long userId, Paints paints, SortType sortType) {
@@ -61,4 +65,36 @@ public class HistoryService {
                 })
                 .toList();
     }
+    @Transactional(readOnly = true)
+    public DetailHistoryResponse detailFindHistory(Long userId, Long chatId) {
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        List<Prompt> prompts = promptRepository.findAllByChatIdOrderByCreatedAtAsc(chatId);
+        if (prompts.isEmpty()) throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
+
+        List<DetailHistoryResponse.PromptHistory> promptHistories = prompts.stream()
+                .map(prompt -> {
+                    List<Category> categories = categoryRepository.findAllByPromptId(prompt.getId());
+
+                    List<String> classifications = categories.stream()
+                            .map(Category::getClassification)
+                            .toList();
+
+                    return new DetailHistoryResponse.PromptHistory(
+                            prompt.getCreatedAt(),
+                            prompt.getPromptContent(),
+                            prompt.getImageUrl(),
+                            classifications
+                    );
+                })
+                .toList();
+
+        Prompt lastPrompt = prompts.get(prompts.size() - 1);
+        String lastImageUrl = lastPrompt.getImageUrl();
+        Paints paints = chat.getPaints();
+
+        return new DetailHistoryResponse(chatId, paints, promptHistories, lastImageUrl);
+    }
+
 }

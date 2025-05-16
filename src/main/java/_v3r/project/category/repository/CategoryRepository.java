@@ -11,5 +11,7 @@ public interface CategoryRepository extends JpaRepository<Category,Long> {
 
     List<Category> findAllByPromptId(Long promptId);
 
+    Optional<Category> findByPromptId(Long promptId);
+
 
 }

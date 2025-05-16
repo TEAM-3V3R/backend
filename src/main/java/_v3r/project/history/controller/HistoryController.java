@@ -3,6 +3,7 @@ package _v3r.project.history.controller;
 import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.history.domain.enumType.SortType;
 import _v3r.project.history.dto.AllHistoryResponse;
+import _v3r.project.history.dto.DetailHistoryResponse;
 import _v3r.project.history.service.HistoryService;
 import _v3r.project.prompt.domain.enumtype.Paints;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +25,7 @@ public class HistoryController {
     private final HistoryService historyService;
 
     @GetMapping
-    @Operation(description = "히스토리 조회 기능 - default : 최신순 정렬")
+    @Operation(summary = "히스토리 조회 기능 - default : 최신순 정렬")
     public CustomApiResponse<List<AllHistoryResponse>> findHistory(
             @RequestHeader("user-no") Long userId,
             @RequestParam(value = "paints", required = false) Paints paints,
@@ -31,6 +33,15 @@ public class HistoryController {
     ) {
         List<AllHistoryResponse> response = historyService.findHistory(userId, paints, sortType);
         return CustomApiResponse.success(response, 200, "히스토리 조회 성공");
+    }
+    @GetMapping("/{chatId}")
+    @Operation(summary = "히스토리 세부 조회 기능")
+    public  CustomApiResponse<DetailHistoryResponse> detailFindHistory(
+            @RequestHeader("user-no") Long userId, @PathVariable("chatId") Long chatId) {
+
+        DetailHistoryResponse response = historyService.detailFindHistory(userId, chatId);
+        return CustomApiResponse.success(response,200,"히스토리 세부 내역 조회 성공");
+
     }
 
 
