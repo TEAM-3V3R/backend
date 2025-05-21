@@ -30,7 +30,7 @@ public class ChatController {
     @Operation(summary = "채팅 가능 ex) 프롬프트 - 프롬프트 답변")
     public String chat(@RequestHeader("user-no") Long userId,
             @RequestBody ChatRequest request) {
-        return chatService.getChatResponse(userId, request.ChatId(),request.promptContent());
+        return chatService.getChatResponse(userId, request.chatId(),request.promptContent());
     }
 
     @PostMapping("/create")

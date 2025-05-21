@@ -23,13 +23,13 @@ public class PromptController {
     @PostMapping("/fish-image")
     @Operation(summary = "어해도 채팅방의 프롬프트 전송기능")
     public ImageResponse generateFishImage(@RequestHeader("user-no") Long userId,@RequestParam(name = "paints") Paints paints, @RequestBody ChatRequest request) {
-        return promptService.generateFishImage(userId, request.ChatId(),paints.어해도,request.promptContent());
+        return promptService.generateFishImage(userId, request.chatId(),paints.어해도,request.promptContent());
     }
 
     @PostMapping("/mountain-image")
     @Operation(summary = "산수도 채팅방의 프롬프트 전송기능")
     public ImageResponse generateMountainImage(@RequestHeader("user-no") Long userId,@RequestParam(name = "paints") Paints paints, @RequestBody ChatRequest request) {
-        return promptService.generateMountainImage(userId, request.ChatId(), paints.산수도,request.promptContent());
+        return promptService.generateMountainImage(userId, request.chatId(), paints.산수도,request.promptContent());
     }
 
 }
