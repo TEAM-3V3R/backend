@@ -41,11 +41,14 @@ public class Prompt extends BaseEntity {
     private String imageUrl;
 
     @Column(name = "category_matching_sum")
-    Double categoryMatchingSum;
+    private Double categoryMatchingSum;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id")
     private Chat chat;
+
+    @Column(name = "inpainting_type")
+    private Boolean inpaintingImage = false;
 
     public void updateCategoryMatchingSum(double categoryMatchingSum) {
         this.categoryMatchingSum = categoryMatchingSum;
@@ -61,6 +64,10 @@ public class Prompt extends BaseEntity {
                 .user(user)
                 .promptContent(promptContent)
                 .build();
+    }
+
+    public void updateImage(Boolean inpaintingImage) {
+        this.inpaintingImage = inpaintingImage;
     }
 
 }

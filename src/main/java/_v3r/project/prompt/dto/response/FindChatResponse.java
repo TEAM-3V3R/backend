@@ -5,10 +5,12 @@ import java.util.List;
 
 public record FindChatResponse(
         Long chatId,
+        Boolean isFinished,
         Paints paints,
         List<PromptItem> prompts
 ) {
     public record PromptItem(
+            Boolean inpaintingImage,
             String promptContent,
             String imageUrl
     ) {}

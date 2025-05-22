@@ -15,7 +15,9 @@ public enum ErrorCode {
     REDIS_CONNECTION_ERROR("레디스 연결에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     ENTITY_NOT_FOUND("객체를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     ENTITY_TYPE_INVALID("유효하지 않은 엔터티 타입입니다.", HttpStatus.BAD_REQUEST),
-    BAD_REQUEST("잘못된 요청입니다", HttpStatus.BAD_REQUEST);
+    BAD_REQUEST("잘못된 요청입니다", HttpStatus.BAD_REQUEST),
+    ALREADY_FINISHED("채팅이 이미 종료되었습니다.",HttpStatus.FORBIDDEN);
+
 
     private final String message;
     private final HttpStatus httpStatus;

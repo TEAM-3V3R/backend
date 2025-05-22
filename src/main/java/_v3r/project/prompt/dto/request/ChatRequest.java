@@ -1,4 +1,4 @@
 package _v3r.project.prompt.dto.request;
 
-public record ChatRequest(Long ChatId,String promptContent) {}
+public record ChatRequest(Long chatId,String promptContent) {}
 
