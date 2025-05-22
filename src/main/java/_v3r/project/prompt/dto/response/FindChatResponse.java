@@ -9,6 +9,7 @@ public record FindChatResponse(
         List<PromptItem> prompts
 ) {
     public record PromptItem(
+            Boolean inpaintingImage,
             String promptContent,
             String imageUrl
     ) {}

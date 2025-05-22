@@ -103,7 +103,7 @@ public class ChatService {
         List<Prompt> prompts = promptRepository.findAllByChatIdOrderByCreatedAtAsc(chatId);
 
         List<FindChatResponse.PromptItem> promptItems = prompts.stream()
-                .map(p -> new FindChatResponse.PromptItem(p.getPromptContent(), p.getImageUrl()))
+                .map(p -> new FindChatResponse.PromptItem(p.getInpaintingImage(),p.getPromptContent(), p.getImageUrl()))
                 .toList();
 
         return new FindChatResponse(chat.getId(), chat.getPaints(), promptItems);

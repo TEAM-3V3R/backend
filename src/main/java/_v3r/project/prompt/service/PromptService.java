@@ -99,9 +99,11 @@ public class PromptService {
 
         String ImageUrl = response.getBody().data().get(0).url();
 
-        String s3ImageUrl = s3Service.uploadImageFromUrl(ImageUrl, "fish-paint", ".png", userId,chatId);
+        String s3ImageUrl = s3Service.uploadImageFromUrl(ImageUrl, "fish-paint", ".png", userId,
+                chatId);
 
         prompt.updateImageUrl(s3ImageUrl);
+        prompt.updateImage(false);
         promptRepository.save(prompt);
 
         return new ImageResponse(prompt.getId(), List.of(new ImageResponse.ImageData(s3ImageUrl)));
@@ -138,9 +140,10 @@ public class PromptService {
 
         String imageUrl = response.getBody().data().get(0).url();
         String s3ImageUrl = s3Service.uploadImageFromUrl(imageUrl, "mountain-paint", ".png",
-                userId,chatId);
+                userId, chatId);
 
         prompt.updateImageUrl(s3ImageUrl);
+        prompt.updateImage(false);
         promptRepository.save(prompt);
 
         return new ImageResponse(prompt.getId(), List.of(new ImageResponse.ImageData(s3ImageUrl)));
@@ -160,7 +163,9 @@ public class PromptService {
         headers.setBearerAuth(apiKey);
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
+        //TODO 프롬프트 맞게 스타일링 할지는 테스트 후 결정
         String styledPrompt = promptContent;
+
 //        String styledPrompt =
 //                "Edit the image to reflect traditional Korean ink landscape painting (산수화, 山水畫) style. "
 //                        + "Scene: " + promptContent + ". "
@@ -186,9 +191,12 @@ public class PromptService {
         );
 
         String generatedImageUrl = response.getBody().get("data").get(0).get("url").asText();
-        String originalS3Url = s3Service.uploadMultipartFile(imageFile, "inpainting/original", userId,chatId);
-        String maskS3Url = s3Service.uploadMultipartFile(maskFile, "inpainting/mask", userId,chatId);
-        String resultS3Url = s3Service.uploadImageFromUrl(generatedImageUrl, "inpainting/result", ".png", userId,chatId);
+        String originalS3Url = s3Service.uploadMultipartFile(imageFile, "inpainting/original",
+                userId, chatId);
+        String maskS3Url = s3Service.uploadMultipartFile(maskFile, "inpainting/mask", userId,
+                chatId);
+        String resultS3Url = s3Service.uploadImageFromUrl(generatedImageUrl, "inpainting/result",
+                ".png", userId, chatId);
 
         prompt.updateImageUrl(resultS3Url);
         prompt.updateImage(true);
