@@ -191,6 +191,7 @@ public class PromptService {
         String resultS3Url = s3Service.uploadImageFromUrl(generatedImageUrl, "inpainting/result", ".png", userId,chatId);
 
         prompt.updateImageUrl(resultS3Url);
+        prompt.updateImage(true);
         promptRepository.save(prompt);
 
         return new ImageResponse(prompt.getId(), List.of(new ImageResponse.ImageData(resultS3Url)));
