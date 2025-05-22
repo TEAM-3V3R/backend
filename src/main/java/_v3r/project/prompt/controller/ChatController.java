@@ -35,7 +35,7 @@ public class ChatController {
     }
 
     @PostMapping("/create")
-    @Operation(summary = "채팅방 생성")
+    @Operation(summary = "채팅방 생성",description = "어해도 : 0, 산수도 : 1, 탱화 : 2")
     public CustomApiResponse<CreateChatResponse> createChat(@RequestHeader("user-no") Long userId,
             @RequestParam(name = "paints") Paints paints) {
         CreateChatResponse response = chatService.createChat(userId,paints);
@@ -59,7 +59,7 @@ public class ChatController {
     }
 
     @PatchMapping("/finish")
-    @Operation(summary = "채팅방 종료 기능 - 더이상 해당 채팅방에 대해서 수정 못함")
+    @Operation(summary = "채팅방 종료 기능" , description = "해당 채팅방에 대해서 수정 못함 / 프롬프트 전송,인페인팅 불가능")
     public CustomApiResponse<?> finishChat( @RequestHeader("user-no") Long userId,
             @RequestParam(name = "chatId") Long chatId) {
         chatService.finishChat(userId, chatId);

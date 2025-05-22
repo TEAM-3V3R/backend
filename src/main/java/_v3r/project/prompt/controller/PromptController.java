@@ -1,5 +1,6 @@
 package _v3r.project.prompt.controller;
 
+import _v3r.project.common.exception.EverException;
 import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.request.ChatRequest;
 import _v3r.project.prompt.dto.request.InpaintingImageRequest;
@@ -22,17 +23,25 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1/prompt")
 @Tag(name = "프롬프트 컨트롤러", description = "프롬프트 관련 API입니다.")
 public class PromptController {
-    private final PromptService promptService;
-    @PostMapping("/fish-image")
-    @Operation(summary = "어해도 채팅방의 프롬프트 전송기능")
-    public ImageResponse generateFishImage(@RequestHeader("user-no") Long userId,@RequestParam(name = "paints") Paints paints, @RequestBody ChatRequest request) {
-        return promptService.generateFishImage(userId, request.chatId(),paints.어해도,request.promptContent());
-    }
 
-    @PostMapping("/mountain-image")
-    @Operation(summary = "산수도 채팅방의 프롬프트 전송기능")
-    public ImageResponse generateMountainImage(@RequestHeader("user-no") Long userId,@RequestParam(name = "paints") Paints paints, @RequestBody ChatRequest request) {
-        return promptService.generateMountainImage(userId, request.chatId(), paints.산수도,request.promptContent());
+    private final PromptService promptService;
+
+    @PostMapping("/generate-image")
+    @Operation(summary = "달리 통한 이미지 생성 기능")
+    public ImageResponse generateMountainImage(
+            @RequestHeader("user-no") Long userId,
+            @RequestParam(name = "paints") Paints paints,
+            @RequestBody ChatRequest request) {
+        if (paints == Paints.산수도) {
+            return promptService.generateMountainImage(userId, request.chatId(), Paints.산수도,
+                    request.promptContent());
+        } else if (paints == Paints.어해도) {
+            return promptService.generateFishImage(userId, request.chatId(), Paints.어해도,
+                    request.promptContent());
+        } else {
+            return promptService.generatePeopleImage(userId, request.chatId(), Paints.탱화,
+                    request.promptContent());
+        }
     }
 
     @PostMapping("/edit")
@@ -43,7 +52,7 @@ public class PromptController {
             @RequestBody InpaintingImageRequest request,
             @RequestParam("imageFile") MultipartFile imageFile,
             @RequestParam("maskFile") MultipartFile maskFile
-    ) throws IOException{
+    ) throws IOException {
         return promptService.generateInpaintingImage(
                 userId,
                 request.chatId(),
@@ -52,6 +61,5 @@ public class PromptController {
                 maskFile
         );
     }
-
 
 }
