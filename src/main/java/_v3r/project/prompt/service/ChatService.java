@@ -69,6 +69,7 @@ public class ChatService {
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         Chat newChat = Chat.toEntity(paints);
+        newChat.updateChat(false);
         chatRepository.save(newChat);
         return CreateChatResponse.of(newChat);
     }
@@ -86,7 +87,7 @@ public class ChatService {
                     Prompt prompt = promptRepository.findFirstByChatIdOrderByCreatedAtAsc(chatRoom.getId())
                             .orElse(null);
 
-                    return new FindAllChatResponse(chatRoom.getId(),
+                    return new FindAllChatResponse(chatRoom.getId(),chatRoom.getIsFinished(),
                             prompt != null ? prompt.getPromptContent() : null);
                 })
                 .toList();
@@ -106,7 +107,23 @@ public class ChatService {
                 .map(p -> new FindChatResponse.PromptItem(p.getInpaintingImage(),p.getPromptContent(), p.getImageUrl()))
                 .toList();
 
-        return new FindChatResponse(chat.getId(), chat.getPaints(), promptItems);
+        return new FindChatResponse(chat.getId(),chat.getIsFinished() ,chat.getPaints(), promptItems);
+    }
+
+    @Transactional
+    public void finishChat(Long userId, Long chatId) {
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        if (Boolean.TRUE.equals(chat.getIsFinished())) {
+            throw new EverException(ErrorCode.ALREADY_FINISHED);
+        }
+
+        chat.updateChat(true);
+        chatRepository.save(chat);
     }
 
 

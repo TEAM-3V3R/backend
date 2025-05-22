@@ -67,6 +67,17 @@ public class PromptService {
     @Transactional
     public ImageResponse generateFishImage(Long userId, Long chatId, Paints paints,
             String promptContent) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        if (Boolean.TRUE.equals(chat.getIsFinished())) {
+            throw new EverException(ErrorCode.ALREADY_FINISHED);
+        }
+
         Prompt prompt = sendAndSavePrompt(userId, chatId, promptContent);
 
         HttpHeaders headers = new HttpHeaders();
@@ -112,6 +123,17 @@ public class PromptService {
     @Transactional
     public ImageResponse generateMountainImage(Long userId, Long chatId, Paints paints,
             String promptContent) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        if (Boolean.TRUE.equals(chat.getIsFinished())) {
+            throw new EverException(ErrorCode.ALREADY_FINISHED);
+        }
+
         Prompt prompt = sendAndSavePrompt(userId, chatId, promptContent);
 
         HttpHeaders headers = new HttpHeaders();
@@ -157,6 +179,17 @@ public class PromptService {
             MultipartFile imageFile,
             MultipartFile maskFile
     ) throws IOException {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        if (Boolean.TRUE.equals(chat.getIsFinished())) {
+            throw new EverException(ErrorCode.ALREADY_FINISHED);
+        }
+
         Prompt prompt = sendAndSavePrompt(userId, chatId, promptContent);
 
         HttpHeaders headers = new HttpHeaders();

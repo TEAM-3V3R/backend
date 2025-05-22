@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -55,6 +56,14 @@ public class ChatController {
     ) {
         FindChatResponse response =chatService.findChat(userId, chatId);
         return CustomApiResponse.success(List.of(response),200,"특정 채팅방 조회 성공");
+    }
+
+    @PatchMapping("/finish")
+    @Operation(summary = "채팅방 종료 기능 - 더이상 해당 채팅방에 대해서 수정 못함")
+    public CustomApiResponse<?> finishChat( @RequestHeader("user-no") Long userId,
+            @RequestParam(name = "chatId") Long chatId) {
+        chatService.finishChat(userId, chatId);
+        return CustomApiResponse.success(null,200,"채팅방 종료 성공");
     }
 
 }

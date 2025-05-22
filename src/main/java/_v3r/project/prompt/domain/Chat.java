@@ -41,10 +41,16 @@ public class Chat extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "is_finished")
+    private Boolean isFinished = false;
+
     public static Chat toEntity(Paints paints) {
         return Chat.builder()
                 .paints(paints)
                 .build();
+    }
+    public void updateChat(Boolean isFinished) {
+        this.isFinished = isFinished;
     }
 
 }

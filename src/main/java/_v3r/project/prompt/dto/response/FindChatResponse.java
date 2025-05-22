@@ -5,6 +5,7 @@ import java.util.List;
 
 public record FindChatResponse(
         Long chatId,
+        Boolean isFinished,
         Paints paints,
         List<PromptItem> prompts
 ) {
