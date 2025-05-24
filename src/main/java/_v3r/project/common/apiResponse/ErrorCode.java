@@ -16,7 +16,8 @@ public enum ErrorCode {
     ENTITY_NOT_FOUND("객체를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     ENTITY_TYPE_INVALID("유효하지 않은 엔터티 타입입니다.", HttpStatus.BAD_REQUEST),
     BAD_REQUEST("잘못된 요청입니다", HttpStatus.BAD_REQUEST),
-    ALREADY_FINISHED("채팅이 이미 종료되었습니다.",HttpStatus.FORBIDDEN);
+    ALREADY_FINISHED("채팅이 이미 종료되었습니다.",HttpStatus.FORBIDDEN),
+    JSON_PROCESSING_ERROR("Failed to process JSON", HttpStatus.INTERNAL_SERVER_ERROR);
 
 
     private final String message;

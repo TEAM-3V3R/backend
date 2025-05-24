@@ -2,12 +2,17 @@ package _v3r.project.imageflow.service;
 
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
+import _v3r.project.common.s3.S3Service;
 import _v3r.project.flask.service.FlaskService;
+import _v3r.project.imageflow.dto.SegmentResponse;
 import _v3r.project.prompt.domain.Chat;
 import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ImageService {
 
     private final FlaskService flaskService;
+    private final S3Service s3Service;
     private final PromptRepository promptRepository;
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
 
     @Transactional
-    //TODO flask로 이미지 결과 보내고 response로 요소분리 결과 받아야해서 일단 보내는 로직만 추가함 -> 응답받아서 response로 바꿔서 s3저장로직 해야함
-
     public void sendResultImage(Long userId,Long chatId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
@@ -34,7 +38,26 @@ public class ImageService {
         String resultImage = promptRepository.findLastResultImageUrlByChatId(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        flaskService.sendResultImageToFlask(resultImage);
+        List<SegmentResponse> segmentList = flaskService.sendResultImageToFlask(resultImage);
 
+        for (SegmentResponse segment : segmentList) {
+            String uuid = segment.uuid();
+            String base64Image = segment.base64Image();
+
+            s3Service.uploadImageFromBase64(base64Image, "segments-image", userId, chatId, uuid + ".png");
+        }
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonContent = objectMapper.writeValueAsString(segmentList);
+
+            s3Service.uploadJson(jsonContent, "data-list", userId, chatId, "segments.json");
+
+        } catch (JsonProcessingException e) {
+            throw new EverException(ErrorCode.JSON_PROCESSING_ERROR);
+        }
     }
+
+    //TODO 이미지 폴더 다운로드
+
 }

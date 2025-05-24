@@ -4,6 +4,7 @@ import _v3r.project.category.dto.response.ReceiveCategoryResponse;
 import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
+import _v3r.project.imageflow.dto.SegmentResponse;
 import _v3r.project.morpheme.dto.response.MorphemeResponse;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.flask.dto.FlaskResponse;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -123,7 +125,7 @@ public class FlaskService {
         return CustomApiResponse.success(flaskResponse, 200, "형태소분석, 동음이의어 여부 수신 성공");
     }
 
-    public FlaskResponse sendResultImageToFlask(String finalImage) {
+    public List<SegmentResponse> sendResultImageToFlask(String finalImage) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -132,11 +134,11 @@ public class FlaskService {
 
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<FlaskResponse> response = restTemplate.exchange(
-                "http://3.35.166.145:5001/", //TODO 엔드포인트 협의 후 수정
+        ResponseEntity<List<SegmentResponse>> response = restTemplate.exchange(
+                "http://3.35.166.145:5001/",
                 HttpMethod.POST,
                 entity,
-                FlaskResponse.class
+                new ParameterizedTypeReference<List<SegmentResponse>>() {}
         );
 
         return response.getBody();
