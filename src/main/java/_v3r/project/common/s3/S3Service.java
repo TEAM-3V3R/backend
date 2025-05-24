@@ -13,5 +13,6 @@ public interface S3Service {
     File downloadMultipart(String prefix, String zipFileName) throws IOException;
     String uploadImageFromBase64(String base64Image, String directory, Long userId, Long chatId, String fileName);
     String uploadJson(String jsonContent, String directory, Long userId, Long chatId, String fileName);
+    File downloadImageFile(String s3Key);
 
 }

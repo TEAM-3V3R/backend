@@ -38,7 +38,7 @@ public class ImageService {
         Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        String resultImage = promptRepository.findLastResultImageUrlByChatId(chatId)
+        String resultImage = promptRepository.findLastResultImageUrlByChatIdNative(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         List<SegmentResponse> segmentList = flaskService.sendResultImageToFlask(resultImage);
@@ -71,6 +71,19 @@ public class ImageService {
 
     }
 
-    //TODO 최종 이미지만 다운로드
+    public File downloadResultImage(Long userId,Long chatId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        String s3Key = promptRepository.findLastResultImageUrlByChatIdNative(chatId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        return s3Service.downloadImageFile(s3Key);
+    }
+
+
 
 }
