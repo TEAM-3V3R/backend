@@ -8,7 +8,6 @@ import _v3r.project.morpheme.dto.response.MorphemeResponse;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.flask.dto.FlaskResponse;
 import _v3r.project.prompt.repository.PromptRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 public class FlaskService {
+    //TODO customApiResponse 컨트롤러 단으로 책임 분리하기
 
     private final RestTemplate restTemplate;
     private final PromptRepository promptRepository;
@@ -123,5 +123,23 @@ public class FlaskService {
         return CustomApiResponse.success(flaskResponse, 200, "형태소분석, 동음이의어 여부 수신 성공");
     }
 
+    public FlaskResponse sendResultImageToFlask(String finalImage) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("resultImage", finalImage);
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<FlaskResponse> response = restTemplate.exchange(
+                "http://3.35.166.145:5001/", //TODO 엔드포인트 협의 후 수정
+                HttpMethod.POST,
+                entity,
+                FlaskResponse.class
+        );
+
+        return response.getBody();
+    }
 
 }

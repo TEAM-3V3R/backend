@@ -1,7 +1,6 @@
 package _v3r.project.prompt.controller;
 
 import _v3r.project.common.apiResponse.CustomApiResponse;
-import _v3r.project.common.exception.EverException;
 import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.request.ChatRequest;
 import _v3r.project.prompt.dto.request.InpaintingImageRequest;
