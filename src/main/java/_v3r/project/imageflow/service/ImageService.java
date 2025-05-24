@@ -12,6 +12,8 @@ import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,8 @@ public class ImageService {
     private final ChatRepository chatRepository;
 
     @Transactional
-    public void sendResultImage(Long userId,Long chatId) {
+    //TODO try-catch문 최소화 리팩토링
+    public File segmentResultImage(Long userId,Long chatId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
@@ -56,8 +59,18 @@ public class ImageService {
         } catch (JsonProcessingException e) {
             throw new EverException(ErrorCode.JSON_PROCESSING_ERROR);
         }
+
+        String prefix = "user-" + userId + "/chat-" + chatId + "/result-image/";
+        String zipFileName = "segments.zip";
+
+        try {
+             return s3Service.downloadMultipart(prefix, zipFileName);
+        } catch (IOException e) {
+            throw new EverException(ErrorCode.FILE_PROCESSING_ERROR);
+        }
+
     }
 
-    //TODO 이미지 폴더 다운로드
+    //TODO 최종 이미지만 다운로드
 
 }

@@ -57,7 +57,7 @@ public class ChatController {
         FindChatResponse response =chatService.findChat(userId, chatId);
         return CustomApiResponse.success(List.of(response),200,"특정 채팅방 조회 성공");
     }
-
+//TODO 채팅방 종료 -> 이미지 관련이랑 합쳐야할듯 api
     @PatchMapping("/finish")
     @Operation(summary = "채팅방 종료 기능" , description = "해당 채팅방에 대해서 수정 못함 / 프롬프트 전송,인페인팅 불가능")
     public CustomApiResponse<?> finishChat( @RequestHeader("user-no") Long userId,
