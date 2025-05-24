@@ -1,6 +1,6 @@
 package _v3r.project.prompt.controller;
 
-import _v3r.project.common.exception.EverException;
+import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.request.ChatRequest;
 import _v3r.project.prompt.dto.request.InpaintingImageRequest;
@@ -28,38 +28,37 @@ public class PromptController {
 
     @PostMapping("/generate-image")
     @Operation(summary = "달리 통한 이미지 생성 기능")
-    public ImageResponse generateMountainImage(
+    public CustomApiResponse<ImageResponse> generateMountainImage(
             @RequestHeader("user-no") Long userId,
             @RequestParam(name = "paints") Paints paints,
             @RequestBody ChatRequest request) {
+
+        ImageResponse response;
         if (paints == Paints.산수도) {
-            return promptService.generateMountainImage(userId, request.chatId(), Paints.산수도,
-                    request.promptContent());
+            response = promptService.generateMountainImage(userId, request.chatId(), Paints.산수도, request.promptContent());
         } else if (paints == Paints.어해도) {
-            return promptService.generateFishImage(userId, request.chatId(), Paints.어해도,
-                    request.promptContent());
+            response = promptService.generateFishImage(userId, request.chatId(), Paints.어해도, request.promptContent());
         } else {
-            return promptService.generatePeopleImage(userId, request.chatId(), Paints.탱화,
-                    request.promptContent());
+            response = promptService.generatePeopleImage(userId, request.chatId(), Paints.탱화, request.promptContent());
         }
+        return CustomApiResponse.success(response,200,"이미지 생성 성공");
     }
 
     @PostMapping("/edit")
     @Operation(summary = "인페인팅 기능")
-    //TODO imageFile,maskFile 둘다 파일로 받을지 url로 받을지 회의 후 결정 (imageFile만 url로 ?)
-    public ImageResponse generateInpaintingImage(
+    public CustomApiResponse<ImageResponse> generateInpaintingImage(
             @RequestHeader("user-no") Long userId,
             @RequestBody InpaintingImageRequest request,
             @RequestParam("imageFile") MultipartFile imageFile,
             @RequestParam("maskFile") MultipartFile maskFile
     ) throws IOException {
-        return promptService.generateInpaintingImage(
+        ImageResponse response = promptService.generateInpaintingImage(
                 userId,
                 request.chatId(),
                 request.promptContent(),
                 imageFile,
                 maskFile
         );
+        return CustomApiResponse.success(response,200,"인페인팅 성공");
     }
-
 }

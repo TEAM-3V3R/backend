@@ -4,11 +4,11 @@ import _v3r.project.category.dto.response.ReceiveCategoryResponse;
 import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
+import _v3r.project.imageflow.dto.SegmentResponse;
 import _v3r.project.morpheme.dto.response.MorphemeResponse;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.flask.dto.FlaskResponse;
 import _v3r.project.prompt.repository.PromptRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 public class FlaskService {
+    //TODO customApiResponse 컨트롤러 단으로 책임 분리하기
 
     private final RestTemplate restTemplate;
     private final PromptRepository promptRepository;
@@ -123,5 +125,23 @@ public class FlaskService {
         return CustomApiResponse.success(flaskResponse, 200, "형태소분석, 동음이의어 여부 수신 성공");
     }
 
+    public List<SegmentResponse> sendResultImageToFlask(String finalImage) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("resultImage", finalImage);
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<List<SegmentResponse>> response = restTemplate.exchange(
+                "http://3.35.166.145:5001/sam",
+                HttpMethod.POST,
+                entity,
+                new ParameterizedTypeReference<List<SegmentResponse>>() {}
+        );
+
+        return response.getBody();
+    }
 
 }

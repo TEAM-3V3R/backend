@@ -63,7 +63,6 @@ public class PromptService {
         return prompt;
     }
 
-    //TODO 어해도 인지 검증 필요
     @Transactional
     public ImageResponse generateFishImage(Long userId, Long chatId, Paints paints,
             String promptContent) {
