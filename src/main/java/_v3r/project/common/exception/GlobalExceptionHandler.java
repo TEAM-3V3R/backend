@@ -79,6 +79,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.internalServerError()
                 .body(CustomApiResponse.fail(ErrorCode.INTERNAL_SERVER_ERROR, List.of("서버 처리 중 오류가 발생했습니다.")));
     }
+    @ExceptionHandler(EverException.class)
+    public ResponseEntity<CustomApiResponse<?>> handleEverException(EverException e) {
+        log.error(">>> EverException", e);
 
+        ErrorCode errorCode = e.getErrorCode();
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(CustomApiResponse.fail(errorCode, List.of(errorCode.getMessage())));
+    }
 }
 

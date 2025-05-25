@@ -1,12 +1,22 @@
 package _v3r.project.flask.service;
 
-import java.nio.charset.Charset;
-
-import _v3r.project.flask.dto.FlaskRequest;
+import _v3r.project.category.dto.response.ReceiveCategoryResponse;
+import _v3r.project.common.apiResponse.CustomApiResponse;
+import _v3r.project.common.apiResponse.ErrorCode;
+import _v3r.project.common.exception.EverException;
+import _v3r.project.imageflow.dto.SegmentResponse;
+import _v3r.project.morpheme.dto.response.MorphemeResponse;
+import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.flask.dto.FlaskResponse;
+import _v3r.project.prompt.repository.PromptRepository;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,27 +24,124 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 public class FlaskService {
+    //TODO customApiResponse 컨트롤러 단으로 책임 분리하기
 
-//TODO RestTemplate 이용해 서버간 통신 시작
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final RestTemplate restTemplate;
+    private final PromptRepository promptRepository;
 
-    @SneakyThrows
-    public FlaskResponse getAbstractive(FlaskRequest flaskRequest) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+    public CustomApiResponse<FlaskResponse> sendPromptToFlask(String promptContent) {
 
-        String params2 = objectMapper.writeValueAsString(flaskRequest);
-        System.out.println(params2);
-        HttpEntity<String> entity = new HttpEntity<>(params2, httpHeaders);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(
-                "http://localhost:8080", // 내부 포트로 요청가면 바로 에러터짐 수정 필요
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("promptContent", promptContent);
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<FlaskResponse> response = restTemplate.exchange(
+                "http://3.35.166.145:5001/prompt",
+                HttpMethod.POST,
+                entity,
+                FlaskResponse.class
+        );
+
+        FlaskResponse flaskResponse = response.getBody();
+
+        return CustomApiResponse.success(flaskResponse, 200, "프롬프트 전송 성공");
+    }
+
+    public CustomApiResponse<List<ReceiveCategoryResponse>> receiveCategory(Long promptId) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Prompt prompt = promptRepository.findById(promptId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        String promptContent = prompt.getPromptContent();
+
+        Map<String, String> request = new HashMap<>();
+        request.put("promptContent", promptContent);
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://3.35.166.145:5001/homonym",
                 HttpMethod.POST,
                 entity,
                 String.class
         );
 
-        return objectMapper.readValue(responseEntity.getBody(), FlaskResponse.class);
+        try {
+            String responseBody = response.getBody();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            JsonNode rootNode = objectMapper.readTree(responseBody);
+            List<ReceiveCategoryResponse> results = new ArrayList<>();
+
+            if (rootNode.has("results")) {
+                for (JsonNode node : rootNode.get("results")) {
+                    String text = node.get("text").asText();
+                    String classification = node.has("classification") ? node.get("classification").asText() : null;
+
+                    results.add(ReceiveCategoryResponse.of(text, classification));
+                }
+            }
+
+            return CustomApiResponse.success(results, 200, "카테고리 수신 성공");
+
+        } catch (Exception e) {
+            throw new EverException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
+
+
+
+    public CustomApiResponse<MorphemeResponse> receiveMorpheme(Long promptId) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Prompt prompt = promptRepository.findById(promptId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        String promptContent = prompt.getPromptContent();
+
+        Map<String, String> request = new HashMap<>();
+        request.put("promptContent", promptContent);
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
+
+        ResponseEntity<MorphemeResponse> response = restTemplate.exchange(
+                "http://3.35.166.145:5001/morpheme",
+                HttpMethod.POST,
+                entity,
+                MorphemeResponse.class
+        );
+
+        MorphemeResponse flaskResponse = response.getBody();
+        return CustomApiResponse.success(flaskResponse, 200, "형태소분석, 동음이의어 여부 수신 성공");
+    }
+
+    public List<SegmentResponse> sendResultImageToFlask(String finalImage) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("resultImage", finalImage);
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<List<SegmentResponse>> response = restTemplate.exchange(
+                "http://3.35.166.145:5001/sam",
+                HttpMethod.POST,
+                entity,
+                new ParameterizedTypeReference<List<SegmentResponse>>() {}
+        );
+
+        return response.getBody();
+    }
+
 }
