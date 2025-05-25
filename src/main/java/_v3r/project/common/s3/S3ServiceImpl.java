@@ -8,6 +8,10 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,6 +25,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import javax.imageio.ImageIO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -112,13 +117,28 @@ public class S3ServiceImpl implements S3Service {
         try {
             byte[] decodedBytes = java.util.Base64.getDecoder().decode(base64Image);
 
+            BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(decodedBytes));
+
+            BufferedImage argbImage = new BufferedImage(
+                    originalImage.getWidth(),
+                    originalImage.getHeight(),
+                    BufferedImage.TYPE_INT_ARGB
+            );
+            Graphics2D g = argbImage.createGraphics();
+            g.drawImage(originalImage, 0, 0, null);
+            g.dispose();
+
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(argbImage, "png", os);
+            byte[] finalImageBytes = os.toByteArray();
+
             ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(decodedBytes.length);
+            metadata.setContentLength(finalImageBytes.length);
             metadata.setContentType("image/png");
 
-            String key = "user-" + userId + "/chat-" + chatId + "/" + "result-image"+"/"+directory + "/" + fileName;
+            String key = "user-" + userId + "/chat-" + chatId + "/result-image/" + directory + "/" + fileName;
 
-            try (InputStream inputStream = new java.io.ByteArrayInputStream(decodedBytes)) {
+            try (InputStream inputStream = new ByteArrayInputStream(finalImageBytes)) {
                 amazonS3.putObject(bucket, key, inputStream, metadata);
             }
 
@@ -128,6 +148,7 @@ public class S3ServiceImpl implements S3Service {
             throw new EverException(ErrorCode.BAD_REQUEST);
         }
     }
+
     @Override
     public String uploadJson(String jsonContent, String directory, Long userId, Long chatId, String fileName) {
         try {
