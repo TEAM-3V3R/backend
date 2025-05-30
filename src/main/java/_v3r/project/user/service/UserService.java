@@ -39,7 +39,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        return FindUserResponse.of(user.getId(), user.getName());
+        return FindUserResponse.of(user.getId(), user.getName(),user.getCreatedAt());
     }
 
 

@@ -25,6 +25,8 @@ public class User extends BaseEntity {
 
     @Column(name = "user_name")
     private String name;
+    @Column(name = "real_name")
+    private String realName;
 
     public void updateUser(String name) {
         this.name = name;
