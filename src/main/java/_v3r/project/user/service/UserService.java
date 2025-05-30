@@ -1,5 +1,6 @@
 package _v3r.project.user.service;
 
+import _v3r.project.common.annotation.AuthUser;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.user.domain.User;
@@ -24,9 +25,7 @@ public class UserService {
         return CreateUserResponse.of(user);
     }
 
-    public UpdateUserResponse updateUser(Long userId, UpdateUserRequest request) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+    public UpdateUserResponse updateUser(User user, UpdateUserRequest request) {
 
         user.updateUser(request.name());
 
@@ -35,18 +34,12 @@ public class UserService {
         return UpdateUserResponse.of(user);
     }
 
-    public FindUserResponse findUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        return FindUserResponse.of(user.getId(), user.getName(),user.getCreatedAt());
+    public FindUserResponse findUser(User user,Long userId) {
+        return FindUserResponse.of(userId, user.getName(),user.getCreatedAt());
     }
 
 
     public void deleteUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
         userRepository.deleteById(userId);
     }
 

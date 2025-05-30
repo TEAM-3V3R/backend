@@ -1,6 +1,8 @@
 package _v3r.project.user.controller;
 
+import _v3r.project.common.annotation.AuthUser;
 import _v3r.project.common.apiResponse.CustomApiResponse;
+import _v3r.project.user.domain.User;
 import _v3r.project.user.dto.request.CreateUserRequest;
 import _v3r.project.user.dto.request.UpdateUserRequest;
 import _v3r.project.user.dto.response.CreateUserResponse;
@@ -12,10 +14,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,22 +38,22 @@ public class UserController {
 
     @PutMapping("/update")
     @Operation(summary = "회원정보 수정")
-    public CustomApiResponse<UpdateUserResponse> updateUser(@RequestHeader(name = "user-no") Long userId,@RequestBody
+    public CustomApiResponse<UpdateUserResponse> updateUser(@AuthUser User user,@RequestBody
             UpdateUserRequest request) {
-        UpdateUserResponse response = userService.updateUser(userId, request);
+        UpdateUserResponse response = userService.updateUser(user, request);
         return CustomApiResponse.success(response,200,"사용자 업데이트 성공");
     }
 
     @GetMapping("/find")
     @Operation(summary = "회원 조회")
-    public CustomApiResponse<FindUserResponse> findUser(@RequestHeader(name = "user-no") Long userId) {
-        FindUserResponse response = userService.findUser(userId);
+    public CustomApiResponse<FindUserResponse> findUser(@AuthUser User user, @PathVariable Long userId) {
+        FindUserResponse response = userService.findUser(user,userId);
         return CustomApiResponse.success(response,200,"유저 조회 성공");
     }
 
     @DeleteMapping("/delete")
     @Operation(summary = "회원 삭제")
-    public void deleteUser(@RequestHeader(name = "user-no") Long userId) {
+    public void deleteUser(@AuthUser User user,@PathVariable Long userId) {
         userService.deleteUser(userId);
     }
 

@@ -1,6 +1,8 @@
 package _v3r.project.common.annotation.handler;
 
 import _v3r.project.common.annotation.AuthUser;
+import _v3r.project.common.apiResponse.ErrorCode;
+import _v3r.project.common.exception.EverException;
 import _v3r.project.user.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +30,12 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
             ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory) {
-        return request.getAttribute("user");
+        User user = (User) request.getAttribute("user");
+        if (user == null) {
+            throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
+        }
+        return user;
     }
 }
+
 
