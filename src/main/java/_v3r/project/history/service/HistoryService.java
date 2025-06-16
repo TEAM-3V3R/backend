@@ -49,18 +49,16 @@ public class HistoryService {
 
         return chatList.stream()
                 .map(chat -> {
-                    Prompt firstPrompt = promptRepository.findFirstByChatIdOrderByCreatedAtAsc(chat.getId())
-                            .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
                     Prompt lastPrompt = promptRepository.findFirstByChatIdOrderByCreatedAtDesc(chat.getId())
                             .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
                     return new AllHistoryResponse(
                             chat.getId(),
+                            chat.getChatTitle(),
                             chat.getCreatedAt(),
                             chat.getPaints(),
-                            lastPrompt.getImageUrl(),
-                            firstPrompt.getPromptContent()
+                            lastPrompt.getImageUrl()
                     );
                 })
                 .toList();

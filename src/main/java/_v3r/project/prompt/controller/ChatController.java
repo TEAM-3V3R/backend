@@ -45,7 +45,7 @@ public class ChatController {
     }
 
     @GetMapping("/find-all-chat")
-    @Operation(summary = "모든 채팅방 조회기능")
+    @Operation(summary = "모든 채팅방 조회기능 - chatTitle이 null일시 promptContent가 채팅방 이름이 됨")
     public CustomApiResponse<List<FindAllChatResponse>> findAllChats(@RequestHeader("user-no") Long userId) {
         List<FindAllChatResponse> response = chatService.findAllChats(userId);
         return CustomApiResponse.success(response,200,"전체 채팅방 조회 성공");

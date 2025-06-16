@@ -80,7 +80,6 @@ public class ChatService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-
         List<Chat> chats = chatRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
 
         return chats.stream()
@@ -88,11 +87,16 @@ public class ChatService {
                     Prompt prompt = promptRepository.findFirstByChatIdOrderByCreatedAtAsc(chatRoom.getId())
                             .orElse(null);
 
-                    return new FindAllChatResponse(chatRoom.getId(),chatRoom.getIsFinished(),
-                            prompt != null ? prompt.getPromptContent() : null);
+                    return new FindAllChatResponse(
+                            chatRoom.getId(),
+                            chatRoom.getChatTitle(),
+                            chatRoom.getIsFinished(),
+                            prompt != null ? prompt.getPromptContent() : null
+                    );
                 })
                 .toList();
     }
+
     @Transactional(readOnly = true)
     public FindChatResponse findChat(Long userId,Long chatId) {
 
