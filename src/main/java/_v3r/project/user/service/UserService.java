@@ -11,19 +11,20 @@ import _v3r.project.user.dto.response.UpdateUserResponse;
 import _v3r.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-
+    @Transactional
     public CreateUserResponse createUser(CreateUserRequest request) {
         User user = request.toEntity();
         userRepository.save(user);
         return CreateUserResponse.of(user);
     }
-
+    @Transactional
     public UpdateUserResponse updateUser(Long userId, UpdateUserRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
@@ -34,15 +35,14 @@ public class UserService {
 
         return UpdateUserResponse.of(user);
     }
-
+    @Transactional(readOnly = true)
     public FindUserResponse findUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        return FindUserResponse.of(user.getId(), user.getName());
+        return FindUserResponse.of(user.getId(), user.getName(),user.getCreatedAt());
     }
-
-
+    @Transactional
     public void deleteUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
