@@ -40,7 +40,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<FlaskResponse> response = restTemplate.exchange(
-                "http://3.35.166.145:5001/prompt",
+                "http://3.37.172.79:80/prompt",
                 HttpMethod.POST,
                 entity,
                 FlaskResponse.class
@@ -67,7 +67,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                "http://3.35.166.145:5001/homonym",
+                "http://3.37.172.79:80",
                 HttpMethod.POST,
                 entity,
                 String.class
@@ -115,7 +115,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
 
         ResponseEntity<MorphemeResponse> response = restTemplate.exchange(
-                "http://3.35.166.145:5001/morpheme",
+                "http://3.37.172.79:80",
                 HttpMethod.POST,
                 entity,
                 MorphemeResponse.class
@@ -135,7 +135,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<List<SegmentResponse>> response = restTemplate.exchange(
-                "http://3.35.166.145:5001/sam",
+                "http://3.37.172.79:80/sam",
                 HttpMethod.POST,
                 entity,
                 new ParameterizedTypeReference<List<SegmentResponse>>() {}
