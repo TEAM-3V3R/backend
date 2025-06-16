@@ -9,6 +9,7 @@ import _v3r.project.prompt.domain.Chat;
 import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,18 +36,20 @@ public class UnrealHistoryService {
 
 
     @Transactional(readOnly = true)
-    public UnrealHistoryResponse showUnrealHistory(Long userId, Long chatId) {
+    public List<UnrealHistoryResponse> showUnrealHistory(Long userId, Long chatId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         Chat chat = chatRepository.findByUserIdAndId(userId,chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        UnrealHistory unrealHistory = unrealHistoryRepository.findByUserIdAndChat_Id(userId, chatId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+        List<UnrealHistory> historyList = unrealHistoryRepository
+                .findAllByUserIdAndChat_IdOrderByTimestampAsc(userId, chatId);
 
-        return UnrealHistoryResponse.of(unrealHistory);
-
+        return historyList.stream()
+                .map(UnrealHistoryResponse::of)
+                .toList();
     }
+
 
 }
