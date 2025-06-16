@@ -9,6 +9,7 @@ import _v3r.project.prompt.dto.response.ChatResponse;
 import _v3r.project.prompt.dto.response.CreateChatResponse;
 import _v3r.project.prompt.dto.response.FindAllChatResponse;
 import _v3r.project.prompt.dto.response.FindChatResponse;
+import _v3r.project.prompt.dto.response.UpdateChatTitleResponse;
 import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
@@ -98,7 +99,7 @@ public class ChatService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findById(chatId)
+        Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         List<Prompt> prompts = promptRepository.findAllByChatIdOrderByCreatedAtAsc(chatId);
@@ -112,7 +113,7 @@ public class ChatService {
 
     @Transactional
     public void finishChat(Long userId, Long chatId) {
-        Chat chat = chatRepository.findById(chatId)
+        Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         User user = userRepository.findById(userId)
@@ -124,6 +125,15 @@ public class ChatService {
 
         chat.updateChat(true);
         chatRepository.save(chat);
+    }
+    @Transactional
+    public UpdateChatTitleResponse updateChat(Long userId, Long chatId, String chatTitle) {
+        Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        chat.updateChatTitle(chatTitle);
+
+        return UpdateChatTitleResponse.of(chatId,chatTitle);
     }
 
 

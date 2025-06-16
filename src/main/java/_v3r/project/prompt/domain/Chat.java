@@ -44,6 +44,9 @@ public class Chat extends BaseEntity {
     @Column(name = "is_finished")
     private Boolean isFinished = false;
 
+    @Column(name = "chat_title")
+    private String chatTitle;
+
     public static Chat toEntity(Paints paints) {
         return Chat.builder()
                 .paints(paints)
@@ -51,6 +54,10 @@ public class Chat extends BaseEntity {
     }
     public void updateChat(Boolean isFinished) {
         this.isFinished = isFinished;
+    }
+
+    public void updateChatTitle(String chatTitle) {
+        this.chatTitle = chatTitle;
     }
 
 }
