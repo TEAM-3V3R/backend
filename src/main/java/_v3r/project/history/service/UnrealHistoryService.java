@@ -18,9 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UnrealHistoryService {
 
-    private UnrealHistoryRepository unrealHistoryRepository;
-    private UserRepository userRepository;
-    private ChatRepository chatRepository;
+    private final UnrealHistoryRepository unrealHistoryRepository;
+    private final UserRepository userRepository;
+    private final ChatRepository chatRepository;
 
     @Transactional
     public void saveUnrealHistory(Long userId,Long chatId,UnrealHistoryResponse request) {
