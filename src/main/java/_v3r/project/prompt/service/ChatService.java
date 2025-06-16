@@ -128,6 +128,9 @@ public class ChatService {
     }
     @Transactional
     public UpdateChatTitleResponse updateChat(Long userId, Long chatId, String chatTitle) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
         Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
