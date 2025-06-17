@@ -51,7 +51,7 @@ public class PromptService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
+        Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         flaskService.sendPromptToFlask(promptContent);
@@ -70,7 +70,7 @@ public class PromptService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
+        Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         if (Boolean.TRUE.equals(chat.getIsFinished())) {
@@ -126,7 +126,7 @@ public class PromptService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
+        Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         if (Boolean.TRUE.equals(chat.getIsFinished())) {
@@ -176,7 +176,7 @@ public class PromptService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
+        Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         if (Boolean.TRUE.equals(chat.getIsFinished())) {
@@ -240,7 +240,7 @@ public class PromptService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
+        Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         if (Boolean.TRUE.equals(chat.getIsFinished())) {

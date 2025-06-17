@@ -15,4 +15,5 @@ public record CreateChatResponse(
                 .paints(chat.getPaints())
                 .build();
     }
+
 }
