@@ -4,7 +4,6 @@ import _v3r.project.category.domain.Category;
 import _v3r.project.category.dto.response.ClassificationListResponse;
 import _v3r.project.category.dto.response.ReceiveCategoryResponse;
 import _v3r.project.category.repository.CategoryRepository;
-import _v3r.project.category.repository.DummyCategoryRepository;
 import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
@@ -31,7 +30,6 @@ public class CategoryService {
     private final FlaskService flaskService;
     private final PromptRepository promptRepository;
     private final UserRepository userRepository;
-    private final DummyCategoryRepository dummyCategoryRepository;
 
     @Transactional
     public List<ReceiveCategoryResponse> receiveCategory(Long userId, Long promptId) {
