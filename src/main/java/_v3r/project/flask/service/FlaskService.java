@@ -61,13 +61,14 @@ public class FlaskService {
 
         String promptContent = prompt.getPromptContent();
 
-        Map<String, String> request = new HashMap<>();
+        Map<String, Object> request = new HashMap<>();
         request.put("promptContent", promptContent);
+        request.put("promptId", promptId);
 
-        HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                "http://3.37.172.79:80",
+                "http://3.37.172.79:80/category/predict",
                 HttpMethod.POST,
                 entity,
                 String.class
@@ -99,6 +100,7 @@ public class FlaskService {
 
 
 
+
     public CustomApiResponse<MorphemeResponse> receiveMorpheme(Long promptId) {
 
         HttpHeaders headers = new HttpHeaders();
@@ -122,7 +124,7 @@ public class FlaskService {
         );
 
         MorphemeResponse flaskResponse = response.getBody();
-        return CustomApiResponse.success(flaskResponse, 200, "형태소분석, 동음이의어 여부 수신 성공");
+        return CustomApiResponse.success(flaskResponse, 200, "형태소분석 수신 성공");
     }
 
     public List<SegmentResponse> sendResultImageToFlask(String finalImage) {

@@ -45,6 +45,7 @@ public class PromptService {
     @Value("${chatgpt.api-key}")
     private String apiKey;
 
+    // TODO 프롬프트 보냄과 동시에 카테고리도 받아와서 저장하는 거 추가해야함
     @Transactional
     public Prompt sendAndSavePrompt(Long userId, Long chatId, String promptContent) {
 
@@ -63,7 +64,6 @@ public class PromptService {
         return prompt;
     }
 
-    //TODO 어해도 인지 검증 필요
     @Transactional
     public ImageResponse generateFishImage(Long userId, Long chatId, Paints paints,
             String promptContent) {

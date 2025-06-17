@@ -2,6 +2,7 @@ package _v3r.project.imageflow.controller;
 
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.core.io.Resource;
 import _v3r.project.imageflow.DownloadType;
 import _v3r.project.imageflow.service.ImageService;
@@ -31,6 +32,7 @@ public class ImageController {
     private final ChatService chatService;
 
     @PostMapping("/download")
+    @Operation(summary = "채팅 후 최종 채팅 이미지 다운로드 / 채팅방 종료 / 요소분리 이미지 다운로드 기능")
     public ResponseEntity<?> segmentResultImage(
             @RequestHeader("user-no") Long userId,
             @RequestParam(name = "chatId") Long chatId,
