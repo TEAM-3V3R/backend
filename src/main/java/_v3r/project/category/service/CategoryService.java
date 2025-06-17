@@ -1,8 +1,6 @@
 package _v3r.project.category.service;
 
 import _v3r.project.category.domain.Category;
-import _v3r.project.category.domain.DummyCategory;
-import _v3r.project.category.dto.response.CategoryMatchResponse;
 import _v3r.project.category.dto.response.ClassificationListResponse;
 import _v3r.project.category.dto.response.ReceiveCategoryResponse;
 import _v3r.project.category.repository.CategoryRepository;
@@ -96,40 +94,4 @@ public class CategoryService {
                 .toList();
     }
 
-    @Transactional
-    public CategoryMatchResponse matchCategory(Long userId,Long promptId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        Prompt prompt = promptRepository.findById(promptId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        categoryRepository.findAllByPromptId(promptId);
-
-        Set<String> userClassifications = categoryRepository.findAllByPromptId(promptId).stream()
-                .map(Category::getClassification)
-                .filter(value -> value != null && !"null".equals(value))
-                .map(String::trim)
-                .collect(Collectors.toSet());
-
-        DummyCategory matchedDummy = dummyCategoryRepository.findAll().stream()
-                .filter(dummy -> {
-                    Set<String> dummySet = Arrays.stream(dummy.getCategoryCombination().split("-"))
-                            .map(String::trim)
-                            .collect(Collectors.toSet());
-                    return dummySet.equals(userClassifications);
-                })
-                .findFirst()
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        prompt.updateCategoryMatchingSum(matchedDummy.getCategoryAnalysis());
-
-        return new CategoryMatchResponse(
-                userId,
-                promptId,
-                matchedDummy.getId(),
-                matchedDummy.getCategoryAnalysis()
-        );
-
-    }
 }

@@ -54,13 +54,4 @@ public class CategoryController {
         return CustomApiResponse.success(resonse,200,"해당 프롬프트에 대한 카테고리 리스트 조회 성공");
     }
 
-    @PatchMapping("/match-classification")
-    public CustomApiResponse<CategoryMatchResponse> matchCategory(
-            @RequestHeader("user-no") Long userId,
-            @RequestParam("prompt-id") Long promptId
-    ) {
-        CategoryMatchResponse response = categoryService.matchCategory(userId,promptId);
-        return CustomApiResponse.success(response,200,"해당 프롬프트의 카테고리 매칭 성공");
-    }
-
 }
