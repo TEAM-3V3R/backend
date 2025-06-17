@@ -69,7 +69,7 @@ public class ChatService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat newChat = Chat.toEntity(paints);
+        Chat newChat = Chat.toEntity(user,paints);
         newChat.updateChat(false);
         chatRepository.save(newChat);
         return CreateChatResponse.of(newChat);
@@ -103,7 +103,7 @@ public class ChatService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
+        Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         List<Prompt> prompts = promptRepository.findAllByChatIdOrderByCreatedAtAsc(chatId);
@@ -117,7 +117,7 @@ public class ChatService {
 
     @Transactional
     public void finishChat(Long userId, Long chatId) {
-        Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
+        Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         User user = userRepository.findById(userId)
@@ -135,7 +135,7 @@ public class ChatService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findByUserIdAndId(userId, chatId)
+        Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         chat.updateChatTitle(chatTitle);

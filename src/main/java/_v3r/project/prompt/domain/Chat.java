@@ -47,11 +47,6 @@ public class Chat extends BaseEntity {
     @Column(name = "chat_title")
     private String chatTitle;
 
-    public static Chat toEntity(Paints paints) {
-        return Chat.builder()
-                .paints(paints)
-                .build();
-    }
     public void updateChat(Boolean isFinished) {
         this.isFinished = isFinished;
     }
@@ -59,5 +54,13 @@ public class Chat extends BaseEntity {
     public void updateChatTitle(String chatTitle) {
         this.chatTitle = chatTitle;
     }
+    public static Chat toEntity(User user, Paints paints) {
+        return Chat.builder()
+                .user(user)
+                .paints(paints)
+                .isFinished(false)
+                .build();
+    }
+
 
 }
