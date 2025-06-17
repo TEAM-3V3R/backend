@@ -1,6 +1,5 @@
 package _v3r.project.category.controller;
 
-import _v3r.project.category.dto.response.CategoryMatchResponse;
 import _v3r.project.category.dto.response.ClassificationListResponse;
 import _v3r.project.category.dto.response.ReceiveCategoryResponse;
 import _v3r.project.category.service.CategoryService;
@@ -10,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
