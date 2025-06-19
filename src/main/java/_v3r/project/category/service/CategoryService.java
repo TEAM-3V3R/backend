@@ -53,15 +53,14 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReceiveCategoryResponse> showAllCategoryText(Long userId,Long promptId) {
+    public List<ReceiveCategoryResponse> showAllCategoryText(Long userId, Long promptId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         Prompt prompt = promptRepository.findById(promptId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-
-        List<Category> categoryList = categoryRepository.findAllByPromptId(promptId);
+        List<Category> categoryList = categoryRepository.findAllByPrompt(prompt);
 
         if (categoryList.isEmpty()) {
             throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
@@ -69,15 +68,16 @@ public class CategoryService {
 
         return ReceiveCategoryResponse.of(categoryList);
     }
+
     @Transactional(readOnly = true)
-    public List<ClassificationListResponse> showCategoryList(Long userId,Long promptId) {
+    public List<ClassificationListResponse> showCategoryList(Long userId, Long promptId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         Prompt prompt = promptRepository.findById(promptId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        List<Category> categoryList = categoryRepository.findAllByPromptId(promptId);
+        List<Category> categoryList = categoryRepository.findAllByPrompt(prompt);
 
         if (categoryList.isEmpty()) {
             throw new EverException(ErrorCode.ENTITY_NOT_FOUND);

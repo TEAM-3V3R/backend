@@ -49,12 +49,12 @@ public class HistoryService {
 
         return chatList.stream()
                 .map(chat -> {
-                    String imageUrl = promptRepository.findFirstByChatIdOrderByCreatedAtDesc(chat.getId())
+                    String imageUrl = promptRepository.findFirstByChatChatIdOrderByCreatedAtDesc(chat.getChatId())
                             .map(Prompt::getImageUrl)
                             .orElse(null);
 
                     return new AllHistoryResponse(
-                            chat.getId(),
+                            chat.getChatId(),
                             chat.getChatTitle(),
                             chat.getCreatedAt(),
                             chat.getPaints(),
@@ -68,12 +68,12 @@ public class HistoryService {
         Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        List<Prompt> prompts = promptRepository.findAllByChatIdOrderByCreatedAtAsc(chatId);
+        List<Prompt> prompts = promptRepository.findAllByChatChatIdOrderByCreatedAtAsc(chatId);
         if (prompts.isEmpty()) throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
 
         List<DetailHistoryResponse.PromptHistory> promptHistories = prompts.stream()
                 .map(prompt -> {
-                    List<Category> categories = categoryRepository.findAllByPromptId(prompt.getId());
+                    List<Category> categories = categoryRepository.findAllByPrompt(prompt);
 
                     List<String> classifications = categories.stream()
                             .map(Category::getClassification)

@@ -3,13 +3,13 @@ import _v3r.project.user.domain.User;
 import jakarta.validation.constraints.NotBlank;
 
 public record CreateUserRequest(
-        @NotBlank(message = "닉네임은 공백일 수 없습니다.")
-        String idName,
+        @NotBlank(message = "ID는 공백일 수 없습니다.")
+        String id,
         String nickName) {
 
         public User toEntity() {
                 return User.builder()
-                        .idName(this.idName)
+                        .id(this.id)
                         .nickname(this.nickName)
                         .build();
         }

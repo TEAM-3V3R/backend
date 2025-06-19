@@ -116,7 +116,7 @@ public class PromptService {
         prompt.updateImage(false);
         promptRepository.save(prompt);
 
-        return new ImageResponse(prompt.getId(), List.of(new ImageResponse.ImageData(s3ImageUrl)));
+        return new ImageResponse(prompt.getPromptId(), List.of(new ImageResponse.ImageData(s3ImageUrl)));
     }
 
     @Transactional
@@ -167,7 +167,7 @@ public class PromptService {
         prompt.updateImage(false);
         promptRepository.save(prompt);
 
-        return new ImageResponse(prompt.getId(), List.of(new ImageResponse.ImageData(s3ImageUrl)));
+        return new ImageResponse(prompt.getPromptId(), List.of(new ImageResponse.ImageData(s3ImageUrl)));
     }
     @Transactional
     public ImageResponse generatePeopleImage(Long userId, Long chatId, Paints paints,
@@ -225,7 +225,7 @@ public class PromptService {
         prompt.updateImage(false);
         promptRepository.save(prompt);
 
-        return new ImageResponse(prompt.getId(), List.of(new ImageResponse.ImageData(s3ImageUrl)));
+        return new ImageResponse(prompt.getPromptId(), List.of(new ImageResponse.ImageData(s3ImageUrl)));
     }
 
     @Transactional
@@ -292,7 +292,7 @@ public class PromptService {
         prompt.updateImage(true);
         promptRepository.save(prompt);
 
-        return new ImageResponse(prompt.getId(), List.of(new ImageResponse.ImageData(resultS3Url)));
+        return new ImageResponse(prompt.getPromptId(), List.of(new ImageResponse.ImageData(resultS3Url)));
     }
 
 }

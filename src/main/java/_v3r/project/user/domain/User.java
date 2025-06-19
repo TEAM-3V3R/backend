@@ -21,16 +21,16 @@ public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long id;
+    private Long userId;
 
     @Column(name = "user_nickname")
     private String nickname;
 
     @Column(name = "user_id_name",unique = true) // 로그인 ID
-    private String idName;
+    private String id;
 
-    public void updateUser(String idName) {
-        this.idName = idName;
+    public void updateUser(String nickName) {
+        this.nickname = nickName;
     }
 
 }

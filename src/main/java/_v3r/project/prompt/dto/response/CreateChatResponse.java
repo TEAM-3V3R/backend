@@ -11,7 +11,7 @@ public record CreateChatResponse(
 ) {
     public static CreateChatResponse of(Chat chat) {
         return CreateChatResponse.builder()
-                .chatId(chat.getId())
+                .chatId(chat.getChatId())
                 .paints(chat.getPaints())
                 .build();
     }

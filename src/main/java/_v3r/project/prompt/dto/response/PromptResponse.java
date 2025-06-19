@@ -4,11 +4,11 @@ import _v3r.project.prompt.domain.Prompt;
 import lombok.Builder;
 
 @Builder
-public record PromptResponse(Long id,String promptContent) {
+public record PromptResponse(Long promptId,String promptContent) {
 
     public static PromptResponse of(final Prompt prompt) {
         return PromptResponse.builder()
-                .id(prompt.getId())
+                .promptId(prompt.getPromptId())
                 .promptContent(prompt.getPromptContent())
                 .build();
     }

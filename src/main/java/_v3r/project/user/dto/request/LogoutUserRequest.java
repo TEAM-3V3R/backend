@@ -1,7 +1,7 @@
 package _v3r.project.user.dto.request;
 
 public record LogoutUserRequest(
-        String idName
+        String id
 ) {
 
 }

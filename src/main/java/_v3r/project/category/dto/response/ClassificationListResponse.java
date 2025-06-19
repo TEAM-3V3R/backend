@@ -9,7 +9,7 @@ public record ClassificationListResponse(Long promptId,String Classification) {
 
     public static ClassificationListResponse of(Category category) {
         return ClassificationListResponse.builder()
-                .promptId(category.getPrompt().getId())
+                .promptId(category.getPrompt().getPromptId())
                 .Classification(category.getClassification())
                 .build();
 
