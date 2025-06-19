@@ -16,17 +16,26 @@ public class AuthService {
     private final UserRepository userRepository;
 
     public LoginUserResponse login(LoginUserRequest request) {
-        User user = userRepository.findByIdName(request.idName())
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+        User user = userRepository.findById(request.id())
+                .orElseThrow(() -> new EverException(ErrorCode.DUPLICATE_USER_ID));
 
-        return new LoginUserResponse(user.getId(), user.getIdName(), user.getNickname());
+        return new LoginUserResponse(user.getUserId(), user.getId(), user.getNickname());
     }
 
-    public void logout(String idName) {
-        if (!userRepository.existsByIdName(idName)) {
-            throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
+    public void logout(String id) {
+        if (!userRepository.existsById(id)) {
+            throw new EverException(ErrorCode.DUPLICATE_USER_ID);
         }
     }
+
+    public void checkDuplicateId(String id) {
+        if (userRepository.existsById(id)) {
+            throw new EverException(ErrorCode.DUPLICATE_USER_ID);
+        }
+    }
+
+
+
 
 }
 

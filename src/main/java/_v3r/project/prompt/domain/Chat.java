@@ -32,7 +32,7 @@ public class Chat extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_id")
-    private Long id;
+    private Long chatId;
 
     @Column(name = "paints_type")
     private Paints paints;

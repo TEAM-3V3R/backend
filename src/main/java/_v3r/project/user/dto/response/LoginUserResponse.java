@@ -5,7 +5,7 @@ import lombok.Builder;
 @Builder
 public record LoginUserResponse(
         Long userId,
-        String idName,
+        String id,
         String nickName
 
 ) {

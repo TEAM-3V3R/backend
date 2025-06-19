@@ -9,10 +9,12 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface ChatRepository extends JpaRepository<Chat,Long>, JpaSpecificationExecutor<Chat> {
 
-    Optional<Chat> findByUserIdAndId(Long userId, Long chatId);
+    Optional<Chat> findByUser_UserIdAndChatId(Long userId, Long chatId);
 
-    List<Chat> findAllByUserIdOrderByCreatedAtDesc(Long userId);
-    List<Chat> findAllByUserIdAndPaintsOrderByCreatedAtDesc(Long userId, Paints paints);
+
+    List<Chat> findAllByUser_UserIdOrderByCreatedAtDesc(Long userId);
+
+
 
 
 

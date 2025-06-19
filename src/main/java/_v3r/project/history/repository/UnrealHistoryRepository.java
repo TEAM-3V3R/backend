@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UnrealHistoryRepository extends JpaRepository<UnrealHistory,Long> {
-    List<UnrealHistory> findAllByUserIdAndChat_IdOrderByTimestampAsc(Long userId, Long chatId);
+    List<UnrealHistory> findAllByUser_UserIdAndChat_ChatIdOrderByTimestampAsc(Long userId, Long chatId);
 
 
 }

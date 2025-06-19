@@ -27,7 +27,7 @@ public class Prompt extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prompt_id")
-    private Long id;
+    private Long promptId;
 
     @Column(name = "prompt_content")
     private String promptContent;
