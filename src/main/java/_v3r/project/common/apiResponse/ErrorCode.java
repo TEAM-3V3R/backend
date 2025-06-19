@@ -20,7 +20,9 @@ public enum ErrorCode {
     //s3에러
     JSON_PROCESSING_ERROR("json 직렬화 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     FILE_PROCESSING_ERROR("파일처리 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
-    S3_DOWNLOAD_FAILED("S3 이미지 다운로드 중 오류 발생",HttpStatus.INTERNAL_SERVER_ERROR);
+    S3_DOWNLOAD_FAILED("S3 이미지 다운로드 중 오류 발생",HttpStatus.INTERNAL_SERVER_ERROR),
+    // 로그인 에러
+    DUPLICATE_USER_ID("이미 존재하는 아이디입니다.", HttpStatus.CONFLICT);
 
 
     private final String message;
