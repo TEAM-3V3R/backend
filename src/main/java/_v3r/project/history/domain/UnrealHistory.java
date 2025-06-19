@@ -30,7 +30,7 @@ public class UnrealHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "unreal_id")
-    private Long id;
+    private Long unrealId;
 
     @Column(name = "actor_name")
     private String actorName;

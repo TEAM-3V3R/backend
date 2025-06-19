@@ -7,9 +7,11 @@ import _v3r.project.user.dto.response.LoginUserResponse;
 import _v3r.project.user.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,8 +30,14 @@ public class AuthController {
 
     @PostMapping("/logout")
     public CustomApiResponse<String> logout(@RequestBody LogoutUserRequest request) {
-        authService.logout(request.idName());
+        authService.logout(request.id());
         return CustomApiResponse.success("로그아웃 성공", 200, "로그아웃 완료");
+    }
+
+    @GetMapping("/check-id")
+    public CustomApiResponse<Void> checkDuplicateId(@RequestParam("id") String id) {
+        authService.checkDuplicateId(id);
+        return CustomApiResponse.success(null,200,"아이디 중복확인 성공");
     }
 
 }

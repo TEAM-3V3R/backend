@@ -16,7 +16,7 @@ public record UnrealHistoryResponse(
 ) {
     public static UnrealHistoryResponse of(UnrealHistory unrealHistory) {
         return UnrealHistoryResponse.builder()
-                .chatId(unrealHistory.getChat().getId())
+                .chatId(unrealHistory.getChat().getChatId())
                 .actorName(unrealHistory.getActorName())
                 .uuid(unrealHistory.getUuid())
                 .changeType(unrealHistory.getChangeType())

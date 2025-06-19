@@ -27,7 +27,7 @@ public class UnrealHistoryService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findByUserIdAndId(userId,chatId)
+        Chat chat = chatRepository.findByUser_UserIdAndChatId(userId,chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         UnrealHistory history = request.toEntity(user,chat);
@@ -40,11 +40,11 @@ public class UnrealHistoryService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findByUserIdAndId(userId,chatId)
+        Chat chat = chatRepository.findByUser_UserIdAndChatId(userId,chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         List<UnrealHistory> historyList = unrealHistoryRepository
-                .findAllByUserIdAndChat_IdOrderByTimestampAsc(userId, chatId);
+                .findAllByUser_UserIdAndChat_ChatIdOrderByTimestampAsc(userId, chatId);
 
         return historyList.stream()
                 .map(UnrealHistoryResponse::of)

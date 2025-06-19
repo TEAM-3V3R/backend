@@ -48,15 +48,15 @@ public class ChatService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        List<Chat> chats = chatRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
+        List<Chat> chats = chatRepository.findAllByUser_UserIdOrderByCreatedAtDesc(userId);
 
         return chats.stream()
                 .map(chatRoom -> {
-                    Prompt prompt = promptRepository.findFirstByChatIdOrderByCreatedAtAsc(chatRoom.getId())
+                    Prompt prompt = promptRepository.findFirstByChatChatIdOrderByCreatedAtAsc(chatRoom.getChatId())
                             .orElse(null);
 
                     return new FindAllChatResponse(
-                            chatRoom.getId(),
+                            chatRoom.getChatId(),
                             chatRoom.getChatTitle(),
                             chatRoom.getIsFinished(),
                             prompt != null ? prompt.getPromptContent() : null
@@ -74,13 +74,13 @@ public class ChatService {
         Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        List<Prompt> prompts = promptRepository.findAllByChatIdOrderByCreatedAtAsc(chatId);
+        List<Prompt> prompts = promptRepository.findAllByChatChatIdOrderByCreatedAtAsc(chatId);
 
         List<FindChatResponse.PromptItem> promptItems = prompts.stream()
                 .map(p -> new FindChatResponse.PromptItem(p.getInpaintingImage(),p.getPromptContent(), p.getImageUrl()))
                 .toList();
 
-        return new FindChatResponse(chat.getId(),chat.getIsFinished() ,chat.getPaints(), promptItems);
+        return new FindChatResponse(chat.getChatId(),chat.getIsFinished() ,chat.getPaints(), promptItems);
     }
 
     @Transactional
