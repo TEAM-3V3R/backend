@@ -4,11 +4,13 @@ import jakarta.validation.constraints.NotBlank;
 
 public record CreateUserRequest(
         @NotBlank(message = "닉네임은 공백일 수 없습니다.")
-        String name) {
+        String idName,
+        String nickName) {
 
         public User toEntity() {
                 return User.builder()
-                        .name(this.name)
+                        .idName(this.idName)
+                        .nickname(this.nickName)
                         .build();
         }
 

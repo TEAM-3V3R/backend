@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 
 @Builder
-public record FindUserResponse(Long userId, String name, LocalDateTime createdAt) {
+public record FindUserResponse(Long userId, String nickName, LocalDateTime createdAt) {
 
-    public static FindUserResponse of(Long userId,String name,LocalDateTime createdAt) {
+    public static FindUserResponse of(Long userId,String nickName,LocalDateTime createdAt) {
         return FindUserResponse.builder()
                 .userId(userId)
-                .name(name)
+                .nickName(nickName)
                 .createdAt(createdAt)
                 .build();
     }

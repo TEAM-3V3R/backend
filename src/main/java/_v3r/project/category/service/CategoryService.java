@@ -1,12 +1,9 @@
 package _v3r.project.category.service;
 
 import _v3r.project.category.domain.Category;
-import _v3r.project.category.domain.DummyCategory;
-import _v3r.project.category.dto.response.CategoryMatchResponse;
 import _v3r.project.category.dto.response.ClassificationListResponse;
 import _v3r.project.category.dto.response.ReceiveCategoryResponse;
 import _v3r.project.category.repository.CategoryRepository;
-import _v3r.project.category.repository.DummyCategoryRepository;
 import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
@@ -16,11 +13,7 @@ import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +26,6 @@ public class CategoryService {
     private final FlaskService flaskService;
     private final PromptRepository promptRepository;
     private final UserRepository userRepository;
-    private final DummyCategoryRepository dummyCategoryRepository;
 
     @Transactional
     public List<ReceiveCategoryResponse> receiveCategory(Long userId, Long promptId) {
@@ -96,40 +88,4 @@ public class CategoryService {
                 .toList();
     }
 
-    @Transactional
-    public CategoryMatchResponse matchCategory(Long userId,Long promptId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        Prompt prompt = promptRepository.findById(promptId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        categoryRepository.findAllByPromptId(promptId);
-
-        Set<String> userClassifications = categoryRepository.findAllByPromptId(promptId).stream()
-                .map(Category::getClassification)
-                .filter(value -> value != null && !"null".equals(value))
-                .map(String::trim)
-                .collect(Collectors.toSet());
-
-        DummyCategory matchedDummy = dummyCategoryRepository.findAll().stream()
-                .filter(dummy -> {
-                    Set<String> dummySet = Arrays.stream(dummy.getCategoryCombination().split("-"))
-                            .map(String::trim)
-                            .collect(Collectors.toSet());
-                    return dummySet.equals(userClassifications);
-                })
-                .findFirst()
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        prompt.updateCategoryMatchingSum(matchedDummy.getCategoryAnalysis());
-
-        return new CategoryMatchResponse(
-                userId,
-                promptId,
-                matchedDummy.getId(),
-                matchedDummy.getCategoryAnalysis()
-        );
-
-    }
 }

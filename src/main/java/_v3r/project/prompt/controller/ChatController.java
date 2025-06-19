@@ -2,7 +2,6 @@ package _v3r.project.prompt.controller;
 
 import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.prompt.domain.enumtype.Paints;
-import _v3r.project.prompt.dto.request.ChatRequest;
 import _v3r.project.prompt.dto.response.CreateChatResponse;
 import _v3r.project.prompt.dto.response.FindAllChatResponse;
 import _v3r.project.prompt.dto.response.FindChatResponse;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,13 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "채팅방 컨트롤러", description = "채팅방 관련 API입니다.")
 public class ChatController {
     private final ChatService chatService;
-
-    @PostMapping("")
-    @Operation(summary = "채팅 가능 ex) 프롬프트 - 프롬프트 답변")
-    public String chat(@RequestHeader("user-no") Long userId,
-            @RequestBody ChatRequest request) {
-        return chatService.getChatResponse(userId, request.chatId(),request.promptContent());
-    }
 
     @PostMapping("/create")
     @Operation(summary = "채팅방 생성",description = "어해도 : 0, 산수도 : 1, 탱화 : 2")

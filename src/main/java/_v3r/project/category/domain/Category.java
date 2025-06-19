@@ -40,9 +40,5 @@ public class Category extends BaseEntity {
     @Column(name = "classification")
     private String classification;
 
-    @Column(name = "homonym")
-    private boolean homonym;
-
-
 
 }

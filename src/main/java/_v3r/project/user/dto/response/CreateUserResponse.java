@@ -5,14 +5,16 @@ import lombok.Builder;
 
 @Builder
 public record CreateUserResponse(
-        Long id,
-        String name
+        Long userId,
+        String idName,
+        String nickName
 ) {
 
     public static CreateUserResponse of(final User user) {
         return CreateUserResponse.builder()
-                .id(user.getId())
-                .name(user.getName())
+                .userId(user.getId())
+                .idName(user.getIdName())
+                .nickName(user.getNickname())
                 .build();
     }
 }
