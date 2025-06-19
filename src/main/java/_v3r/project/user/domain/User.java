@@ -23,11 +23,14 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "user_name")
-    private String name;
+    @Column(name = "user_nickname")
+    private String nickname;
 
-    public void updateUser(String name) {
-        this.name = name;
+    @Column(name = "user_id_name",unique = true) // 로그인 ID
+    private String idName;
+
+    public void updateUser(String idName) {
+        this.idName = idName;
     }
 
 }

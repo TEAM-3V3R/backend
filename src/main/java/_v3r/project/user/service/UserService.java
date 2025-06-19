@@ -18,8 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+
+
     @Transactional
     public CreateUserResponse createUser(CreateUserRequest request) {
+        if (userRepository.existsByIdName(request.toEntity().getIdName())) {
+            throw new EverException(ErrorCode.DUPLICATE_USER_ID);
+        }
         User user = request.toEntity();
         userRepository.save(user);
         return CreateUserResponse.of(user);
@@ -40,7 +45,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        return FindUserResponse.of(user.getId(), user.getName(),user.getCreatedAt());
+        return FindUserResponse.of(user.getId(), user.getNickname(),user.getCreatedAt());
     }
     @Transactional
     public void deleteUser(Long userId) {

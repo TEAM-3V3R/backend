@@ -30,8 +30,8 @@ public class ImageService {
     private final ChatRepository chatRepository;
 
     @Transactional
-    //TODO try-catch문 최소화 리팩토링
-    public File segmentResultImage(Long userId,Long chatId) {
+    public File segmentResultImage(Long userId, Long chatId) {
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
@@ -41,19 +41,21 @@ public class ImageService {
         String resultImage = promptRepository.findLastResultImageUrlByChatIdNative(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        List<SegmentResponse> segmentList = flaskService.sendResultImageToFlask(resultImage);
+        List<SegmentResponse> segmentListFromFlask = flaskService.sendResultImageToFlask(resultImage);
 
-        for (SegmentResponse segment : segmentList) {
+        List<SegmentResponse> segmentListWithChatId = segmentListFromFlask.stream()
+                .map(segment -> new SegmentResponse(chatId, segment.uuid(), segment.base64Image()))
+                .toList();
+
+        for (SegmentResponse segment : segmentListWithChatId) {
             String uuid = segment.uuid();
             String base64Image = segment.base64Image();
-
             s3Service.uploadImageFromBase64(base64Image, "segments-image", userId, chatId, uuid + ".png");
         }
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            String jsonContent = objectMapper.writeValueAsString(segmentList);
-
+            String jsonContent = objectMapper.writeValueAsString(segmentListWithChatId);
             s3Service.uploadJson(jsonContent, "data-list", userId, chatId, "segments.json");
 
         } catch (JsonProcessingException e) {
@@ -64,12 +66,12 @@ public class ImageService {
         String zipFileName = "segments.zip";
 
         try {
-             return s3Service.downloadMultipart(prefix, zipFileName);
+            return s3Service.downloadMultipart(prefix, zipFileName);
         } catch (IOException e) {
             throw new EverException(ErrorCode.FILE_PROCESSING_ERROR);
         }
-
     }
+
 
     public File downloadResultImage(Long userId,Long chatId) {
         User user = userRepository.findById(userId)
