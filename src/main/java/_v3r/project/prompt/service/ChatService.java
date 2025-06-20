@@ -55,15 +55,20 @@ public class ChatService {
                     Prompt prompt = promptRepository.findFirstByChatChatIdOrderByCreatedAtAsc(chatRoom.getChatId())
                             .orElse(null);
 
+                    String promptContent = (prompt != null && prompt.getPromptContent() != null)
+                            ? prompt.getPromptContent()
+                            : "생성된 채팅방";
+
                     return new FindAllChatResponse(
                             chatRoom.getChatId(),
                             chatRoom.getChatTitle(),
                             chatRoom.getIsFinished(),
-                            prompt != null ? prompt.getPromptContent() : null
+                            promptContent
                     );
                 })
                 .toList();
     }
+
 
     @Transactional(readOnly = true)
     public FindChatResponse findChat(Long userId,Long chatId) {
