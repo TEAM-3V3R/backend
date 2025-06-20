@@ -22,10 +22,8 @@ public class AuthService {
         return new LoginUserResponse(user.getUserId(), user.getId(), user.getNickname());
     }
 
-    public void logout(String id) {
-        if (!userRepository.existsById(id)) {
-            throw new EverException(ErrorCode.DUPLICATE_USER_ID);
-        }
+    public void logout(Long userId) {
+
     }
 
     public void checkDuplicateId(String id) {
