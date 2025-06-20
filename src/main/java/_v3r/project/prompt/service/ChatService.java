@@ -18,10 +18,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 @Service
 @RequiredArgsConstructor
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://3v3r.s3-website.ap-northeast-2.amazonaws.com"
+})
 public class ChatService {
 
     private final UserRepository userRepository;

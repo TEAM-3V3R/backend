@@ -19,10 +19,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://3v3r.s3-website.ap-northeast-2.amazonaws.com"
+})
 public class FlaskService {
     //TODO customApiResponse 컨트롤러 단으로 책임 분리하기
 
@@ -137,7 +142,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<List<SegmentResponse>> response = restTemplate.exchange(
-                "https://7493-118-32-120-228.ngrok-free.app/sam",
+                "https://a02c-118-32-120-228.ngrok-free.app/sam",
                 HttpMethod.POST,
                 entity,
                 new ParameterizedTypeReference<List<SegmentResponse>>() {}
