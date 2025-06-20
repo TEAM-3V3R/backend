@@ -38,24 +38,31 @@ public class ImageController {
             @RequestParam(name = "chatId") Long chatId,
             @RequestParam(name = "downlaod-type") DownloadType downloadType
     ) {
-        if (downloadType == DownloadType.최종_이미지_저장) {
-            File file = imageService.downloadResultImage(userId, chatId);
-            try {
+        try {
+            if (downloadType == DownloadType.최종_이미지_저장) {
+                File file = imageService.downloadResultImage(userId, chatId);
                 Resource resource = new InputStreamResource(new FileInputStream(file));
                 return ResponseEntity.ok()
                         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
                         .contentType(MediaType.APPLICATION_OCTET_STREAM)
                         .contentLength(file.length())
                         .body(resource);
-            } catch (FileNotFoundException e) {
-                throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
+            } else if (downloadType == DownloadType.채팅방_종료) {
+                chatService.finishChat(userId, chatId);
+                return ResponseEntity.ok().body("채팅방 종료 완료");
+            } else if (downloadType == DownloadType.요소분리_이미지_저장) {
+                File zipFile = imageService.segmentResultImage(userId, chatId);
+                Resource resource = new InputStreamResource(new FileInputStream(zipFile));
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + zipFile.getName() + "\"")
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .contentLength(zipFile.length())
+                        .body(resource);
+            } else {
+                return ResponseEntity.badRequest().body("잘못된 요청입니다.");
             }
-        } else if (downloadType == DownloadType.채팅방_종료) {
-            chatService.finishChat(userId, chatId);
-            return ResponseEntity.ok().body("채팅방 종료 완료");
-        } else {
-            imageService.segmentResultImage(userId, chatId);
-            return ResponseEntity.ok().body("요소분리 이미지 다운로드 완료");
+        } catch (FileNotFoundException e) {
+            throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
         }
     }
 
