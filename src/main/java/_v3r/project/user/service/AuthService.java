@@ -22,10 +22,10 @@ public class AuthService {
         return new LoginUserResponse(user.getUserId(), user.getId(), user.getNickname());
     }
 
-    public void logout(String id) {
-        if (!userRepository.existsById(id)) {
-            throw new EverException(ErrorCode.DUPLICATE_USER_ID);
-        }
+    public void logout(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
     }
 
     public void checkDuplicateId(String id) {
