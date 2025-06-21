@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 public class ChatSpecifications {
 
     public static Specification<Chat> hasUserId(Long userId) {
-        return (root, query, cb) -> cb.equal(root.get("user").get("id"), userId);
+        return (root, query, cb) -> cb.equal(root.get("user").get("userId"), userId);
     }
 
     public static Specification<Chat> hasPaints(Paints paints) {

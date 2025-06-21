@@ -2,7 +2,6 @@ package _v3r.project.user.controller;
 
 import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.user.dto.request.LoginUserRequest;
-import _v3r.project.user.dto.request.LogoutUserRequest;
 import _v3r.project.user.dto.response.LoginUserResponse;
 import _v3r.project.user.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
