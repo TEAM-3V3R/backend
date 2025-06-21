@@ -46,6 +46,8 @@ public class ImageService {
         List<SegmentResponse> segmentListWithChatId = segmentListFromFlask.stream()
                 .map(segment -> new SegmentResponse(chatId, segment.uuid(), segment.base64Image()))
                 .toList();
+        chat.updateChat(true);
+        chatRepository.save(chat);
 
         for (SegmentResponse segment : segmentListWithChatId) {
             String uuid = segment.uuid();
@@ -82,6 +84,9 @@ public class ImageService {
 
         String s3Key = promptRepository.findLastResultImageUrlByChatIdNative(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        chat.updateChat(true);
+        chatRepository.save(chat);
 
         return s3Service.downloadImageFile(s3Key);
     }
