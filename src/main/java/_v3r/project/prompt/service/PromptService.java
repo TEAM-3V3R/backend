@@ -8,13 +8,17 @@ import _v3r.project.flask.service.FlaskService;
 import _v3r.project.prompt.domain.Chat;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.prompt.domain.enumtype.Paints;
+import _v3r.project.prompt.dto.request.InpaintingImageRequest;
 import _v3r.project.prompt.dto.response.ImageResponse;
 import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -34,10 +38,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-@CrossOrigin(origins = {
-        "http://localhost:5173",
-        "http://3v3r.s3-website.ap-northeast-2.amazonaws.com"
-})
 public class PromptService {
 
     private final PromptRepository promptRepository;
@@ -235,49 +235,37 @@ public class PromptService {
 
     @Transactional
     public ImageResponse generateInpaintingImage(
-            Long userId,
-            Long chatId,
-            String promptContent,
-            MultipartFile imageFile,
-            MultipartFile maskFile
-    ) throws IOException {
+            Long userId, InpaintingImageRequest request) throws IOException {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findById(chatId)
+        Chat chat = chatRepository.findById(request.chatId())
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         if (Boolean.TRUE.equals(chat.getIsFinished())) {
             throw new EverException(ErrorCode.ALREADY_FINISHED);
         }
 
-        Prompt prompt = sendAndSavePrompt(userId, chatId, promptContent);
+
+        Prompt prompt = sendAndSavePrompt(userId, request.chatId(), request.promptContent());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(apiKey);
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-        //TODO 프롬프트 맞게 스타일링 할지는 테스트 후 결정
-        String styledPrompt = promptContent;
-
-//        String styledPrompt =
-//                "Edit the image to reflect traditional Korean ink landscape painting (산수화, 山水畫) style. "
-//                        + "Scene: " + promptContent + ". "
-//                        + "Use ink wash techniques, soft black gradients, and simulate aged hanji paper.";
+        byte[] decodedMask = Base64.getDecoder().decode(request.maskFile());
+        ByteArrayInputStream maskInputStream = new ByteArrayInputStream(decodedMask);
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("prompt", styledPrompt);
-        body.add("image", new MultipartInputStreamFileResource(imageFile.getInputStream(),
-                imageFile.getOriginalFilename()));
-        body.add("mask", new MultipartInputStreamFileResource(maskFile.getInputStream(),
-                maskFile.getOriginalFilename()));
+        body.add("prompt", request.promptContent());
+        body.add("image", new MultipartInputStreamFileResource(new URL(request.imageFileUrl()).openStream(), "image.png"));
+        body.add("mask", new MultipartInputStreamFileResource(maskInputStream, "mask.png"));
         body.add("n", "1");
         body.add("size", "1024x1024");
         body.add("response_format", "url");
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
         ResponseEntity<JsonNode> response = restTemplate.exchange(
                 "https://api.openai.com/v1/images/edits",
                 HttpMethod.POST,
@@ -285,13 +273,9 @@ public class PromptService {
                 JsonNode.class
         );
 
-        String generatedImageUrl = response.getBody().get("data").get(0).get("url").asText();
-        String originalS3Url = s3Service.uploadMultipartFile(imageFile, "inpainting/original",
-                userId, chatId);
-        String maskS3Url = s3Service.uploadMultipartFile(maskFile, "inpainting/mask", userId,
-                chatId);
-        String resultS3Url = s3Service.uploadImageFromUrl(generatedImageUrl, "inpainting/result",
-                ".png", userId, chatId);
+        String resultUrl = response.getBody().get("data").get(0).get("url").asText();
+
+        String resultS3Url = s3Service.uploadImageFromUrl(resultUrl, "inpainting/result", ".png", userId, request.chatId());
 
         prompt.updateImageUrl(resultS3Url);
         prompt.updateImage(true);
@@ -299,5 +283,4 @@ public class PromptService {
 
         return new ImageResponse(prompt.getPromptId(), List.of(new ImageResponse.ImageData(resultS3Url)));
     }
-
 }

@@ -40,9 +40,6 @@ public class Prompt extends BaseEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "category_matching_sum")
-    private Double categoryMatchingSum;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id")
     private Chat chat;
@@ -50,9 +47,6 @@ public class Prompt extends BaseEntity {
     @Column(name = "inpainting_type")
     private Boolean inpaintingImage = false;
 
-    public void updateCategoryMatchingSum(double categoryMatchingSum) {
-        this.categoryMatchingSum = categoryMatchingSum;
-    }
 
     public void updateImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
