@@ -253,17 +253,25 @@ public class PromptService {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(apiKey);
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        String styledPrompt = "Fill in the missing area with content"
+                + " that matches the original image's style, lighting, "
+                + "color palette, and texture. "
+                + "Use the traditional Korean Minhwa (folk painting) style, "
+                + "with flat perspective, vivid but limited color palette, symbolic elements, "
+                + "and natural themes like animals, mountains, or clouds. "
+                + request.promptContent();
 
         byte[] decodedMask = Base64.getDecoder().decode(request.maskFile());
         ByteArrayInputStream maskInputStream = new ByteArrayInputStream(decodedMask);
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("prompt", request.promptContent());
+        body.add("prompt",styledPrompt);
         body.add("image", new MultipartInputStreamFileResource(new URL(request.imageFileUrl()).openStream(), "image.png"));
         body.add("mask", new MultipartInputStreamFileResource(maskInputStream, "mask.png"));
         body.add("n", "1");
         body.add("size", "1024x1024");
         body.add("response_format", "url");
+
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         ResponseEntity<JsonNode> response = restTemplate.exchange(
