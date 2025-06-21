@@ -48,17 +48,10 @@ public class PromptController {
     @Operation(summary = "인페인팅 기능")
     public CustomApiResponse<ImageResponse> generateInpaintingImage(
             @RequestHeader("user-no") Long userId,
-            @RequestBody InpaintingImageRequest request,
-            @RequestParam("imageFile") MultipartFile imageFile,
-            @RequestParam("maskFile") MultipartFile maskFile
-    ) throws IOException {
+            @RequestBody InpaintingImageRequest request
+    )throws IOException  {
         ImageResponse response = promptService.generateInpaintingImage(
-                userId,
-                request.chatId(),
-                request.promptContent(),
-                imageFile,
-                maskFile
-        );
+                userId,request);
         return CustomApiResponse.success(response,200,"인페인팅 성공");
     }
 }
