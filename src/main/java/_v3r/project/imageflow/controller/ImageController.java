@@ -37,7 +37,7 @@ public class ImageController {
     public ResponseEntity<?> segmentResultImage(
             @RequestHeader("user-no") Long userId,
             @RequestParam(name = "chatId") Long chatId,
-            @RequestParam(name = "downlaod-type") DownloadType downloadType
+            @RequestParam(name = "download-type") DownloadType downloadType
     ) {
         try {
             if (downloadType == DownloadType.최종_이미지_저장) {
