@@ -53,9 +53,14 @@ public class HistoryService {
                             .map(Prompt::getImageUrl)
                             .orElse(null);
 
+                    Prompt promptContent = promptRepository
+                            .findFirstByChatChatIdOrderByCreatedAtDesc(chat.getChatId())
+                            .orElse(null);
+
                     return new AllHistoryResponse(
                             chat.getChatId(),
                             chat.getChatTitle(),
+                            (promptContent != null) ? promptContent.getPromptContent() : null,
                             chat.getCreatedAt(),
                             chat.getPaints(),
                             imageUrl
