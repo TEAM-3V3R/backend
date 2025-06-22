@@ -22,17 +22,23 @@ public class UnrealHistoryService {
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
 
+    //TODO request없애는걸로 수정
+
     @Transactional
-    public void saveUnrealHistory(Long userId,Long chatId,UnrealHistoryResponse request) {
+    public void saveAll(Long userId, Long chatId, List<UnrealHistoryResponse> requestList) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        Chat chat = chatRepository.findByUser_UserIdAndChatId(userId,chatId)
+        Chat chat = chatRepository.findByUser_UserIdAndChatId(userId, chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        UnrealHistory history = request.toEntity(user,chat);
-        unrealHistoryRepository.save(history);
+        List<UnrealHistory> histories = requestList.stream()
+                .map(r -> r.toEntity(user, chat))
+                .toList();
+
+        unrealHistoryRepository.saveAll(histories);
     }
+
 
 
     @Transactional(readOnly = true)

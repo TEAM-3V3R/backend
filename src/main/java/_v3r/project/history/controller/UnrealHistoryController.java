@@ -25,10 +25,13 @@ public class UnrealHistoryController {
 
     @PostMapping("/{chatId}")
     @Operation(summary = "언리얼 통신 후 데이터 저장 기능")
-    public CustomApiResponse<Void> saveUnrealHistory(
-            @RequestBody UnrealHistoryResponse request, @RequestHeader("user-no") Long userId,@PathVariable("chatId") Long chatId) {
-        unrealHistoryService.saveUnrealHistory(userId,chatId ,request);
-        return CustomApiResponse.success(null,200,"후처리 히스토리 저장 완료");
+    public CustomApiResponse<Void> receiveUnrealData(
+            @RequestHeader("user-no") Long userId,
+            @PathVariable Long chatId,
+            @RequestBody List<UnrealHistoryResponse> requestList
+    ) {
+        unrealHistoryService.saveAll(userId, chatId, requestList);
+        return CustomApiResponse.success(null,200,"후처리 데이터 저장 성공");
     }
 
 
