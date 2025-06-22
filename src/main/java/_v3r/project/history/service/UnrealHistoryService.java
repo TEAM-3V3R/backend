@@ -22,7 +22,6 @@ public class UnrealHistoryService {
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
 
-    //TODO request없애는걸로 수정
 
     @Transactional
     public void saveAll(int userId, int chatId, List<UnrealHistoryResponse> requestList) {
