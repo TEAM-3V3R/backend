@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 public record AllHistoryResponse(
         Long chatId,
         String chatTitle,
+        String promptContent,
         LocalDateTime createAt,
         Paints paints,
         String image_url
