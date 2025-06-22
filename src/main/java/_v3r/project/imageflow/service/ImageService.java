@@ -44,7 +44,7 @@ public class ImageService {
         List<SegmentResponse> segmentListFromFlask = flaskService.sendResultImageToFlask(resultImage);
 
         List<SegmentResponse> segmentListWithChatId = segmentListFromFlask.stream()
-                .map(segment -> new SegmentResponse(chatId, segment.uuid(), segment.base64Image()))
+                .map(segment -> new SegmentResponse(userId,chatId, segment.uuid(), segment.base64Image()))
                 .toList();
         chat.updateChat(true);
         chatRepository.save(chat);
