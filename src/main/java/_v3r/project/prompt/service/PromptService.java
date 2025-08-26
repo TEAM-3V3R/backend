@@ -15,12 +15,16 @@ import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -284,9 +288,22 @@ public class PromptService {
         } else {
             throw new EverException(ErrorCode.BAD_REQUEST);
         }
-
         byte[] decodedMask = Base64.getDecoder().decode(request.maskFile());
-        ByteArrayInputStream maskInputStream = new ByteArrayInputStream(decodedMask);
+
+        BufferedImage maskImage = ImageIO.read(new ByteArrayInputStream(decodedMask));
+
+        for (int y = 0; y < maskImage.getHeight(); y++) {
+            for (int x = 0; x < maskImage.getWidth(); x++) {
+                int rgba = maskImage.getRGB(x, y);
+                Color col = new Color(rgba, true);
+                int inverted = new Color(255 - col.getRed(), 255 - col.getGreen(), 255 - col.getBlue(), col.getAlpha()).getRGB();
+                maskImage.setRGB(x, y, inverted);
+            }
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(maskImage, "png", baos);
+        ByteArrayInputStream maskInputStream = new ByteArrayInputStream(baos.toByteArray());
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("prompt",styledPrompt);
