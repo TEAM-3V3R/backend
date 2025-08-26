@@ -29,6 +29,7 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final PromptRepository promptRepository;
 
+
     @Value("${chatgpt.api-key}")
     private String apiKey;
 
