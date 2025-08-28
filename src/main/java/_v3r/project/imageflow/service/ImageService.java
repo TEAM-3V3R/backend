@@ -3,6 +3,7 @@ package _v3r.project.imageflow.service;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.common.s3.S3Service;
+import _v3r.project.common.websocket.WsSessionRegistry;
 import _v3r.project.flask.service.FlaskService;
 import _v3r.project.imageflow.dto.SegmentResponse;
 import _v3r.project.prompt.domain.Chat;
@@ -28,6 +29,7 @@ public class ImageService {
     private final PromptRepository promptRepository;
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
+    private final WsSessionRegistry wsSessionRegistry;
 
     @Transactional
     public File segmentResultImage(Long userId, Long chatId) {
@@ -44,21 +46,37 @@ public class ImageService {
         List<SegmentResponse> segmentListFromFlask = flaskService.sendResultImageToFlask(resultImage);
 
         List<SegmentResponse> segmentListWithChatId = segmentListFromFlask.stream()
-                .map(segment -> new SegmentResponse(userId,chatId, segment.uuid(), segment.base64Image()))
+                .map(segment -> new SegmentResponse(userId, chatId, segment.uuid(), segment.base64Image()))
                 .toList();
+
         chat.updateChat(true);
         chatRepository.save(chat);
 
         for (SegmentResponse segment : segmentListWithChatId) {
-            String uuid = segment.uuid();
-            String base64Image = segment.base64Image();
-            s3Service.uploadImageFromBase64(base64Image, "segments-image", userId, chatId, uuid + ".png");
+            s3Service.uploadImageFromBase64(
+                    segment.base64Image(),
+                    "segments-image", userId, chatId,
+                    segment.uuid() + ".png"
+            );
         }
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonContent = objectMapper.writeValueAsString(segmentListWithChatId);
             s3Service.uploadJson(jsonContent, "data-list", userId, chatId, "segments.json");
+
+            String presignedUrl = s3Service.generatePresignedUrl(
+                    "user-" + userId + "/chat-" + chatId + "/result-image/data-list/segments.json",
+                    20
+            );
+            String payload = """
+        {
+          "type": "JSON_URL",
+          "url": "%s"
+        }
+        """.formatted(presignedUrl);
+
+            wsSessionRegistry.sendTo(payload);
 
         } catch (JsonProcessingException e) {
             throw new EverException(ErrorCode.JSON_PROCESSING_ERROR);
@@ -90,7 +108,5 @@ public class ImageService {
 
         return s3Service.downloadImageFile(s3Key);
     }
-
-
 
 }

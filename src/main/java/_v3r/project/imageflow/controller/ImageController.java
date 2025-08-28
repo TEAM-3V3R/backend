@@ -31,7 +31,7 @@ public class ImageController {
     private final ImageService imageService;
     private final ChatService chatService;
 
-    // TODO 리팩토링 필요
+    // TODO 리팩토링 필요 -> 서비스 단으로 옮기기
     @PostMapping("/download")
     @Operation(summary = "채팅 후 최종 채팅 이미지 다운로드 / 채팅방 종료 / 요소분리 이미지 다운로드 기능")
     public ResponseEntity<?> segmentResultImage(
