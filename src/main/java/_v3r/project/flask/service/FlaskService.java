@@ -73,7 +73,7 @@ public class FlaskService {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                "http://3.37.172.79:80/category/predict",
+                "http://3.37.172.79:80/predict",
                 HttpMethod.POST,
                 entity,
                 String.class
