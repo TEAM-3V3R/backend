@@ -6,9 +6,12 @@ import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.imageflow.dto.SegmentResponse;
 import _v3r.project.morpheme.dto.response.MorphemeResponse;
+import _v3r.project.prompt.domain.Chat;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.flask.dto.FlaskResponse;
+import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.prompt.repository.PromptRepository;
+import _v3r.project.report.dto.ReportResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ public class FlaskService {
 
     private final RestTemplate restTemplate;
     private final PromptRepository promptRepository;
+    private final ChatRepository chatRepository;
 
     public CustomApiResponse<FlaskResponse> sendPromptToFlask(String promptContent) {
 
@@ -138,13 +142,47 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<List<SegmentResponse>> response = restTemplate.exchange(
-                "https://f88ad093606c.ngrok-free.app/sam",
+                "https://54.180.199.72:5002/sam",
                 HttpMethod.POST,
                 entity,
                 new ParameterizedTypeReference<List<SegmentResponse>>() {}
         );
 
         return response.getBody();
+    }
+
+    public CustomApiResponse<ReportResponse> receiveReport(Long chatId) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        List<String> promptContents = promptRepository.findByChat_ChatId(chatId).stream()
+                .map(Prompt::getPromptContent)
+                .toList();
+
+        Map<String, Object> request = new HashMap<>();
+        request.put("chatId", chatId);
+        request.put("promptContents", promptContents);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
+
+        try {
+            ResponseEntity<ReportResponse> response = restTemplate.exchange(
+                    "http://3.37.172.79:80/analyze",
+                    HttpMethod.POST,
+                    entity,
+                    ReportResponse.class
+            );
+
+            ReportResponse flaskResponse = response.getBody();
+            return CustomApiResponse.success(flaskResponse, 200, "리포트 수신 성공");
+
+        } catch (Exception e) {
+            throw new EverException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
