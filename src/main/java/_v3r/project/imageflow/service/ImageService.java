@@ -71,7 +71,6 @@ public class ImageService {
             );
             String payload = """
         {
-          "type": "JSON_URL",
           "url": "%s"
         }
         """.formatted(presignedUrl);

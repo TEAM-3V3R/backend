@@ -138,7 +138,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<List<SegmentResponse>> response = restTemplate.exchange(
-                "https://bb05-118-32-120-228.ngrok-free.app/sam",
+                "https://c407f8aad6a4.ngrok-free.app/sam",
                 HttpMethod.POST,
                 entity,
                 new ParameterizedTypeReference<List<SegmentResponse>>() {}
