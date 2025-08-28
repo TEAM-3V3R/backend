@@ -118,5 +118,4 @@ public class ChatService {
         return UpdateChatTitleResponse.of(chatId,chatTitle);
     }
 
-
 }

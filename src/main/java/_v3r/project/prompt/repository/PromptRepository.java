@@ -13,6 +13,7 @@ public interface PromptRepository extends JpaRepository<Prompt,Long> {
     Optional<Prompt> findFirstByChatChatIdOrderByCreatedAtAsc(Long chatId); // 처음 프롬프트
     Optional<Prompt> findFirstByChatChatIdOrderByCreatedAtDesc(Long chatId); // 마지막 프롬프트
     List<Prompt> findAllByChatChatIdOrderByCreatedAtAsc(Long chatId);
+    List<Prompt> findByChat_ChatId(Long chatId);
 
     @Query(value = "SELECT image_url FROM prompt WHERE chat_id = :chatId ORDER BY created_at DESC LIMIT 1", nativeQuery = true)
     Optional<String> findLastResultImageUrlByChatIdNative(@Param("chatId") Long chatId);
