@@ -1,6 +1,5 @@
 package _v3r.project.common.s3;
 
-
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import com.amazonaws.services.s3.AmazonS3;
@@ -9,7 +8,6 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -23,9 +21,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import com.amazonaws.HttpMethod;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 
 @RequiredArgsConstructor
 @Service
@@ -57,27 +55,6 @@ public class S3ServiceImpl implements S3Service {
     }
 
 
-    @Override
-    public String uploadMultipartFile(MultipartFile file, String directory, Long userId,Long chatId) {
-        try {
-            String originalFilename = file.getOriginalFilename();
-            String extension = originalFilename != null && originalFilename.contains(".")
-                    ? originalFilename.substring(originalFilename.lastIndexOf('.'))
-                    : "";
-
-            String fileName = "user-" + userId + "/" + "chat-" + chatId + "/" +directory + "/"
-                    + UUID.randomUUID() + extension;
-
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(file.getSize());
-            metadata.setContentType(file.getContentType());
-
-            amazonS3.putObject(bucket, fileName, file.getInputStream(), metadata);
-            return amazonS3.getUrl(bucket, fileName).toString();
-        } catch (IOException e) {
-            throw new EverException(ErrorCode.BAD_REQUEST);
-        }
-    }
     @Override
     public File downloadMultipart(String prefix, String zipFileName) throws IOException {
         List<com.amazonaws.services.s3.model.S3ObjectSummary> objectSummaries =
@@ -129,6 +106,14 @@ public class S3ServiceImpl implements S3Service {
         }
     }
     @Override
+    public String generatePresignedUrl(String key, int expireMinutes) {
+        var expiration = new java.util.Date(System.currentTimeMillis() + 1000L * 60 * expireMinutes);
+        var req = new GeneratePresignedUrlRequest(bucket, key)
+                .withMethod(HttpMethod.GET)
+                .withExpiration(expiration);
+        return amazonS3.generatePresignedUrl(req).toString();
+    }
+    @Override
     public String uploadJson(String jsonContent, String directory, Long userId, Long chatId, String fileName) {
         try {
             byte[] contentAsBytes = jsonContent.getBytes(java.nio.charset.StandardCharsets.UTF_8);
@@ -137,18 +122,20 @@ public class S3ServiceImpl implements S3Service {
             metadata.setContentLength(contentAsBytes.length);
             metadata.setContentType("application/json");
 
-            String key = "user-" + userId + "/chat-" + chatId + "/" + "result-image"+"/"+directory + "/" + fileName;
+            String key = "user-" + userId + "/chat-" + chatId + "/result-json/"
+                    + directory + "/" + fileName;
 
             try (InputStream inputStream = new java.io.ByteArrayInputStream(contentAsBytes)) {
                 amazonS3.putObject(bucket, key, inputStream, metadata);
             }
 
-            return amazonS3.getUrl(bucket, key).toString();
+            return generatePresignedUrl(key, 20);
 
         } catch (Exception e) {
             throw new EverException(ErrorCode.BAD_REQUEST);
         }
     }
+
     //TODO 코드 최적화 필요
     @Override
     public File downloadImageFile(String s3Key) {
