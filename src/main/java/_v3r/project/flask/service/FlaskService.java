@@ -171,7 +171,7 @@ public class FlaskService {
 
         try {
             ResponseEntity<ReportResponse> response = restTemplate.exchange(
-                    "http://3.37.172.79:80/healthz",
+                    "http://3.37.172.79:80/analyzer/analyze",
                     HttpMethod.POST,
                     entity,
                     ReportResponse.class
