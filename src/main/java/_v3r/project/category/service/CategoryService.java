@@ -15,11 +15,13 @@ import _v3r.project.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -46,7 +48,7 @@ public class CategoryService {
             Category category = response.toEntity(prompt);
             categories.add(category);
         }
-
+        log.info("flaskResponse={}", categoryDataList);
         categoryRepository.saveAll(categories);
 
         return categoryDataList;
