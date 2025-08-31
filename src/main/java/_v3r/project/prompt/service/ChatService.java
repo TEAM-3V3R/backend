@@ -16,6 +16,7 @@ import _v3r.project.user.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -44,7 +45,7 @@ public class ChatService {
         chatRepository.save(newChat);
         return CreateChatResponse.of(newChat);
     }
-
+    @Cacheable(cacheNames = "optionLists")
     @Transactional(readOnly = true)
     public List<FindAllChatResponse> findAllChats(Long userId) {
         User user = userRepository.findById(userId)
@@ -71,7 +72,7 @@ public class ChatService {
                 .toList();
     }
 
-
+    @Cacheable(cacheNames = "optionLists")
     @Transactional(readOnly = true)
     public FindChatResponse findChat(Long userId,Long chatId) {
 
