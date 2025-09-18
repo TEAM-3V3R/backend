@@ -312,7 +312,6 @@ public class PromptService {
         body.add("mask", new MultipartInputStreamFileResource(maskInputStream, "mask.png"));
         body.add("n", "3");
         body.add("size", "1024x1024");
-        body.add("response_format", "url");
 
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
