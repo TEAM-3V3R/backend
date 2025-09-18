@@ -45,7 +45,7 @@ public class ChatService {
         chatRepository.save(newChat);
         return CreateChatResponse.of(newChat);
     }
-    @Cacheable(cacheNames = "optionLists")
+    @Cacheable(cacheNames = "findAllChatsCache", key = "#userId")
     @Transactional(readOnly = true)
     public List<FindAllChatResponse> findAllChats(Long userId) {
         User user = userRepository.findById(userId)
@@ -72,7 +72,7 @@ public class ChatService {
                 .toList();
     }
 
-    @Cacheable(cacheNames = "optionLists")
+    @Cacheable(cacheNames = "findChatCache", key = "#userId + '-' + #chatId")
     @Transactional(readOnly = true)
     public FindChatResponse findChat(Long userId,Long chatId) {
 
