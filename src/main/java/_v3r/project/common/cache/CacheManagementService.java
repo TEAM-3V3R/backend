@@ -25,7 +25,13 @@ public class CacheManagementService {
 
     @Scheduled(cron = "0 0 8 * * *")
     public void saveUserCountCache() {
+        String currentDate = format.format(new Date());
         impalaAuProfileRepository.getTotalAu(format.format(new Date()));
         impalaAuProfileRepository.getTotalUser(format.format(new Date()));
+//        impalaAuProfileRepository.save(
+//                new ImpalaAuProfile(currentDate,
+//                        impalaAuProfileRepository.getTotalAu(currentDate),
+//                        impalaAuProfileRepository.getTotalUser(currentDate))
+//        );
     }
 }
