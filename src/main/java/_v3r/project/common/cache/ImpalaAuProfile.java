@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "impala_au_profile")
 @NoArgsConstructor
+
 public class ImpalaAuProfile extends BaseEntity {
 
     @Id

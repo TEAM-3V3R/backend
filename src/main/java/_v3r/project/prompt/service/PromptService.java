@@ -306,10 +306,11 @@ public class PromptService {
         ByteArrayInputStream maskInputStream = new ByteArrayInputStream(baos.toByteArray());
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("model", "gpt-image-1");
         body.add("prompt",styledPrompt);
         body.add("image", new MultipartInputStreamFileResource(new URL(request.imageFileUrl()).openStream(), "image.png"));
         body.add("mask", new MultipartInputStreamFileResource(maskInputStream, "mask.png"));
-        body.add("n", "1");
+        body.add("n", "3");
         body.add("size", "1024x1024");
         body.add("response_format", "url");
 
