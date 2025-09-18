@@ -38,6 +38,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket' //websocket
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0' // swagger
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE' //s3
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'org.ehcache:ehcache:3.10.8'
+	implementation 'javax.cache:cache-api:1.1.1'  
+	implementation 'org.springframework.boot:spring-boot-starter-actuator' // cache monitoring
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
+	implementation 'org.glassfish.jaxb:jaxb-core:2.3.0.1'
+
 }
 
 tasks.named('test') {

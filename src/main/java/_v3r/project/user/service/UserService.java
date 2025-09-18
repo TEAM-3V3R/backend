@@ -10,6 +10,7 @@ import _v3r.project.user.dto.response.FindUserResponse;
 import _v3r.project.user.dto.response.UpdateUserResponse;
 import _v3r.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,7 @@ public class UserService {
 
         return UpdateUserResponse.of(user);
     }
+    @Cacheable(cacheNames = "optionLists")
     @Transactional(readOnly = true)
     public FindUserResponse findUser(Long userId) {
         User user = userRepository.findById(userId)
