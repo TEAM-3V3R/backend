@@ -4,6 +4,21 @@
   xmlns:jsr107='http://www.ehcache.org/v3/jsr107'
   xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
 
+  <cache alias="findAllChatsCache">
+    <key-type>java.lang.Long</key-type>
+    <value-type>java.util.List</value-type>
+    <expiry>
+      <ttl unit="minutes">10</ttl>
+    </expiry>
+  </cache>
+
+  <cache alias="findChatCache">
+    <key-type>java.lang.String</key-type>
+    <value-type>_v3r.project.prompt.dto.response.FindChatResponse</value-type>
+    <expiry>
+      <ttl unit="minutes">10</ttl>
+    </expiry>
+  </cache>
   <cache alias="optionLists">
     <key-type>java.lang.Object</key-type>
     <value-type>java.lang.Object</value-type>
