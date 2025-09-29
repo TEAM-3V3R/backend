@@ -26,8 +26,8 @@ public class UnrealHistoryController {
     @PostMapping("/{chatId}")
     @Operation(summary = "언리얼 통신 후 데이터 저장 기능")
     public CustomApiResponse<Void> receiveUnrealData(
-            @RequestHeader("userId") int userId,
-            @PathVariable int chatId,
+            @RequestHeader(value = "userId") Long userId,
+            @PathVariable("chatId") int chatId,
             @RequestBody List<UnrealHistoryResponse> requestList
     ) {
         unrealHistoryService.saveAll(userId, chatId, requestList);

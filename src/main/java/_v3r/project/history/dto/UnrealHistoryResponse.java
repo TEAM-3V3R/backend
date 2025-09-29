@@ -8,7 +8,7 @@ import lombok.Builder;
 
 @Builder
 public record UnrealHistoryResponse(
-        int userId,
+        Long userId,
         int chatId,
         String actorName,
         String uuid,
@@ -17,7 +17,7 @@ public record UnrealHistoryResponse(
 ) {
     public static UnrealHistoryResponse of(UnrealHistory unrealHistory) {
         return UnrealHistoryResponse.builder()
-                .userId(unrealHistory.getUser().getUserId().intValue())
+                .userId(unrealHistory.getUser().getUserId())
                 .chatId(unrealHistory.getChat().getChatId().intValue())
                 .actorName(unrealHistory.getActorName())
                 .uuid(unrealHistory.getUuid())

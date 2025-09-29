@@ -11,6 +11,7 @@ import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +24,10 @@ public class UnrealHistoryService {
     private final ChatRepository chatRepository;
 
 
+    @Cacheable(cacheNames = "optionLists")
     @Transactional
-    public void saveAll(int userId, int chatId, List<UnrealHistoryResponse> requestList) {
-        Long longUserId = (long) userId;
+    public void saveAll(Long userId, int chatId, List<UnrealHistoryResponse> requestList) {
+        Long longUserId = userId;
         Long longChatId = (long) chatId;
 
         User user = userRepository.findById(longUserId)
@@ -43,7 +45,7 @@ public class UnrealHistoryService {
 
 
 
-
+    @Cacheable(cacheNames = "optionLists")
     @Transactional(readOnly = true)
     public List<UnrealHistoryResponse> showUnrealHistory(Long userId, Long chatId) {
         User user = userRepository.findById(userId)
