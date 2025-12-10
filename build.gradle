@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(22)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -45,6 +45,8 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
 	implementation 'org.glassfish.jaxb:jaxb-core:2.3.0.1'
+	implementation("com.google.genai:google-genai:1.30.0") //imagen
+	implementation("com.google.auth:google-auth-library-oauth2-http:1.28.0")
 
 }
 
