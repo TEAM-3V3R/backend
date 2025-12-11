@@ -5,6 +5,7 @@ import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.response.CreateChatResponse;
 import _v3r.project.prompt.dto.response.FindAllChatResponse;
 import _v3r.project.prompt.dto.response.FindChatResponse;
+import _v3r.project.prompt.dto.response.ShowImageResponse;
 import _v3r.project.prompt.dto.response.UpdateChatTitleResponse;
 import _v3r.project.prompt.service.ChatService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,6 +61,16 @@ public class ChatController {
 
         UpdateChatTitleResponse response = chatService.updateChat(userId, chatId, chatTitle);
         return CustomApiResponse.success(response, 200, "채팅 제목 수정 완료");
+    }
+    @GetMapping("/show-image/{chatId}/{promptId}")
+    @Operation(summary = "채팅방의 사진 단일 조회 기능")
+    public CustomApiResponse<ShowImageResponse> showImage(
+            @RequestHeader("user-no") Long userId,
+            @PathVariable("chatId") Long chatId,
+            @PathVariable("promptId") Long promptId) {
+
+        ShowImageResponse response = chatService.showImage(userId, chatId, promptId);
+        return CustomApiResponse.success(response,200,"채팅방 사진 단일 조회 성공");
     }
 
 }
