@@ -27,31 +27,25 @@ public class PromptController {
     private final PromptService promptService;
 
     @PostMapping("/generate-image")
-    @Operation(summary = "달리 통한 이미지 생성 기능")
-    public CustomApiResponse<ImageResponse> generateMountainImage(
+    @Operation(summary = "이미지 생성 기능")
+    public CustomApiResponse<ImageResponse> generateImage(
             @RequestHeader("user-no") Long userId,
             @RequestParam(name = "paints") Paints paints,
             @RequestBody ChatRequest request) {
 
-        ImageResponse response;
-        if (paints == Paints.산수도) {
-            response = promptService.generateMountainImage(userId, request.chatId(), Paints.산수도, request.promptContent());
-        } else if (paints == Paints.어해도) {
-            response = promptService.generateFishImage(userId, request.chatId(), Paints.어해도, request.promptContent());
-        } else {
-            response = promptService.generatePeopleImage(userId, request.chatId(), Paints.탱화, request.promptContent());
-        }
-        return CustomApiResponse.success(response,200,"이미지 생성 성공");
-    }
+        ImageResponse response = switch (paints) {
+            case 산수도 -> promptService.generateMountainImage(
+                    userId, request.chatId(), Paints.산수도, request.promptContent()
+            );
+            case 어해도 -> promptService.generateFishImage(
+                    userId, request.chatId(), Paints.어해도, request.promptContent()
+            );
+            case 탱화 -> promptService.generatePeopleImage(
+                    userId, request.chatId(), Paints.탱화, request.promptContent()
+            );
+        };
 
-    @PostMapping("/edit")
-    @Operation(summary = "인페인팅 기능")
-    public CustomApiResponse<ImageResponse> generateInpaintingImage(
-            @RequestHeader("user-no") Long userId,
-            @RequestBody InpaintingImageRequest request
-    )throws IOException  {
-        ImageResponse response = promptService.generateInpaintingImage(
-                userId,request);
-        return CustomApiResponse.success(response,200,"인페인팅 성공");
+        return CustomApiResponse.success(response, 200, "이미지 생성 성공");
     }
 }
+
