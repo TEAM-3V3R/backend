@@ -52,7 +52,7 @@ public class Prompt extends BaseEntity {
         this.imageUrl = imageUrl;
     }
 
-    public static Prompt create(User user, String promptContent,Chat chat) {
+    public static Prompt toEntity(User user, String promptContent,Chat chat) {
         return Prompt.builder()
                 .chat(chat)
                 .user(user)

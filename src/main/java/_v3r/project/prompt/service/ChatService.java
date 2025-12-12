@@ -8,6 +8,7 @@ import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.response.CreateChatResponse;
 import _v3r.project.prompt.dto.response.FindAllChatResponse;
 import _v3r.project.prompt.dto.response.FindChatResponse;
+import _v3r.project.prompt.dto.response.ShowImageResponse;
 import _v3r.project.prompt.dto.response.UpdateChatTitleResponse;
 import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.prompt.repository.PromptRepository;
@@ -15,11 +16,9 @@ import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 @Service
@@ -29,10 +28,6 @@ public class ChatService {
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
     private final PromptRepository promptRepository;
-
-
-    @Value("${chatgpt.api-key}")
-    private String apiKey;
 
     @Transactional
     public CreateChatResponse createChat(Long userId,Paints paints) {
@@ -45,7 +40,8 @@ public class ChatService {
         chatRepository.save(newChat);
         return CreateChatResponse.of(newChat);
     }
-    @Cacheable(cacheNames = "findAllChatsCache", key = "#userId")
+
+    @Cacheable(cacheNames = "findAllChatsCache", key = "#p0")
     @Transactional(readOnly = true)
     public List<FindAllChatResponse> findAllChats(Long userId) {
         User user = userRepository.findById(userId)
@@ -62,12 +58,7 @@ public class ChatService {
                             ? prompt.getPromptContent()
                             : "생성된 채팅방";
 
-                    return new FindAllChatResponse(
-                            chatRoom.getChatId(),
-                            chatRoom.getChatTitle(),
-                            chatRoom.getIsFinished(),
-                            promptContent
-                    );
+                    return FindAllChatResponse.of(chatRoom,promptContent);
                 })
                 .toList();
     }
@@ -117,6 +108,17 @@ public class ChatService {
         chat.updateChatTitle(chatTitle);
 
         return UpdateChatTitleResponse.of(chatId,chatTitle);
+    }
+    @Transactional(readOnly = true)
+    public ShowImageResponse showImage(Long userId,Long chatId,Long promptId) {
+
+        Prompt prompt = promptRepository.findById(promptId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        if(!prompt.getChat().getChatId().equals(chatId) || !prompt.getUser().getUserId().equals(userId)) {
+            throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
+        }
+        return ShowImageResponse.of(prompt.getImageUrl());
     }
 
 }
