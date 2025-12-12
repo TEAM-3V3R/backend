@@ -41,7 +41,7 @@ public class ChatService {
         return CreateChatResponse.of(newChat);
     }
 
-    @Cacheable(cacheNames = "findAllChatsCache", key = "#userId")
+    @Cacheable(cacheNames = "findAllChatsCache", key = "#p0")
     @Transactional(readOnly = true)
     public List<FindAllChatResponse> findAllChats(Long userId) {
         User user = userRepository.findById(userId)
@@ -58,12 +58,7 @@ public class ChatService {
                             ? prompt.getPromptContent()
                             : "생성된 채팅방";
 
-                    return new FindAllChatResponse(
-                            chatRoom.getChatId(),
-                            chatRoom.getChatTitle(),
-                            chatRoom.getIsFinished(),
-                            promptContent
-                    );
+                    return FindAllChatResponse.of(chatRoom,promptContent);
                 })
                 .toList();
     }
