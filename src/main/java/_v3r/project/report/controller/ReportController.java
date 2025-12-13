@@ -20,12 +20,22 @@ public class ReportController {
     private final ReportService reportService;
     @GetMapping("/{chatId}")
     @Operation(summary = "분석 내용 받기")
-    public CustomApiResponse<ReportResponse> getReport(
+    public CustomApiResponse<Void> getReport(
             @RequestHeader("user-no") Long userId,
             @PathVariable("chatId") Long chatId
     ) {
-        ReportResponse response = reportService.receiveReport(userId, chatId);
-        return CustomApiResponse.success(response, 200, "리포트 수신 성공");
+        reportService.receiveReport(userId, chatId);
+        return CustomApiResponse.success(null, 200, "리포트 수신 성공");
+    }
+
+    @GetMapping("/{chatId}/show")
+    @Operation(summary = "ai 보고서 조회")
+    public CustomApiResponse<ReportResponse> showReport(
+            @RequestHeader("user-no") Long userId,
+            @PathVariable("chatId") Long chatId
+    ) {
+        ReportResponse response = reportService.showReport(userId, chatId);
+        return CustomApiResponse.success(response,200,"리포트 조회 성공");
     }
 
 
