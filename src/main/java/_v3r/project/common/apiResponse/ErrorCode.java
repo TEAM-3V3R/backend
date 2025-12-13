@@ -15,6 +15,7 @@ public enum ErrorCode {
     ENTITY_NOT_FOUND("객체를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     ENTITY_TYPE_INVALID("유효하지 않은 엔터티 타입입니다.", HttpStatus.BAD_REQUEST),
     BAD_REQUEST("잘못된 요청입니다", HttpStatus.BAD_REQUEST),
+    FORBIDDEN("권한이 없습니다.", HttpStatus.FORBIDDEN),
     //채팅 에러
     ALREADY_FINISHED("채팅이 이미 종료되었습니다.",HttpStatus.FORBIDDEN),
     //s3에러
