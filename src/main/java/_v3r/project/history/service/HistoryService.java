@@ -33,8 +33,6 @@ public class HistoryService {
 
     @Transactional(readOnly = true)
     public List<AllHistoryResponse> findHistory(Long userId, Paints paints, SortType sortType) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         Specification<Chat> spec = Specification.where(ChatSpecifications.hasUserId(userId));
         if (paints != null) {
@@ -49,18 +47,15 @@ public class HistoryService {
 
         return chatList.stream()
                 .map(chat -> {
-                    String imageUrl = promptRepository.findFirstByChatChatIdOrderByCreatedAtDesc(chat.getChatId())
-                            .map(Prompt::getImageUrl)
-                            .orElse(null);
-
-                    Prompt promptContent = promptRepository
+                    Prompt lastPrompt = promptRepository
                             .findFirstByChatChatIdOrderByCreatedAtDesc(chat.getChatId())
                             .orElse(null);
 
-                    return AllHistoryResponse.of(chat, promptContent != null ? promptContent.getPromptContent() : "생성된 채팅방" ,imageUrl);
+                    return AllHistoryResponse.of(chat, lastPrompt);
                 })
                 .toList();
     }
+
     @Transactional(readOnly = true)
     public DetailHistoryResponse detailFindHistory(Long userId, Long chatId) {
         Chat chat = chatRepository.findById(chatId)
