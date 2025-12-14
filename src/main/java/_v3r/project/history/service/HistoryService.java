@@ -33,6 +33,8 @@ public class HistoryService {
 
     @Transactional(readOnly = true)
     public List<AllHistoryResponse> findHistory(Long userId, Paints paints, SortType sortType) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
         Specification<Chat> spec = Specification.where(ChatSpecifications.hasUserId(userId));
         if (paints != null) {
@@ -47,11 +49,22 @@ public class HistoryService {
 
         return chatList.stream()
                 .map(chat -> {
-                    Prompt lastPrompt = promptRepository
+                    String imageUrl = promptRepository.findFirstByChatChatIdOrderByCreatedAtDesc(chat.getChatId())
+                            .map(Prompt::getImageUrl)
+                            .orElse(null);
+
+                    Prompt promptContent = promptRepository
                             .findFirstByChatChatIdOrderByCreatedAtDesc(chat.getChatId())
                             .orElse(null);
 
-                    return AllHistoryResponse.of(chat, lastPrompt);
+                    return new AllHistoryResponse(
+                            chat.getChatId(),
+                            chat.getChatTitle(),
+                            (promptContent != null) ? promptContent.getPromptContent() : null,
+                            chat.getCreatedAt(),
+                            chat.getPaints(),
+                            imageUrl
+                    );
                 })
                 .toList();
     }
