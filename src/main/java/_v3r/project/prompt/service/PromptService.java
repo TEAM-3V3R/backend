@@ -120,7 +120,7 @@ public class PromptService {
         Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        if(!chat.getUser().getUserId().equals(userId) || !chat.getPaints().equals(paints.어해도)) {
+        if(!chat.getUser().getUserId().equals(userId) || !chat.getPaints().equals(paints.산수도)) {
             throw new EverException(ErrorCode.BAD_REQUEST);
         }
 
@@ -171,7 +171,7 @@ public class PromptService {
         Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        if(!chat.getUser().getUserId().equals(userId) || !chat.getPaints().equals(paints.어해도)) {
+        if(!chat.getUser().getUserId().equals(userId) || !chat.getPaints().equals(paints.탱화)) {
             throw new EverException(ErrorCode.BAD_REQUEST);
         }
 
