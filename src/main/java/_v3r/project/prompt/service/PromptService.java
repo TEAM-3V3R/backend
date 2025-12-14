@@ -71,7 +71,7 @@ public class PromptService {
             throw new EverException(ErrorCode.ALREADY_FINISHED);
         }
 
-        Prompt prompt = sendAndSavePrompt(userId, chatId, promptContent);
+        Prompt prompt = Prompt.toEntity(chat.getUser(), promptContent, chat);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -128,7 +128,7 @@ public class PromptService {
             throw new EverException(ErrorCode.ALREADY_FINISHED);
         }
 
-        Prompt prompt = sendAndSavePrompt(userId, chatId, promptContent);
+        Prompt prompt = Prompt.toEntity(chat.getUser(), promptContent, chat);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -179,7 +179,7 @@ public class PromptService {
             throw new EverException(ErrorCode.ALREADY_FINISHED);
         }
 
-        Prompt prompt = sendAndSavePrompt(userId, chatId, promptContent);
+        Prompt prompt = Prompt.toEntity(chat.getUser(), promptContent, chat);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
