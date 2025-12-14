@@ -14,6 +14,7 @@ import _v3r.project.user.domain.User;
 import _v3r.project.user.repository.UserRepository;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -87,7 +88,7 @@ public class PromptService {
                 + "The painting features vivid, saturated traditional " + promptContent;
 
         Map<String, Object> body = Map.of(
-                "model", "dall-e-3",
+                "model", "gpt-image-1",
                 "prompt", styledPrompt,
                 "n", 1,
                 "size", "1024x1024"
@@ -101,10 +102,17 @@ public class PromptService {
                 ImageResponse.class
         );
 
-        String ImageUrl = response.getBody().data().get(0).url();
+        String base64Image = response.getBody().data().get(0).base64();
 
-        String s3ImageUrl = s3Service.uploadImageFromUrl(ImageUrl, "fish-paint", ".png", userId,
-                chatId);
+        String fileName = UUID.randomUUID() + ".png";
+
+        String s3ImageUrl = s3Service.uploadImageFromBase64(
+                base64Image,
+                "fish-paint",
+                userId,
+                chatId,
+                fileName
+        );
 
         prompt.updateImageUrl(s3ImageUrl);
         prompt.updateImage(false);
@@ -140,7 +148,7 @@ public class PromptService {
                         + "Use ink wash techniques only, with soft gradients of black, gray, and a warm yellowed paper texture to simulate aged hanji.";
 
         Map<String, Object> body = Map.of(
-                "model", "dall-e-3",
+                "model", "gpt-image-1",
                 "prompt", styledPrompt,
                 "n", 1,
                 "size", "1024x1024"
@@ -154,9 +162,18 @@ public class PromptService {
                 ImageResponse.class
         );
 
-        String imageUrl = response.getBody().data().get(0).url();
-        String s3ImageUrl = s3Service.uploadImageFromUrl(imageUrl, "mountain-paint", ".png",
-                userId, chatId);
+
+        String base64Image = response.getBody().data().get(0).base64();
+
+        String fileName = UUID.randomUUID() + ".png";
+
+        String s3ImageUrl = s3Service.uploadImageFromBase64(
+                base64Image,
+                "mountain-paint",
+                userId,
+                chatId,
+                fileName
+        );
 
         prompt.updateImageUrl(s3ImageUrl);
         prompt.updateImage(false);
@@ -198,7 +215,7 @@ public class PromptService {
 
 
         Map<String, Object> body = Map.of(
-                "model", "dall-e-3",
+                "model", "gpt-image-1",
                 "prompt", styledPrompt,
                 "n", 1,
                 "size", "1024x1024"
@@ -212,11 +229,18 @@ public class PromptService {
                 ImageResponse.class
         );
 
-        String ImageUrl = response.getBody().data().get(0).url();
 
-        String s3ImageUrl = s3Service.uploadImageFromUrl(ImageUrl, "people-paint", ".png", userId,
-                chatId);
+        String base64Image = response.getBody().data().get(0).base64();
 
+        String fileName = UUID.randomUUID() + ".png";
+
+        String s3ImageUrl = s3Service.uploadImageFromBase64(
+                base64Image,
+                "people-paint",
+                userId,
+                chatId,
+                fileName
+        );
         prompt.updateImageUrl(s3ImageUrl);
         prompt.updateImage(false);
         promptRepository.save(prompt);
