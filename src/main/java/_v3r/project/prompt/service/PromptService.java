@@ -60,11 +60,12 @@ public class PromptService {
     public ImageResponse generateFishImage(Long userId, Long chatId, Paints paints,
             String promptContent) {
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
         Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        if(!chat.getUser().getUserId().equals(userId) || !chat.getPaints().equals(paints.어해도)) {
+            throw new EverException(ErrorCode.BAD_REQUEST);
+        }
 
         if (Boolean.TRUE.equals(chat.getIsFinished())) {
             throw new EverException(ErrorCode.ALREADY_FINISHED);
@@ -116,11 +117,12 @@ public class PromptService {
     public ImageResponse generateMountainImage(Long userId, Long chatId, Paints paints,
             String promptContent) {
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
         Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        if(!chat.getUser().getUserId().equals(userId) || !chat.getPaints().equals(paints.어해도)) {
+            throw new EverException(ErrorCode.BAD_REQUEST);
+        }
 
         if (Boolean.TRUE.equals(chat.getIsFinished())) {
             throw new EverException(ErrorCode.ALREADY_FINISHED);
@@ -166,11 +168,12 @@ public class PromptService {
     public ImageResponse generatePeopleImage(Long userId, Long chatId, Paints paints,
             String promptContent) {
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
         Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+        if(!chat.getUser().getUserId().equals(userId) || !chat.getPaints().equals(paints.어해도)) {
+            throw new EverException(ErrorCode.BAD_REQUEST);
+        }
 
         if (Boolean.TRUE.equals(chat.getIsFinished())) {
             throw new EverException(ErrorCode.ALREADY_FINISHED);
