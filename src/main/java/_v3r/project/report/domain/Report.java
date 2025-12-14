@@ -61,18 +61,23 @@ public class Report extends BaseEntity {
     private Chat chat;
 
     public static Report toEntity(Chat chat, ReportResponse response) {
+
+        ReportResponse.FluencySKC fluencySkc = response.fluencySkc().get(0);
+        ReportResponse.PersistenceSRF persistenceSrf = response.persistenceSrf().get(0);
+
         return Report.builder()
                 .chat(chat)
                 .fluency(response.fluency())
                 .persistence(response.persistence())
                 .creativity(response.creativity())
-                .fluency_s(response.fluencySkc().fluency_s())
-                .fluency_k(response.fluencySkc().fluency_k())
-                .fluency_c(response.fluencySkc().fluency_c())
-                .persistence_s(response.persistenceSrf().persistence_s())
-                .persistence_r(response.persistenceSrf().persistence_r())
-                .persistence_f(response.persistenceSrf().persistence_f())
+                .fluency_s(fluencySkc.fluency_s())
+                .fluency_k(fluencySkc.fluency_k())
+                .fluency_c(fluencySkc.fluency_c())
+                .persistence_s(persistenceSrf.persistence_s())
+                .persistence_r(persistenceSrf.persistence_r())
+                .persistence_f(persistenceSrf.persistence_f())
                 .build();
     }
+
 
 }
