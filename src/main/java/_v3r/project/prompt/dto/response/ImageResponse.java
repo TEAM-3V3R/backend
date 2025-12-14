@@ -8,7 +8,7 @@ public record ImageResponse(
         List<ImageData> data
 ) {
     public record ImageData(
-            @JsonProperty("url")
+            @JsonProperty("b64_json")
             String base64
     ) {}
 
