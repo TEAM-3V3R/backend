@@ -57,14 +57,7 @@ public class HistoryService {
                             .findFirstByChatChatIdOrderByCreatedAtDesc(chat.getChatId())
                             .orElse(null);
 
-                    return new AllHistoryResponse(
-                            chat.getChatId(),
-                            chat.getChatTitle(),
-                            (promptContent != null) ? promptContent.getPromptContent() : null,
-                            chat.getCreatedAt(),
-                            chat.getPaints(),
-                            imageUrl
-                    );
+                    return AllHistoryResponse.of(chat, imageUrl, promptContent != null ? promptContent.getPromptContent() : "생성된 채팅방");
                 })
                 .toList();
     }
@@ -72,6 +65,9 @@ public class HistoryService {
     public DetailHistoryResponse detailFindHistory(Long userId, Long chatId) {
         Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+        if (!chat.getUser().getUserId().equals(userId)) {
+            throw new EverException(ErrorCode.FORBIDDEN);
+        }
 
         List<Prompt> prompts = promptRepository.findAllByChatChatIdOrderByCreatedAtAsc(chatId);
         if (prompts.isEmpty()) throw new EverException(ErrorCode.ENTITY_NOT_FOUND);
@@ -84,20 +80,11 @@ public class HistoryService {
                             .map(Category::getClassification)
                             .toList();
 
-                    return new DetailHistoryResponse.PromptHistory(
-                            prompt.getCreatedAt(),
-                            prompt.getPromptContent(),
-                            prompt.getImageUrl(),
-                            classifications
-                    );
+                    return DetailHistoryResponse.PromptHistory.of(prompt, classifications);
                 })
                 .toList();
 
-        Prompt lastPrompt = prompts.get(prompts.size() - 1);
-        String lastImageUrl = lastPrompt.getImageUrl();
-        Paints paints = chat.getPaints();
-
-        return new DetailHistoryResponse(chatId, paints, promptHistories, lastImageUrl);
+        return DetailHistoryResponse.of(chat,promptHistories);
     }
 
 }
