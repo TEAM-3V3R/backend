@@ -1,6 +1,8 @@
 package _v3r.project.report.domain;
 
+import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.domain.BaseEntity;
+import _v3r.project.common.exception.EverException;
 import _v3r.project.prompt.domain.Chat;
 import _v3r.project.report.dto.ReportResponse;
 import jakarta.persistence.Column;
@@ -11,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,22 +65,28 @@ public class Report extends BaseEntity {
 
     public static Report toEntity(Chat chat, ReportResponse response) {
 
-        ReportResponse.FluencySKC fluencySkc = response.fluencySkc().get(0);
-        ReportResponse.PersistenceSRF persistenceSrf = response.persistenceSrf().get(0);
+        List<Float> fluencySkc = response.fluencySkc();
+        List<Float> persistenceSrf = response.persistenceSrf();
+
+        if (fluencySkc == null || fluencySkc.size() != 3
+                || persistenceSrf == null || persistenceSrf.size() != 3) {
+            throw new EverException(ErrorCode.BAD_REQUEST);
+        }
 
         return Report.builder()
                 .chat(chat)
                 .fluency(response.fluency())
                 .persistence(response.persistence())
                 .creativity(response.creativity())
-                .fluency_s(fluencySkc.fluency_s())
-                .fluency_k(fluencySkc.fluency_k())
-                .fluency_c(fluencySkc.fluency_c())
-                .persistence_s(persistenceSrf.persistence_s())
-                .persistence_r(persistenceSrf.persistence_r())
-                .persistence_f(persistenceSrf.persistence_f())
+                .fluency_s(fluencySkc.get(0))
+                .fluency_k(fluencySkc.get(1))
+                .fluency_c(fluencySkc.get(2))
+                .persistence_s(persistenceSrf.get(0))
+                .persistence_r(persistenceSrf.get(1))
+                .persistence_f(persistenceSrf.get(2))
                 .build();
     }
+
 
 
 }
