@@ -57,7 +57,7 @@ public class HistoryService {
                             .findFirstByChatChatIdOrderByCreatedAtDesc(chat.getChatId())
                             .orElse(null);
 
-                    return AllHistoryResponse.of(chat, imageUrl, promptContent != null ? promptContent.getPromptContent() : "생성된 채팅방");
+                    return AllHistoryResponse.of(chat, promptContent != null ? promptContent.getPromptContent() : "생성된 채팅방" ,imageUrl);
                 })
                 .toList();
     }
