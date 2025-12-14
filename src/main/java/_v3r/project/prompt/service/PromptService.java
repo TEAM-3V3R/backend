@@ -87,7 +87,7 @@ public class PromptService {
                 + "The painting features vivid, saturated traditional " + promptContent;
 
         Map<String, Object> body = Map.of(
-                "model", "dall-e-3",
+                "model", "gpt-image-1",
                 "prompt", styledPrompt,
                 "n", 1,
                 "size", "1024x1024"
@@ -140,7 +140,7 @@ public class PromptService {
                         + "Use ink wash techniques only, with soft gradients of black, gray, and a warm yellowed paper texture to simulate aged hanji.";
 
         Map<String, Object> body = Map.of(
-                "model", "dall-e-3",
+                "model", "gpt-image-1",
                 "prompt", styledPrompt,
                 "n", 1,
                 "size", "1024x1024"
@@ -198,7 +198,7 @@ public class PromptService {
 
 
         Map<String, Object> body = Map.of(
-                "model", "dall-e-3",
+                "model", "gpt-image-1",
                 "prompt", styledPrompt,
                 "n", 1,
                 "size", "1024x1024"
