@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "AI보고서 컨트롤러", description = "AI보고서 관련 API입니다.")
 public class ReportController {
     private final ReportService reportService;
-    @GetMapping("/{chatId}")
+    @PostMapping("/{chatId}")
     @Operation(summary = "분석 내용 받기")
     public CustomApiResponse<Void> getReport(
             @RequestHeader("user-no") Long userId,
