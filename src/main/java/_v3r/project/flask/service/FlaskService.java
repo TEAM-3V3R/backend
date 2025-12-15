@@ -5,7 +5,6 @@ import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.imageflow.dto.SegmentResponse;
-import _v3r.project.morpheme.dto.response.MorphemeResponse;
 import _v3r.project.prompt.domain.Chat;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.flask.dto.FlaskResponse;
@@ -22,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -101,35 +99,6 @@ public class FlaskService {
         } catch (Exception e) {
             throw new EverException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
-    }
-
-
-
-
-    public CustomApiResponse<MorphemeResponse> receiveMorpheme(Long promptId) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        Prompt prompt = promptRepository.findById(promptId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        String promptContent = prompt.getPromptContent();
-
-        Map<String, String> request = new HashMap<>();
-        request.put("promptContent", promptContent);
-
-        HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
-
-        ResponseEntity<MorphemeResponse> response = restTemplate.exchange(
-                "http://3.37.172.79:80",
-                HttpMethod.POST,
-                entity,
-                MorphemeResponse.class
-        );
-
-        MorphemeResponse flaskResponse = response.getBody();
-        return CustomApiResponse.success(flaskResponse, 200, "형태소분석 수신 성공");
     }
 
     public List<SegmentResponse> sendResultImageToFlask(String finalImage) {
