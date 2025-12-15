@@ -48,7 +48,7 @@ public class FlaskService {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                "https://df676d697027.ngrok-free.app/category/predict",
+                "https://aa694f8b9013.ngrok-free.app/category/predict",
                 HttpMethod.POST,
                 entity,
                 String.class
@@ -88,7 +88,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<List<SegmentResponse>> response = restTemplate.exchange(
-                "https://df676d697027.ngrok-free.app/sam",
+                "https://aa694f8b9013.ngrok-free.app/sam",
                 HttpMethod.POST,
                 entity,
                 new ParameterizedTypeReference<List<SegmentResponse>>() {}
@@ -117,7 +117,7 @@ public class FlaskService {
 
         try {
             ResponseEntity<ReportResponse> response = restTemplate.exchange(
-                    "https://df676d697027.ngrok-free.app/analyzer/analyze",
+                    "https://aa694f8b9013.ngrok-free.app/analyzer/analyze",
                     HttpMethod.POST,
                     entity,
                     ReportResponse.class
