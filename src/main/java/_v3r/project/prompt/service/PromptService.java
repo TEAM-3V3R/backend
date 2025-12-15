@@ -3,15 +3,12 @@ package _v3r.project.prompt.service;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.common.s3.S3Service;
-import _v3r.project.flask.service.FlaskService;
 import _v3r.project.prompt.domain.Chat;
 import _v3r.project.prompt.domain.Prompt;
 import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.response.ImageResponse;
 import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.prompt.repository.PromptRepository;
-import _v3r.project.user.domain.User;
-import _v3r.project.user.repository.UserRepository;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -30,32 +27,12 @@ import org.springframework.web.client.RestTemplate;
 public class PromptService {
 
     private final PromptRepository promptRepository;
-    private final UserRepository userRepository;
-    private final FlaskService flaskService;
     private final RestTemplate restTemplate;
     private final ChatRepository chatRepository;
     private final S3Service s3Service;
 
     @Value("${chatgpt.api-key}")
     private String apiKey;
-
-    @Transactional
-    public Prompt sendAndSavePrompt(Long userId, Long chatId, String promptContent) {
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        Chat chat = chatRepository.findById(chatId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        flaskService.sendPromptToFlask(promptContent);
-
-        Prompt prompt = Prompt.toEntity(user, promptContent, chat);
-
-        promptRepository.save(prompt);
-
-        return prompt;
-    }
 
     @Transactional
     public ImageResponse generateFishImage(Long userId, Long chatId, Paints paints,
