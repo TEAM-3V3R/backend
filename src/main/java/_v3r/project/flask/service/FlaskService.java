@@ -7,7 +7,6 @@ import _v3r.project.common.exception.EverException;
 import _v3r.project.imageflow.dto.SegmentResponse;
 import _v3r.project.prompt.domain.Chat;
 import _v3r.project.prompt.domain.Prompt;
-import _v3r.project.flask.dto.FlaskResponse;
 import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.prompt.repository.PromptRepository;
 import _v3r.project.report.dto.ReportResponse;
@@ -32,28 +31,6 @@ public class FlaskService {
     private final PromptRepository promptRepository;
     private final ChatRepository chatRepository;
 
-    public CustomApiResponse<FlaskResponse> sendPromptToFlask(String promptContent) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        Map<String, String> requestBody = new HashMap<>();
-        requestBody.put("promptContent", promptContent);
-
-        HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
-
-        ResponseEntity<FlaskResponse> response = restTemplate.exchange(
-                "http://3.37.172.79:80/prompt",
-                HttpMethod.POST,
-                entity,
-                FlaskResponse.class
-        );
-
-        FlaskResponse flaskResponse = response.getBody();
-
-        return CustomApiResponse.success(flaskResponse, 200, "프롬프트 전송 성공");
-    }
-
     public CustomApiResponse<List<ReceiveCategoryResponse>> receiveCategory(Long promptId) {
 
         HttpHeaders headers = new HttpHeaders();
@@ -71,7 +48,7 @@ public class FlaskService {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                "https://svetlana-unwakeful-cain.ngrok-free.dev/category/predict",
+                "https://cf10725067a1.ngrok-free.app/category/predict",
                 HttpMethod.POST,
                 entity,
                 String.class
@@ -111,7 +88,7 @@ public class FlaskService {
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<List<SegmentResponse>> response = restTemplate.exchange(
-                "https://svetlana-unwakeful-cain.ngrok-free.dev/sam",
+                "https://cf10725067a1.ngrok-free.app/sam",
                 HttpMethod.POST,
                 entity,
                 new ParameterizedTypeReference<List<SegmentResponse>>() {}
@@ -140,7 +117,7 @@ public class FlaskService {
 
         try {
             ResponseEntity<ReportResponse> response = restTemplate.exchange(
-                    "https://svetlana-unwakeful-cain.ngrok-free.dev/analyzer/analyze",
+                    "https://cf10725067a1.ngrok-free.app/analyzer/analyze",
                     HttpMethod.POST,
                     entity,
                     ReportResponse.class
