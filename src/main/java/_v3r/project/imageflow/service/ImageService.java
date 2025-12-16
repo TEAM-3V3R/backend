@@ -81,7 +81,7 @@ public class ImageService {
             throw new EverException(ErrorCode.JSON_PROCESSING_ERROR);
         }
 
-        String prefix = "user-" + userId + "/chat-" + chatId + "/result-image/";
+        String prefix = "user-" + userId + "/chat-" + chatId;
         String zipFileName = "segments.zip";
 
         try {
