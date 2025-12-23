@@ -31,13 +31,13 @@ public class PromptController {
             @RequestBody ChatRequest request) {
 
         ImageResponse response = switch (paints) {
-            case 산수도 -> promptService.generateMountainImage(
+            case 산수도 -> promptService.generateImage(
                     userId, request.chatId(), Paints.산수도, request.promptContent()
             );
-            case 어해도 -> promptService.generateFishImage(
+            case 어해도 -> promptService.generateImage(
                     userId, request.chatId(), Paints.어해도, request.promptContent()
             );
-            case 탱화 -> promptService.generatePeopleImage(
+            case 탱화 -> promptService.generateImage(
                     userId, request.chatId(), Paints.탱화, request.promptContent()
             );
         };
