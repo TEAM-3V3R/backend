@@ -29,18 +29,7 @@ public class PromptController {
             @RequestHeader("user-no") Long userId,
             @RequestParam(name = "paints") Paints paints,
             @RequestBody ChatRequest request) {
-
-        ImageResponse response = switch (paints) {
-            case 산수도 -> promptService.generateImage(
-                    userId, request.chatId(), Paints.산수도, request.promptContent()
-            );
-            case 어해도 -> promptService.generateImage(
-                    userId, request.chatId(), Paints.어해도, request.promptContent()
-            );
-            case 탱화 -> promptService.generateImage(
-                    userId, request.chatId(), Paints.탱화, request.promptContent()
-            );
-        };
+        ImageResponse response = promptService.generateImage(userId, request.chatId(), paints, request.promptContent());
 
         return CustomApiResponse.success(response, 200, "이미지 생성 성공");
     }
