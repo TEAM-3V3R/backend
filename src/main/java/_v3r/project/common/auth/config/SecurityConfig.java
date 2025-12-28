@@ -1,4 +1,4 @@
-package _v3r.project.common.Auth.config;
+package _v3r.project.common.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package _v3r.project.common.Auth.filter;
+package _v3r.project.common.auth.filter;
 
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.exception.EverException;
