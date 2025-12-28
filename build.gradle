@@ -45,8 +45,13 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
 	implementation 'org.glassfish.jaxb:jaxb-core:2.3.0.1'
-	implementation("com.google.genai:google-genai:1.30.0") //imagen
 	implementation("com.google.auth:google-auth-library-oauth2-http:1.28.0")
+	implementation 'org.springframework.boot:spring-boot-starter-security' // security
+	implementation 'org.springframework.security:spring-security-crypto'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly  'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly  'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
 
 }
 
