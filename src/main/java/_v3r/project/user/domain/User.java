@@ -26,8 +26,11 @@ public class User extends BaseEntity {
     @Column(name = "user_nickname")
     private String nickname;
 
-    @Column(name = "user_id_name",unique = true) // 로그인 ID
-    private String id;
+    @Column(name = "login_id",unique = true,nullable = false)
+    private String loginId;
+
+    @Column(nullable = false)
+    private String password;
 
     public void updateUser(String nickName) {
         this.nickname = nickName;

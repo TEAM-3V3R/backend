@@ -23,7 +23,15 @@ public enum ErrorCode {
     FILE_PROCESSING_ERROR("파일처리 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     S3_DOWNLOAD_FAILED("S3 이미지 다운로드 중 오류 발생",HttpStatus.INTERNAL_SERVER_ERROR),
     // 로그인 에러
-    DUPLICATE_USER_ID("이미 존재하는 아이디입니다.", HttpStatus.CONFLICT);
+    DUPLICATE_USER_ID("이미 존재하는 아이디입니다.", HttpStatus.CONFLICT),
+    // auth / jwt 관련 에러
+    TOKEN_MISSING("인증 토큰이 없습니다.", HttpStatus.UNAUTHORIZED),
+    TOKEN_INVALID("유효하지 않은 인증 토큰입니다.", HttpStatus.UNAUTHORIZED),
+    TOKEN_EXPIRED("인증 토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
+    TOKEN_UNSUPPORTED("지원하지 않는 토큰 형식입니다.", HttpStatus.UNAUTHORIZED),
+    TOKEN_SIGNATURE_INVALID("토큰 서명이 유효하지 않습니다.", HttpStatus.UNAUTHORIZED),
+    AUTHENTICATION_FAILED("인증에 실패했습니다.", HttpStatus.UNAUTHORIZED),
+    ACCESS_DENIED("접근 권한이 없습니다.", HttpStatus.FORBIDDEN);
 
 
     private final String message;
