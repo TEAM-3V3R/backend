@@ -13,7 +13,7 @@ public record CreateUserResponse(
     public static CreateUserResponse of(final User user) {
         return CreateUserResponse.builder()
                 .userId(user.getUserId())
-                .id(user.getId())
+                .id(user.getLoginId())
                 .nickName(user.getNickname())
                 .build();
     }

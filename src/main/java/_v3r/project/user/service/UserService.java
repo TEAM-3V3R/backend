@@ -23,7 +23,7 @@ public class UserService {
 
     @Transactional
     public CreateUserResponse createUser(CreateUserRequest request) {
-        if (userRepository.existsById(request.toEntity().getId())) {
+        if (userRepository.existsById(request.toEntity().getLoginId())) {
             throw new EverException(ErrorCode.DUPLICATE_USER_ID);
         }
         User user = request.toEntity();
@@ -47,7 +47,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        return FindUserResponse.of(user.getUserId(), user.getId(),user.getNickname(),user.getCreatedAt());
+        return FindUserResponse.of(user.getUserId(), user.getLoginId(),user.getNickname(),user.getCreatedAt());
     }
     @Transactional
     public void deleteUser(Long userId) {

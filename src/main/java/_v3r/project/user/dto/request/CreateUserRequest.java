@@ -9,7 +9,7 @@ public record CreateUserRequest(
 
         public User toEntity() {
                 return User.builder()
-                        .id(this.id)
+                        .loginId(this.id)
                         .nickname(this.nickName)
                         .build();
         }

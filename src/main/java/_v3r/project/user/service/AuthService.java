@@ -19,7 +19,7 @@ public class AuthService {
         User user = userRepository.findById(request.id())
                 .orElseThrow(() -> new EverException(ErrorCode.DUPLICATE_USER_ID));
 
-        return new LoginUserResponse(user.getUserId(), user.getId(), user.getNickname());
+        return new LoginUserResponse(user.getUserId(), user.getLoginId(), user.getNickname());
     }
 
     public void logout(Long userId) {
