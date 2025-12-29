@@ -31,7 +31,12 @@ public enum ErrorCode {
     TOKEN_UNSUPPORTED("지원하지 않는 토큰 형식입니다.", HttpStatus.UNAUTHORIZED),
     TOKEN_SIGNATURE_INVALID("토큰 서명이 유효하지 않습니다.", HttpStatus.UNAUTHORIZED),
     AUTHENTICATION_FAILED("인증에 실패했습니다.", HttpStatus.UNAUTHORIZED),
-    ACCESS_DENIED("접근 권한이 없습니다.", HttpStatus.FORBIDDEN);
+    ACCESS_DENIED("접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
+    // Redis 관련 에러
+    REDIS_SERVER_ERROR("Redis 서버 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    REDIS_DATA_NOT_FOUND("Redis에서 데이터를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+
+    REDIS_INVALID_KEY("유효하지 않은 Redis Key 입니다.", HttpStatus.BAD_REQUEST);
 
 
     private final String message;
