@@ -25,7 +25,7 @@ public class JwtUtil {
                 secretKey.getBytes(StandardCharsets.UTF_8)
         );
     }
-    public String createAccessToken(Long userId, long expirationMs) {
+    public String createJWT(Long userId, long expirationMs) {
         Date now = new Date();
 
         return Jwts.builder()
