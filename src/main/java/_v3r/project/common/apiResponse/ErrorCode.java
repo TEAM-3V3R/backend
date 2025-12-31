@@ -24,6 +24,7 @@ public enum ErrorCode {
     S3_DOWNLOAD_FAILED("S3 이미지 다운로드 중 오류 발생",HttpStatus.INTERNAL_SERVER_ERROR),
     // 로그인 에러
     DUPLICATE_USER_ID("이미 존재하는 아이디입니다.", HttpStatus.CONFLICT),
+    INVALID_PASSWORD("비밀번호가 틀립니다.",HttpStatus.FORBIDDEN),
     // auth / jwt 관련 에러
     TOKEN_MISSING("인증 토큰이 없습니다.", HttpStatus.UNAUTHORIZED),
     TOKEN_INVALID("유효하지 않은 인증 토큰입니다.", HttpStatus.UNAUTHORIZED),

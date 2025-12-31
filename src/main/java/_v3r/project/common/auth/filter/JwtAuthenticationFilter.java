@@ -35,6 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .orElseThrow(() ->
                             new EverException(ErrorCode.ENTITY_NOT_FOUND)
                     );
+            //TODO UserDetail 만들어서 수정할 필요 있음
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
                             user,
