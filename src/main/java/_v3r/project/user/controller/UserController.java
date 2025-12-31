@@ -27,13 +27,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/signin")
-    @Operation(summary = "회원가입")
-    public CustomApiResponse<CreateUserResponse> createUser(@RequestBody CreateUserRequest request) {
-        CreateUserResponse response = userService.createUser(request);
-        return CustomApiResponse.success(response,200,"사용자 등록 성공");
-    }
-
     @PutMapping("/update")
     @Operation(summary = "회원정보 수정")
     public CustomApiResponse<UpdateUserResponse> updateUser(@RequestHeader(name = "user-no") Long userId,@RequestBody

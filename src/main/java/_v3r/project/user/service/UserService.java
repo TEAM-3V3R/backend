@@ -20,16 +20,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-
-    @Transactional
-    public CreateUserResponse createUser(CreateUserRequest request) {
-        if (userRepository.existsById(request.toEntity().getLoginId())) {
-            throw new EverException(ErrorCode.DUPLICATE_USER_ID);
-        }
-        User user = request.toEntity();
-        userRepository.save(user);
-        return CreateUserResponse.of(user);
-    }
     @Transactional
     public UpdateUserResponse updateUser(Long userId, UpdateUserRequest request) {
         User user = userRepository.findById(userId)
