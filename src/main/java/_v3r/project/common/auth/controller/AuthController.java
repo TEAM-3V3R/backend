@@ -5,6 +5,7 @@ import _v3r.project.common.auth.dto.request.LoginRequest;
 import _v3r.project.common.auth.dto.response.LoginResponse;
 import _v3r.project.common.auth.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,11 +20,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/login")
-    public CustomApiResponse<LoginResponse> login(@RequestBody LoginRequest request) {
-        LoginResponse response = authService.login(request);
-        return CustomApiResponse.success(response, 200, "로그인 성공");
-    }
 
 }
 
