@@ -1,6 +1,7 @@
 package _v3r.project.common.auth.filter;
 
 import _v3r.project.common.apiResponse.ErrorCode;
+import _v3r.project.common.auth.model.CustomUserDetails;
 import _v3r.project.common.exception.EverException;
 import _v3r.project.common.util.JwtUtil;
 import _v3r.project.user.domain.User;
@@ -20,10 +21,17 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
+
         String token = resolveToken(request);
 
         if (token != null) {
@@ -32,21 +40,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Long userId = jwtUtil.getUserId(token);
 
             User user = userRepository.findById(userId)
-                    .orElseThrow(() ->
-                            new EverException(ErrorCode.ENTITY_NOT_FOUND)
-                    );
-            //TODO UserDetail 만들어서 수정할 필요 있음
+                    .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+
+            CustomUserDetails userDetails = CustomUserDetails.from(user);
+
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
-                            user,
-                            null
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
                     );
-            SecurityContextHolder.getContext()
-                    .setAuthentication(authentication);
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         filterChain.doFilter(request, response);
     }
+
     private String resolveToken(HttpServletRequest request) {
         String bearer = request.getHeader("Authorization");
         if (bearer != null && bearer.startsWith("Bearer ")) {
