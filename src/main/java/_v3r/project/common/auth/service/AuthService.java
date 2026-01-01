@@ -4,7 +4,6 @@ import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.auth.dto.request.LoginRequest;
 import _v3r.project.common.auth.dto.response.LoginResponse;
 import _v3r.project.common.exception.EverException;
-import _v3r.project.common.util.CookieUtil;
 import _v3r.project.common.util.JwtUtil;
 import _v3r.project.common.util.RedisKeyUtil;
 import _v3r.project.common.util.RedisUtil;
