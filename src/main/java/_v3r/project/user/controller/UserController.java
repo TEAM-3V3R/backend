@@ -9,6 +9,7 @@ import _v3r.project.user.dto.response.UpdateUserResponse;
 import _v3r.project.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,12 @@ public class UserController {
 
     private final UserService userService;
 
+    @PostMapping("/signup")
+    @Operation(summary = "회원가입")
+    public CustomApiResponse<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
+        CreateUserResponse response = userService.createUser(request);
+        return CustomApiResponse.success(response,200,"회원가입 성공");
+    }
     @PutMapping("/update")
     @Operation(summary = "회원정보 수정")
     public CustomApiResponse<UpdateUserResponse> updateUser(@RequestHeader(name = "user-no") Long userId,@RequestBody
