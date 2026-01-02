@@ -12,8 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -24,7 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@RequiredArgsConstructor
+@Slf4j
 public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private static final String AUTH_HEADER = "Authorization";
@@ -34,11 +33,22 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtUtil jwtUtil;
     private final RedisUtil redisUtil;
 
-    @Value("${jwt.access-token-expiration}")
-    private long accessTokenExpirationMs;
+    private final long accessTokenExpirationMs;
+    private final long refreshTokenExpirationSec;
 
-    @Value("${jwt.refresh-token-expiration}")
-    private long refreshTokenExpirationSec;
+    public CustomLoginFilter(
+            AuthenticationManager authenticationManager,
+            JwtUtil jwtUtil,
+            RedisUtil redisUtil,
+            long accessTokenExpirationSec,
+            long refreshTokenExpirationSec
+    ) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+        this.redisUtil = redisUtil;
+        this.accessTokenExpirationMs = accessTokenExpirationSec * 1000L;
+        this.refreshTokenExpirationSec = refreshTokenExpirationSec;
+    }
 
     @Override
     public Authentication attemptAuthentication(
@@ -51,25 +61,24 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
             LoginRequest loginRequest =
                     objectMapper.readValue(request.getInputStream(), LoginRequest.class);
 
-            String loginId = loginRequest.loginId();
-            String password = loginRequest.password();
-
             UsernamePasswordAuthenticationToken authRequest =
-                    new UsernamePasswordAuthenticationToken(loginId, password);
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.loginId(),
+                            loginRequest.password()
+                    );
 
             return authenticationManager.authenticate(authRequest);
 
         } catch (IOException e) {
-            //TODO security 전용 예외 핸들러 만들어서 관리필요
+            log.warn("[로그인 실패] Invalid request body", e);
             throw new BadCredentialsException("Invalid login request body");
         }
     }
 
-
     @Override
     protected void successfulAuthentication(
-            HttpServletRequest req,
-            HttpServletResponse res,
+            HttpServletRequest request,
+            HttpServletResponse response,
             FilterChain chain,
             Authentication authResult
     ) throws IOException, ServletException {
@@ -82,9 +91,8 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
         String accessToken =
                 jwtUtil.createJWT(userId, accessTokenExpirationMs);
 
-        long refreshTokenExpirationMs = refreshTokenExpirationSec * 1000L;
         String refreshToken =
-                jwtUtil.createJWT(userId, refreshTokenExpirationMs);
+                jwtUtil.createJWT(userId, refreshTokenExpirationSec * 1000L);
 
         redisUtil.setDataExpire(
                 RedisKeyUtil.refreshToken(userId),
@@ -92,19 +100,24 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
                 refreshTokenExpirationSec
         );
 
-        res.setHeader(AUTH_HEADER, BEARER + accessToken);
+        response.setHeader(AUTH_HEADER, BEARER + accessToken);
 
         ResponseCookie cookie =
                 CookieUtil.createRefreshTokenCookie(
                         refreshToken,
                         refreshTokenExpirationSec
                 );
-        res.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        res.setStatus(HttpStatus.OK.value());
+        response.setStatus(HttpStatus.OK.value());
     }
+
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res, AuthenticationException failed) throws IOException, ServletException {
-        getFailureHandler().onAuthenticationFailure(req, res, failed);
+    protected void unsuccessfulAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException failed
+    ) throws IOException, ServletException {
+        getFailureHandler().onAuthenticationFailure(request, response, failed);
     }
 }

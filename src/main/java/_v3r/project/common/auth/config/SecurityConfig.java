@@ -9,6 +9,7 @@ import _v3r.project.common.util.JwtUtil;
 import _v3r.project.common.util.RedisUtil;
 import _v3r.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,6 +36,11 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+    @Value("${jwt.access-token-expiration}")
+    private long accessTokenExpirationSec;
+
+    @Value("${jwt.refresh-token-expiration}")
+    private long refreshTokenExpirationSec;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -62,20 +68,26 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                         .accessDeniedHandler(customAccessDeniedHandler)
                 )
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/login").permitAll()
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(
+                                "/api/v1/user/signup",
+                                "/api/v1/auth/login",
+                                "/api/v1/auth/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
+
                 .addFilterBefore(
                         new JwtAuthenticationFilter(jwtUtil, userRepository),
-                        CustomLoginFilter.class
+                        UsernamePasswordAuthenticationFilter.class
                 )
                 .addFilterAt(
                         customLoginFilter(authenticationManager),
@@ -89,11 +101,10 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager
     ) {
         CustomLoginFilter filter =
-                new CustomLoginFilter(authenticationManager, jwtUtil, redisUtil);
+                new CustomLoginFilter(authenticationManager, jwtUtil, redisUtil,accessTokenExpirationSec, refreshTokenExpirationSec);
 
         filter.setFilterProcessesUrl("/api/v1/auth/login");
         filter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
         return filter;
     }
-
 }
