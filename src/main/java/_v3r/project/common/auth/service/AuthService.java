@@ -29,23 +29,5 @@ public class AuthService {
     @Value("${jwt.refresh-token-expiration}")
     private long refreshTokenExpiration;
 
-    //TODO 로그인
-    @Transactional
-    public LoginResponse login(LoginRequest req) {
 
-        User user = userRepository.findByLoginId(req.loginId())
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
-
-        if (!passwordEncoder.matches(req.password(), user.getPassword())) {
-            throw new EverException(ErrorCode.INVALID_PASSWORD);
-        }
-        String accessToken = jwtUtil.createJWT(user.getUserId(), accessTokenExpiration);
-        String refreshToken = jwtUtil.createJWT(user.getUserId(), refreshTokenExpiration);
-
-        redisUtil.setDataExpire(RedisKeyUtil.refreshToken(user.getUserId()),
-                refreshToken,
-                refreshTokenExpiration);
-
-        return LoginResponse.of(accessToken);
-    }
 }
