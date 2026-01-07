@@ -52,4 +52,9 @@ public class AuthService {
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         return AuthResponse.of(newAccessToken);
     }
+    public void logout(Long userId) {
+        String redisKey = RedisKeyUtil.refreshToken(userId);
+        redisUtil.deleteData(redisKey);
+    }
+
 }

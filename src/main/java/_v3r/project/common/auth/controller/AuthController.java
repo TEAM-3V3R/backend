@@ -4,8 +4,10 @@ import _v3r.project.common.apiResponse.CustomApiResponse;
 import _v3r.project.common.apiResponse.ErrorCode;
 import _v3r.project.common.auth.dto.request.LoginRequest;
 import _v3r.project.common.auth.dto.response.AuthResponse;
+import _v3r.project.common.auth.model.CustomUserDetails;
 import _v3r.project.common.auth.service.AuthService;
 import _v3r.project.common.exception.EverException;
+import _v3r.project.user.domain.User;
 import jakarta.servlet.http.Cookie;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,6 +19,8 @@ import java.util.Arrays;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,11 +47,12 @@ public class AuthController {
         throw new UnsupportedOperationException("Handled by Spring Security Filter");
     }
     @PostMapping("/reissue")
+    @Operation(summary = "토큰 재발급")
     public ResponseEntity<CustomApiResponse<AuthResponse>> reissue(
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-
+// TODO 컨트롤러 단순화 필요 CookieUtil 활용
         String refreshToken = Arrays.stream(
                         Optional.ofNullable(request.getCookies())
                                 .orElseThrow(() ->
@@ -71,8 +76,13 @@ public class AuthController {
                         "토큰 재발급 성공"
                 ));
     }
-
-
+    @DeleteMapping("/logout")
+    public CustomApiResponse<String> logout(
+            @AuthenticationPrincipal CustomUserDetails principal
+    ) {
+        authService.logout(principal.getUserId());
+        return CustomApiResponse.success(null, 200, "로그아웃 성공");
+    }
 
 }
 
