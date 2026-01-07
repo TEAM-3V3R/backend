@@ -1,11 +1,13 @@
 package _v3r.project.report.controller;
 
 import _v3r.project.common.apiResponse.CustomApiResponse;
+import _v3r.project.common.auth.model.CustomUserDetails;
 import _v3r.project.report.dto.ReportResponse;
 import _v3r.project.report.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,20 +24,20 @@ public class ReportController {
     @PostMapping("/{chatId}")
     @Operation(summary = "분석 내용 받기")
     public CustomApiResponse<Void> getReport(
-            @RequestHeader("user-no") Long userId,
+            @AuthenticationPrincipal CustomUserDetails principal,
             @PathVariable("chatId") Long chatId
     ) {
-        reportService.receiveReport(userId, chatId);
+        reportService.receiveReport(principal.getUserId(), chatId);
         return CustomApiResponse.success(null, 200, "리포트 수신 성공");
     }
 
     @GetMapping("/{chatId}/show")
     @Operation(summary = "ai 보고서 조회")
     public CustomApiResponse<ReportResponse> showReport(
-            @RequestHeader("user-no") Long userId,
+            @AuthenticationPrincipal CustomUserDetails principal,
             @PathVariable("chatId") Long chatId
     ) {
-        ReportResponse response = reportService.showReport(userId, chatId);
+        ReportResponse response = reportService.showReport(principal.getUserId(), chatId);
         return CustomApiResponse.success(response,200,"리포트 조회 성공");
     }
 

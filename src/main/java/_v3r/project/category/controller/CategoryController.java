@@ -4,10 +4,12 @@ import _v3r.project.category.dto.response.ClassificationListResponse;
 import _v3r.project.category.dto.response.ReceiveCategoryResponse;
 import _v3r.project.category.service.CategoryService;
 import _v3r.project.common.apiResponse.CustomApiResponse;
+import _v3r.project.common.auth.model.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -26,19 +28,19 @@ public class CategoryController {
     @PostMapping("/receive-category")
     @Operation(summary = "카테고리 정보 저장")
     public CustomApiResponse<List<ReceiveCategoryResponse>> receiveCategory(
-            @RequestHeader("user-no") Long userId,
+            @AuthenticationPrincipal CustomUserDetails principal,
             @RequestParam("prompt-id") Long promptId) {
 
-        List<ReceiveCategoryResponse> responses = categoryService.receiveCategory(userId, promptId);
+        List<ReceiveCategoryResponse> responses = categoryService.receiveCategory(principal.getUserId(), promptId);
         return CustomApiResponse.success(responses, 200, "카테고리 저장 및 응답 성공");
     }
 
     @GetMapping("/show-all-category-text")
     @Operation(summary = "카테고리-텍스트 조회")
     public CustomApiResponse<List<ReceiveCategoryResponse>> showAllCategoryText(
-            @RequestHeader("user-no") Long userId,
+            @AuthenticationPrincipal CustomUserDetails principal,
             @RequestParam("prompt-id") Long promptId) {
-        List<ReceiveCategoryResponse> resonse = categoryService.showAllCategoryText(userId,promptId);
+        List<ReceiveCategoryResponse> resonse = categoryService.showAllCategoryText(principal.getUserId(),promptId);
         return CustomApiResponse.success(resonse,200,"해당 프롬프트에 대한 카테고리-텍스트 조회 성공");
     }
 
@@ -46,9 +48,9 @@ public class CategoryController {
     @GetMapping("/show-categorylist")
     @Operation(summary = "해당 프롬프트에 대한 카테고리 리스트 조회")
     public CustomApiResponse<List<ClassificationListResponse>> showCategoryList(
-            @RequestHeader("user-no") Long userId,
+            @AuthenticationPrincipal CustomUserDetails principal,
             @RequestParam("prompt-id") Long promptId) {
-        List<ClassificationListResponse> resonse = categoryService.showCategoryList(userId,promptId);
+        List<ClassificationListResponse> resonse = categoryService.showCategoryList(principal.getUserId(),promptId);
         return CustomApiResponse.success(resonse,200,"해당 프롬프트에 대한 카테고리 리스트 조회 성공");
     }
 

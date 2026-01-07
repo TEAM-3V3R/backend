@@ -11,6 +11,7 @@ import _v3r.project.user.dto.response.UpdateUserResponse;
 import _v3r.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,17 +20,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-
-
+    private final PasswordEncoder passwordEncoder;
     @Transactional
     public CreateUserResponse createUser(CreateUserRequest request) {
-        if (userRepository.existsById(request.toEntity().getId())) {
-            throw new EverException(ErrorCode.DUPLICATE_USER_ID);
-        }
-        User user = request.toEntity();
+        String encoded = passwordEncoder.encode(request.password());
+        User user = request.toEntity(encoded);
         userRepository.save(user);
         return CreateUserResponse.of(user);
     }
+
     @Transactional
     public UpdateUserResponse updateUser(Long userId, UpdateUserRequest request) {
         User user = userRepository.findById(userId)
@@ -47,7 +46,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        return FindUserResponse.of(user.getUserId(), user.getId(),user.getNickname(),user.getCreatedAt());
+        return FindUserResponse.of(user.getUserId(), user.getLoginId(),user.getNickname(),user.getCreatedAt());
     }
     @Transactional
     public void deleteUser(Long userId) {
