@@ -89,10 +89,10 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
         Long userId = principal.getUserId();
 
         String accessToken =
-                jwtUtil.createJWT(userId, accessTokenExpirationMs);
+                jwtUtil.createAccessJWT(userId, accessTokenExpirationMs);
 
         String refreshToken =
-                jwtUtil.createJWT(userId, refreshTokenExpirationSec * 1000L);
+                jwtUtil.createRefreshJWT(userId, refreshTokenExpirationSec * 1000L);
 
         redisUtil.setDataExpire(
                 RedisKeyUtil.refreshToken(userId),

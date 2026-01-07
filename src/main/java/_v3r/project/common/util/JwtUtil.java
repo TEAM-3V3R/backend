@@ -25,16 +25,36 @@ public class JwtUtil {
                 secretKey.getBytes(StandardCharsets.UTF_8)
         );
     }
-    public String createJWT(Long userId, long expirationMs) {
+    public String createAccessJWT(Long userId, long expirationSec) {
+
         Date now = new Date();
 
         return Jwts.builder()
                 .setSubject(userId.toString())
+                .claim("tokenType", "ACCESS")
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + expirationMs))
+                .setExpiration(
+                        new Date(now.getTime() + expirationSec * 1000L)
+                )
                 .signWith(secretKey)
                 .compact();
     }
+
+    public String createRefreshJWT(Long userId, long expirationSec) {
+
+        Date now = new Date();
+
+        return Jwts.builder()
+                .setSubject(userId.toString())
+                .claim("tokenType", "REFRESH")
+                .setIssuedAt(now)
+                .setExpiration(
+                        new Date(now.getTime() + expirationSec * 1000L)
+                )
+                .signWith(secretKey)
+                .compact();
+    }
+
     public void validateToken(String token) {
         try {
             parseClaims(token);
@@ -58,4 +78,13 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+    public void validateRefreshToken(String token) {
+        Claims claims = parseClaims(token);
+
+        if (!"REFRESH".equals(claims.get("tokenType", String.class))) {
+            throw new EverException(ErrorCode.TOKEN_INVALID);
+        }
+    }
+
 }
