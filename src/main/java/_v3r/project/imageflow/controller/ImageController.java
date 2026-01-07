@@ -1,6 +1,7 @@
 package _v3r.project.imageflow.controller;
 
 import _v3r.project.common.apiResponse.ErrorCode;
+import _v3r.project.common.auth.model.CustomUserDetails;
 import _v3r.project.common.exception.EverException;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.core.io.Resource;
@@ -16,6 +17,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,13 +37,13 @@ public class ImageController {
     @PostMapping("/download")
     @Operation(summary = "채팅 후 최종 채팅 이미지 다운로드 / 채팅방 종료 / 요소분리 이미지 다운로드 기능")
     public ResponseEntity<?> segmentResultImage(
-            @RequestHeader("user-no") Long userId,
+            @AuthenticationPrincipal CustomUserDetails principal,
             @RequestParam(name = "chatId") Long chatId,
             @RequestParam(name = "download-type") DownloadType downloadType
     ) {
         try {
             if (downloadType == DownloadType.최종_이미지_저장) {
-                File file = imageService.downloadResultImage(userId, chatId);
+                File file = imageService.downloadResultImage(principal.getUserId(), chatId);
                 Resource resource = new InputStreamResource(new FileInputStream(file));
                 return ResponseEntity.ok()
                         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
@@ -49,10 +51,10 @@ public class ImageController {
                         .contentLength(file.length())
                         .body(resource);
             } else if (downloadType == DownloadType.채팅방_종료) {
-                chatService.finishChat(userId, chatId);
+                chatService.finishChat(principal.getUserId(), chatId);
                 return ResponseEntity.ok().body("채팅방 종료 완료");
             } else if (downloadType == DownloadType.요소분리_이미지_저장) {
-                File zipFile = imageService.segmentResultImage(userId, chatId);
+                File zipFile = imageService.segmentResultImage(principal.getUserId(), chatId);
                 Resource resource = new InputStreamResource(new FileInputStream(zipFile));
                 return ResponseEntity.ok()
                         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + zipFile.getName() + "\"")

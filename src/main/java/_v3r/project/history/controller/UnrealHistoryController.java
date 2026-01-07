@@ -1,12 +1,14 @@
 package _v3r.project.history.controller;
 
 import _v3r.project.common.apiResponse.CustomApiResponse;
+import _v3r.project.common.auth.model.CustomUserDetails;
 import _v3r.project.history.dto.UnrealHistoryResponse;
 import _v3r.project.history.service.UnrealHistoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,9 +40,10 @@ public class UnrealHistoryController {
     @GetMapping("/{chatId}")
     @Operation(summary = "후처리 히스토리 조회 기능")
     public CustomApiResponse<List<UnrealHistoryResponse>> showUnrealHistory(
-            @RequestHeader("user-no") Long userId, @PathVariable("chatId") Long chatId
+            @AuthenticationPrincipal CustomUserDetails principal, @PathVariable("chatId") Long chatId
     ) {
-        List<UnrealHistoryResponse> response = unrealHistoryService.showUnrealHistory(userId, chatId);
+        List<UnrealHistoryResponse> response = unrealHistoryService.showUnrealHistory(
+                principal.getUserId(), chatId);
         return CustomApiResponse.success(response, 200, "후처리 히스토리 조회 성공");
     }
 }

@@ -1,6 +1,7 @@
 package _v3r.project.prompt.controller;
 
 import _v3r.project.common.apiResponse.CustomApiResponse;
+import _v3r.project.common.auth.model.CustomUserDetails;
 import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.response.CreateChatResponse;
 import _v3r.project.prompt.dto.response.FindAllChatResponse;
@@ -12,11 +13,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,46 +31,46 @@ public class ChatController {
 
     @PostMapping("/create")
     @Operation(summary = "채팅방 생성",description = "어해도 : 0, 산수도 : 1, 탱화 : 2")
-    public CustomApiResponse<CreateChatResponse> createChat(@RequestHeader("user-no") Long userId,
+    public CustomApiResponse<CreateChatResponse> createChat(@AuthenticationPrincipal CustomUserDetails principal,
             @RequestParam(name = "paints") Paints paints) {
-        CreateChatResponse response = chatService.createChat(userId,paints);
+        CreateChatResponse response = chatService.createChat(principal.getUserId(), paints);
         return CustomApiResponse.success(response,200,"채팅방 생성 성공");
     }
 
     @GetMapping("/find-all-chat")
     @Operation(summary = "모든 채팅방 조회기능 - chatTitle이 null일시 promptContent가 채팅방 이름이 됨")
-    public CustomApiResponse<List<FindAllChatResponse>> findAllChats(@RequestHeader(name = "user-no",required = true) Long userId) {
-        List<FindAllChatResponse> response = chatService.findAllChats(userId);
+    public CustomApiResponse<List<FindAllChatResponse>> findAllChats(@AuthenticationPrincipal CustomUserDetails principal) {
+        List<FindAllChatResponse> response = chatService.findAllChats(principal.getUserId());
         return CustomApiResponse.success(response,200,"전체 채팅방 조회 성공");
     }
     @GetMapping("/find-chat")
     @Operation(summary = "특정 채팅방 선택 후 채팅 내역 조회 기능")
     public CustomApiResponse<List<FindChatResponse>> findChat(
-            @RequestHeader("user-no") Long userId,
+            @AuthenticationPrincipal CustomUserDetails principal,
             @RequestParam(name = "chatId") Long chatId
     ) {
-        FindChatResponse response =chatService.findChat(userId, chatId);
+        FindChatResponse response =chatService.findChat(principal.getUserId(),chatId);
         return CustomApiResponse.success(List.of(response),200,"특정 채팅방 조회 성공");
     }
 
     @PatchMapping("/{chatId}/title")
     @Operation(summary = "특정 채팅방 선택 채팅방 이름 수정 기능")
     public CustomApiResponse<UpdateChatTitleResponse> updateChatTitle(
-            @RequestHeader("user-no") Long userId,
+            @AuthenticationPrincipal CustomUserDetails principal,
             @PathVariable("chatId") Long chatId,
             @RequestParam("chatTitle") String chatTitle) {
 
-        UpdateChatTitleResponse response = chatService.updateChat(userId, chatId, chatTitle);
+        UpdateChatTitleResponse response = chatService.updateChat(principal.getUserId(), chatId, chatTitle);
         return CustomApiResponse.success(response, 200, "채팅 제목 수정 완료");
     }
     @GetMapping("/show-image/{chatId}/{promptId}")
     @Operation(summary = "채팅방의 사진 단일 조회 기능")
     public CustomApiResponse<ShowImageResponse> showImage(
-            @RequestHeader("user-no") Long userId,
+            @AuthenticationPrincipal CustomUserDetails principal,
             @PathVariable("chatId") Long chatId,
             @PathVariable("promptId") Long promptId) {
 
-        ShowImageResponse response = chatService.showImage(userId, chatId, promptId);
+        ShowImageResponse response = chatService.showImage(principal.getUserId(), chatId, promptId);
         return CustomApiResponse.success(response,200,"채팅방 사진 단일 조회 성공");
     }
 
