@@ -1,0 +1,39 @@
+<configuration>
+  <springProfile name="local">
+    <appender name="ORDINARY" class="ch.qos.logback.core.FileAppender">
+<!-- prod에서 테스트 시 경로 변경 필요-->
+      <file>log/hwarokLog.log</file>
+      <encoder>
+        <pattern>%date %level [%thread] %logger{10} [%file:%line] - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <appender name="HOTFIX" class="ch.qos.logback.core.FileAppender">
+      <file>log/hotfixLog.log</file>
+      <encoder>
+        <pattern>%date %level [%thread] %logger{10} [%file:%line] - %msg%n</pattern>
+      </encoder>
+      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <level>WARN</level>
+      </filter>
+    </appender>
+
+    <root level="INFO">
+      <appender-ref ref="ORDINARY" />
+    </root>
+    <logger name="org.springframework" level="WARN">
+      <appender-ref ref="HOTFIX" />
+    </logger>
+  </springProfile>
+
+  <springProfile name="local">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+        <pattern>%date %level [%thread] %logger{10} [%file:%line] - %msg%n</pattern>
+      </encoder>
+    </appender>
+    <root level="INFO">
+      <appender-ref ref="STDOUT" />
+    </root>
+  </springProfile>
+</configuration>
