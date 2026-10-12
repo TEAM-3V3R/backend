@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # usage: perf/run.sh <label>   예) perf/run.sh before
-# 서버가 --spring.profiles.active=mock 으로 떠 있어야 한다. 실행마다 perf/results/<시각>-<label>/ 에 결과를 분리 저장한다.
+# 서버가 --spring.profiles.active=local,mock 으로 떠 있어야 한다. 실행마다 perf/results/<시각>-<label>/ 에 결과를 분리 저장한다.
 set -euo pipefail
 LABEL=${1:?usage: perf/run.sh <label>}
 HOST=${HOST:-localhost}; PORT=${PORT:-8080}; BASE=http://$HOST:$PORT
