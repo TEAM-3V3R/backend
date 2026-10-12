@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,7 +49,7 @@ public class UserController {
         FindUserResponse response = userService.findUser(principal.getUserId());
         return CustomApiResponse.success(response,200,"유저 조회 성공");
     }
-
+//TODO 이부분 회원탈퇴로 변경
     @DeleteMapping("/delete")
     @Operation(summary = "회원 삭제")
     public void deleteUser(@AuthenticationPrincipal CustomUserDetails principal) {
