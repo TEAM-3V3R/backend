@@ -1,0 +1,50 @@
+{
+  "generate-image" : {
+    "transaction" : "generate-image",
+    "sampleCount" : 500,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 2854.391999999999,
+    "medianResTime" : 2840.0,
+    "minResTime" : 2813.0,
+    "maxResTime" : 3224.0,
+    "pct1ResTime" : 2886.9,
+    "pct2ResTime" : 2930.85,
+    "pct3ResTime" : 3102.8900000000003,
+    "throughput" : 15.056612864370031,
+    "receivedKBytesPerSec" : 9.704457510238496,
+    "sentKBytesPerSec" : 7.072491003673814
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 1000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 1433.3269999999998,
+    "medianResTime" : 1557.0,
+    "minResTime" : 5.0,
+    "maxResTime" : 3224.0,
+    "pct1ResTime" : 2865.0,
+    "pct2ResTime" : 2886.95,
+    "pct3ResTime" : 3034.8100000000004,
+    "throughput" : 30.113225728740062,
+    "receivedKBytesPerSec" : 29.892669876234645,
+    "sentKBytesPerSec" : 12.571683592808963
+  },
+  "find-all-chat" : {
+    "transaction" : "find-all-chat",
+    "sampleCount" : 500,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 12.261999999999993,
+    "medianResTime" : 8.0,
+    "minResTime" : 5.0,
+    "maxResTime" : 301.0,
+    "pct1ResTime" : 18.0,
+    "pct2ResTime" : 22.899999999999977,
+    "pct3ResTime" : 83.75000000000023,
+    "throughput" : 91.00837277029487,
+    "receivedKBytesPerSec" : 122.02587481798327,
+    "sentKBytesPerSec" : 33.23938614852567
+  }
+}

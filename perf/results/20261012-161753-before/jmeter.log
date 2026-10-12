@@ -1,0 +1,449 @@
+2026-10-12 16:17:56,904 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2026-10-12 16:17:56,928 INFO o.a.j.JMeter: Loading user properties from: /opt/homebrew/Cellar/jmeter/5.6.3/libexec/bin/user.properties
+2026-10-12 16:17:56,929 INFO o.a.j.JMeter: Loading system properties from: /opt/homebrew/Cellar/jmeter/5.6.3/libexec/bin/system.properties
+2026-10-12 16:17:56,930 INFO o.a.j.JMeter: Setting JMeter property: host=localhost
+2026-10-12 16:17:56,930 INFO o.a.j.JMeter: Setting JMeter property: port=8080
+2026-10-12 16:17:56,930 INFO o.a.j.JMeter: Setting JMeter property: token=eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidG9rZW5UeXBlIjoiQUNDRVNTIiwiaWF0IjoxNzkxNzg5NDczLCJleHAiOjE3OTUzODk0NzN9.w-O7hZC2oS-nPOii81-xcZmXTL9SjrNkjNiGiSvlxL7hT1onrJJb2JKkEUEXxVut
+2026-10-12 16:17:56,930 INFO o.a.j.JMeter: Setting JMeter property: chatId=3
+2026-10-12 16:17:56,930 INFO o.a.j.JMeter: Setting JMeter property: genThreads=50
+2026-10-12 16:17:56,930 INFO o.a.j.JMeter: Setting JMeter property: readThreads=50
+2026-10-12 16:17:56,930 INFO o.a.j.JMeter: Setting JMeter property: loops=10
+2026-10-12 16:17:56,930 INFO o.a.j.JMeter: Setting JMeter property: rampUp=5
+2026-10-12 16:17:56,940 INFO o.a.j.JMeter: Copyright (c) 1998-2024 The Apache Software Foundation
+2026-10-12 16:17:56,941 INFO o.a.j.JMeter: Version 5.6.3
+2026-10-12 16:17:56,941 INFO o.a.j.JMeter: java.version=21.0.12.1
+2026-10-12 16:17:56,941 INFO o.a.j.JMeter: java.vm.name=OpenJDK 64-Bit Server VM
+2026-10-12 16:17:56,941 INFO o.a.j.JMeter: os.name=Mac OS X
+2026-10-12 16:17:56,941 INFO o.a.j.JMeter: os.arch=aarch64
+2026-10-12 16:17:56,941 INFO o.a.j.JMeter: os.version=26.5.2
+2026-10-12 16:17:56,941 INFO o.a.j.JMeter: file.encoding=UTF-8
+2026-10-12 16:17:56,941 INFO o.a.j.JMeter: java.awt.headless=true
+2026-10-12 16:17:56,941 INFO o.a.j.JMeter: Max memory     =1073741824
+2026-10-12 16:17:56,941 INFO o.a.j.JMeter: Available Processors =8
+2026-10-12 16:17:56,951 INFO o.a.j.JMeter: Default Locale=English (EN)
+2026-10-12 16:17:56,951 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2026-10-12 16:17:56,951 INFO o.a.j.JMeter: JMeterHome=/opt/homebrew/Cellar/jmeter/5.6.3/libexec
+2026-10-12 16:17:56,951 INFO o.a.j.JMeter: user.dir  =/Users/yewon/IdeaProjects/backend/perf
+2026-10-12 16:17:56,951 INFO o.a.j.JMeter: PWD       =/Users/yewon/IdeaProjects/backend/perf
+2026-10-12 16:17:56,954 INFO o.a.j.JMeter: IP: 127.0.0.1 Name: aeong-ui-MacBookPro.local FullName: localhost
+2026-10-12 16:17:56,968 INFO o.a.j.JMeter: Setting property 'jmeter.reportgenerator.outputdir' to:'/Users/yewon/IdeaProjects/backend/perf/results/20261012-161753-before/report'
+2026-10-12 16:17:56,972 INFO o.a.j.s.FileServer: Default base='/Users/yewon/IdeaProjects/backend/perf'
+2026-10-12 16:17:56,974 INFO o.a.j.s.FileServer: Set new base='/Users/yewon/IdeaProjects/backend/perf'
+2026-10-12 16:17:57,112 INFO o.a.j.s.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2
+2026-10-12 16:17:57,131 INFO o.a.j.s.SaveService: Using SaveService properties version 5.0
+2026-10-12 16:17:57,132 INFO o.a.j.s.SaveService: Using SaveService properties file encoding UTF-8
+2026-10-12 16:17:57,134 INFO o.a.j.s.SaveService: Loading file: scenario.jmx
+2026-10-12 16:17:57,170 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/html is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-10-12 16:17:57,170 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xhtml+xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-10-12 16:17:57,170 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-10-12 16:17:57,170 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-10-12 16:17:57,170 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser
+2026-10-12 16:17:57,170 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/css is org.apache.jmeter.protocol.http.parser.CssParser
+2026-10-12 16:17:57,178 INFO o.a.j.JMeter: Creating summariser <summary>
+2026-10-12 16:17:57,184 INFO o.a.j.r.d.ReportGenerator: ReportGenerator will use for Parsing the separator: ','
+2026-10-12 16:17:57,184 INFO o.a.j.r.d.ReportGenerator: Will generate report at end of test from  results file: results/20261012-161753-before/result.jtl
+2026-10-12 16:17:57,184 INFO o.a.j.r.d.ReportGenerator: Reading report generator properties from: /opt/homebrew/Cellar/jmeter/5.6.3/libexec/bin/reportgenerator.properties
+2026-10-12 16:17:57,185 INFO o.a.j.r.d.ReportGenerator: Merging with JMeter properties
+2026-10-12 16:17:57,187 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.temp_dir' not found, using default value 'temp' instead.
+2026-10-12 16:17:57,188 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.apdex_per_transaction' not found, using default value 'null' instead.
+2026-10-12 16:17:57,188 INFO o.a.j.r.c.ReportGeneratorConfiguration: apdex_per_transaction is empty, not APDEX per transaction customization
+2026-10-12 16:17:57,188 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.sample_filter' not found, using default value 'null' instead.
+2026-10-12 16:17:57,188 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.report_title' not found, using default value 'null' instead.
+2026-10-12 16:17:57,188 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.start_date' not found, using default value 'null' instead.
+2026-10-12 16:17:57,188 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.end_date' not found, using default value 'null' instead.
+2026-10-12 16:17:57,188 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.date_format' not found, using default value 'null' instead.
+2026-10-12 16:17:57,188 INFO o.a.j.r.c.ReportGeneratorConfiguration: Will use date range start date: null, end date: null
+2026-10-12 16:17:57,190 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.totalTPS.exclude_controllers' not found, using default value 'false' instead.
+2026-10-12 16:17:57,190 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.activeThreadsOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-10-12 16:17:57,190 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.timeVsThreads.exclude_controllers' not found, using default value 'false' instead.
+2026-10-12 16:17:57,190 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimeDistribution.exclude_controllers' not found, using default value 'false' instead.
+2026-10-12 16:17:57,190 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.transactionsPerSecond.exclude_controllers' not found, using default value 'false' instead.
+2026-10-12 16:17:57,190 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimePercentiles.exclude_controllers' not found, using default value 'false' instead.
+2026-10-12 16:17:57,190 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimePercentilesOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-10-12 16:17:57,190 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.responseTimesOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-10-12 16:17:57,190 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.connectTimeOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-10-12 16:17:57,191 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.graph.latenciesOverTime.exclude_controllers' not found, using default value 'false' instead.
+2026-10-12 16:17:57,191 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.json.filters_only_sample_series' not found, using default value 'true' instead.
+2026-10-12 16:17:57,191 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.json.series_filter' not found, using default value '' instead.
+2026-10-12 16:17:57,191 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.json.show_controllers_only' not found, using default value 'false' instead.
+2026-10-12 16:17:57,191 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.html.filters_only_sample_series' not found, using default value 'true' instead.
+2026-10-12 16:17:57,191 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.html.series_filter' not found, using default value '' instead.
+2026-10-12 16:17:57,191 INFO o.a.j.r.c.ReportGeneratorConfiguration: Property 'jmeter.reportgenerator.exporter.html.show_controllers_only' not found, using default value 'false' instead.
+2026-10-12 16:17:57,198 INFO o.a.j.e.StandardJMeterEngine: Running the test!
+2026-10-12 16:17:57,198 INFO o.a.j.s.SampleEvent: List of sample_variables: []
+2026-10-12 16:17:57,198 INFO o.a.j.s.SampleEvent: List of sample_variables: []
+2026-10-12 16:17:57,201 INFO o.a.j.e.u.CompoundVariable: Note: Function class names must contain the string: '.functions.'
+2026-10-12 16:17:57,201 INFO o.a.j.e.u.CompoundVariable: Note: Function class names must not contain the string: '.gui.'
+2026-10-12 16:17:57,230 INFO o.a.j.r.ClassFinder: Will scan jar /opt/homebrew/Cellar/jmeter/5.6.3/libexec/lib/ext/jmeter-plugins-manager-1.9.jar with filter ExtendsClassFilter [parents=[interface org.apache.jmeter.functions.Function], inner=false, contains=null, notContains=null]. Consider exposing JMeter plugins via META-INF/services, and add JMeter-Skip-Class-Scanning=true manifest attribute so JMeter can skip classfile scanning
+2026-10-12 16:17:57,293 INFO o.a.j.JMeter: Running test (1791789477293)
+2026-10-12 16:17:57,304 INFO o.a.j.e.StandardJMeterEngine: Starting ThreadGroup: 1 : 외부호출 API (generate-image)
+2026-10-12 16:17:57,304 INFO o.a.j.e.StandardJMeterEngine: Starting 50 threads for group 외부호출 API (generate-image).
+2026-10-12 16:17:57,304 INFO o.a.j.e.StandardJMeterEngine: Thread will continue on error
+2026-10-12 16:17:57,305 INFO o.a.j.t.ThreadGroup: Starting thread group... number=1 threads=50 ramp-up=5 delayedStart=false
+2026-10-12 16:17:57,309 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-1
+2026-10-12 16:17:57,317 INFO o.a.j.t.ThreadGroup: Started thread group number 1
+2026-10-12 16:17:57,318 INFO o.a.j.e.StandardJMeterEngine: Starting ThreadGroup: 2 : 무관한 조회 API (find-all-chat)
+2026-10-12 16:17:57,318 INFO o.a.j.e.StandardJMeterEngine: Starting 50 threads for group 무관한 조회 API (find-all-chat).
+2026-10-12 16:17:57,318 INFO o.a.j.e.StandardJMeterEngine: Thread will continue on error
+2026-10-12 16:17:57,318 INFO o.a.j.t.ThreadGroup: Starting thread group... number=2 threads=50 ramp-up=5 delayedStart=false
+2026-10-12 16:17:57,318 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-1
+2026-10-12 16:17:57,323 INFO o.a.j.p.h.s.HTTPHCAbstractImpl: Local host = aeong-ui-MacBookPro.local
+2026-10-12 16:17:57,329 INFO o.a.j.t.ThreadGroup: Started thread group number 2
+2026-10-12 16:17:57,329 INFO o.a.j.e.StandardJMeterEngine: All thread groups have been started
+2026-10-12 16:17:57,329 INFO o.a.j.p.h.s.HTTPHC4Impl: HTTP request retry count = 0
+2026-10-12 16:17:57,330 INFO o.a.j.s.SampleResult: Note: Sample TimeStamps are START times
+2026-10-12 16:17:57,330 INFO o.a.j.s.SampleResult: sampleresult.default.encoding is set to UTF-8
+2026-10-12 16:17:57,330 INFO o.a.j.s.SampleResult: sampleresult.useNanoTime=true
+2026-10-12 16:17:57,330 INFO o.a.j.s.SampleResult: sampleresult.nanoThreadSleep=5000
+2026-10-12 16:17:57,410 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-2
+2026-10-12 16:17:57,424 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-2
+2026-10-12 16:17:57,507 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-3
+2026-10-12 16:17:57,520 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-3
+2026-10-12 16:17:57,607 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-4
+2026-10-12 16:17:57,615 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-1
+2026-10-12 16:17:57,615 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-2
+2026-10-12 16:17:57,616 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-1
+2026-10-12 16:17:57,616 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-2
+2026-10-12 16:17:57,623 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-4
+2026-10-12 16:17:57,686 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-3
+2026-10-12 16:17:57,686 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-3
+2026-10-12 16:17:57,709 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-5
+2026-10-12 16:17:57,722 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-5
+2026-10-12 16:17:57,763 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-4
+2026-10-12 16:17:57,763 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-4
+2026-10-12 16:17:57,811 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-6
+2026-10-12 16:17:57,820 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-6
+2026-10-12 16:17:57,823 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-5
+2026-10-12 16:17:57,823 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-5
+2026-10-12 16:17:57,908 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-6
+2026-10-12 16:17:57,908 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-6
+2026-10-12 16:17:57,909 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-7
+2026-10-12 16:17:57,924 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-7
+2026-10-12 16:17:58,008 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-7
+2026-10-12 16:17:58,009 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-7
+2026-10-12 16:17:58,008 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-8
+2026-10-12 16:17:58,018 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-8
+2026-10-12 16:17:58,107 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-9
+2026-10-12 16:17:58,112 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-8
+2026-10-12 16:17:58,112 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-8
+2026-10-12 16:17:58,123 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-9
+2026-10-12 16:17:58,209 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-10
+2026-10-12 16:17:58,219 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-10
+2026-10-12 16:17:58,225 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-9
+2026-10-12 16:17:58,225 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-9
+2026-10-12 16:17:58,306 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-11
+2026-10-12 16:17:58,320 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-11
+2026-10-12 16:17:58,407 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-12
+2026-10-12 16:17:58,420 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-12
+2026-10-12 16:17:58,506 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-13
+2026-10-12 16:17:58,519 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-13
+2026-10-12 16:17:58,612 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-14
+2026-10-12 16:17:58,623 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-14
+2026-10-12 16:17:58,711 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-15
+2026-10-12 16:17:58,721 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-15
+2026-10-12 16:17:58,810 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-16
+2026-10-12 16:17:58,823 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-16
+2026-10-12 16:17:58,910 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-17
+2026-10-12 16:17:58,920 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-17
+2026-10-12 16:17:59,010 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-18
+2026-10-12 16:17:59,023 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-18
+2026-10-12 16:17:59,108 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-19
+2026-10-12 16:17:59,123 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-19
+2026-10-12 16:17:59,211 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-20
+2026-10-12 16:17:59,224 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-20
+2026-10-12 16:17:59,307 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-21
+2026-10-12 16:17:59,324 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-21
+2026-10-12 16:17:59,410 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-22
+2026-10-12 16:17:59,418 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-22
+2026-10-12 16:17:59,507 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-23
+2026-10-12 16:17:59,522 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-23
+2026-10-12 16:17:59,609 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-24
+2026-10-12 16:17:59,619 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-24
+2026-10-12 16:17:59,711 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-25
+2026-10-12 16:17:59,723 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-25
+2026-10-12 16:17:59,809 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-26
+2026-10-12 16:17:59,818 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-26
+2026-10-12 16:17:59,905 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-27
+2026-10-12 16:17:59,919 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-27
+2026-10-12 16:18:00,008 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-28
+2026-10-12 16:18:00,024 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-28
+2026-10-12 16:18:00,107 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-29
+2026-10-12 16:18:00,119 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-29
+2026-10-12 16:18:00,208 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-30
+2026-10-12 16:18:00,222 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-30
+2026-10-12 16:18:00,309 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-31
+2026-10-12 16:18:00,319 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-31
+2026-10-12 16:18:00,350 INFO o.a.j.r.Summariser: summary +     91 in 00:00:03 =   29.9/s Avg:    45 Min:     6 Max:  2975 Err:     0 (0.00%) Active: 53 Started: 62 Finished: 9
+2026-10-12 16:18:00,409 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-32
+2026-10-12 16:18:00,423 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-32
+2026-10-12 16:18:00,511 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-33
+2026-10-12 16:18:00,519 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-33
+2026-10-12 16:18:00,611 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-34
+2026-10-12 16:18:00,620 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-34
+2026-10-12 16:18:00,712 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-35
+2026-10-12 16:18:00,723 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-35
+2026-10-12 16:18:00,806 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-36
+2026-10-12 16:18:00,820 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-36
+2026-10-12 16:18:00,907 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-37
+2026-10-12 16:18:00,923 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-37
+2026-10-12 16:18:01,006 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-38
+2026-10-12 16:18:01,019 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-38
+2026-10-12 16:18:01,107 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-39
+2026-10-12 16:18:01,121 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-39
+2026-10-12 16:18:01,211 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-40
+2026-10-12 16:18:01,222 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-40
+2026-10-12 16:18:01,310 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-41
+2026-10-12 16:18:01,321 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-41
+2026-10-12 16:18:01,406 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-42
+2026-10-12 16:18:01,419 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-42
+2026-10-12 16:18:01,510 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-43
+2026-10-12 16:18:01,523 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-43
+2026-10-12 16:18:01,611 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-44
+2026-10-12 16:18:01,624 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-44
+2026-10-12 16:18:01,711 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-45
+2026-10-12 16:18:01,723 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-45
+2026-10-12 16:18:01,808 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-46
+2026-10-12 16:18:01,823 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-46
+2026-10-12 16:18:01,908 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-47
+2026-10-12 16:18:01,920 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-47
+2026-10-12 16:18:02,005 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-48
+2026-10-12 16:18:02,024 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-48
+2026-10-12 16:18:02,106 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-49
+2026-10-12 16:18:02,120 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-49
+2026-10-12 16:18:02,209 INFO o.a.j.t.JMeterThread: Thread started: 외부호출 API (generate-image) 1-50
+2026-10-12 16:18:02,223 INFO o.a.j.t.JMeterThread: Thread started: 무관한 조회 API (find-all-chat) 2-50
+2026-10-12 16:18:31,807 INFO o.a.j.r.Summariser: summary +    296 in 00:00:31 =    9.4/s Avg:  7969 Min:   218 Max: 19675 Err:     0 (0.00%) Active: 91 Started: 100 Finished: 9
+2026-10-12 16:18:31,815 INFO o.a.j.r.Summariser: summary =    387 in 00:00:35 =   11.2/s Avg:  6106 Min:     6 Max: 19675 Err:     0 (0.00%)
+2026-10-12 16:19:00,225 INFO o.a.j.r.Summariser: summary +    227 in 00:00:28 =    8.0/s Avg: 10729 Min:  2793 Max: 20143 Err:     0 (0.00%) Active: 91 Started: 100 Finished: 9
+2026-10-12 16:19:00,227 INFO o.a.j.r.Summariser: summary =    614 in 00:01:03 =    9.8/s Avg:  7815 Min:     6 Max: 20143 Err:     0 (0.00%)
+2026-10-12 16:19:03,079 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-10
+2026-10-12 16:19:03,079 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-10
+2026-10-12 16:19:03,085 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-30
+2026-10-12 16:19:03,085 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-30
+2026-10-12 16:19:03,148 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-18
+2026-10-12 16:19:03,148 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-18
+2026-10-12 16:19:03,151 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-20
+2026-10-12 16:19:03,151 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-20
+2026-10-12 16:19:05,894 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-23
+2026-10-12 16:19:05,893 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-26
+2026-10-12 16:19:05,897 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-26
+2026-10-12 16:19:05,897 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-23
+2026-10-12 16:19:05,980 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-11
+2026-10-12 16:19:05,980 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-11
+2026-10-12 16:19:05,987 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-13
+2026-10-12 16:19:05,987 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-13
+2026-10-12 16:19:05,995 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-16
+2026-10-12 16:19:05,995 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-17
+2026-10-12 16:19:05,995 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-17
+2026-10-12 16:19:05,995 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-16
+2026-10-12 16:19:05,997 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-15
+2026-10-12 16:19:05,997 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-15
+2026-10-12 16:19:08,763 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-19
+2026-10-12 16:19:08,763 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-19
+2026-10-12 16:19:08,771 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-24
+2026-10-12 16:19:08,772 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-24
+2026-10-12 16:19:08,783 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-25
+2026-10-12 16:19:08,784 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-25
+2026-10-12 16:19:08,791 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-27
+2026-10-12 16:19:08,791 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-27
+2026-10-12 16:19:08,799 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-29
+2026-10-12 16:19:08,799 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-29
+2026-10-12 16:19:08,846 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-28
+2026-10-12 16:19:08,846 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-28
+2026-10-12 16:19:08,849 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-31
+2026-10-12 16:19:08,849 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-31
+2026-10-12 16:19:08,856 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-14
+2026-10-12 16:19:08,857 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-14
+2026-10-12 16:19:11,978 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-21
+2026-10-12 16:19:11,979 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-21
+2026-10-12 16:19:14,434 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-33
+2026-10-12 16:19:14,434 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-33
+2026-10-12 16:19:14,523 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-41
+2026-10-12 16:19:14,523 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-41
+2026-10-12 16:19:14,549 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-22
+2026-10-12 16:19:14,550 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-22
+2026-10-12 16:19:14,553 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-47
+2026-10-12 16:19:14,554 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-47
+2026-10-12 16:19:14,561 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-32
+2026-10-12 16:19:14,561 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-32
+2026-10-12 16:19:14,736 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-12
+2026-10-12 16:19:14,736 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-12
+2026-10-12 16:19:17,383 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-34
+2026-10-12 16:19:17,384 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-34
+2026-10-12 16:19:17,577 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-35
+2026-10-12 16:19:17,577 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-35
+2026-10-12 16:19:17,580 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-36
+2026-10-12 16:19:17,580 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-36
+2026-10-12 16:19:17,616 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-38
+2026-10-12 16:19:17,616 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-38
+2026-10-12 16:19:17,620 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-39
+2026-10-12 16:19:17,620 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-39
+2026-10-12 16:19:17,624 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-40
+2026-10-12 16:19:17,624 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-40
+2026-10-12 16:19:17,636 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-42
+2026-10-12 16:19:17,636 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-42
+2026-10-12 16:19:17,639 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-45
+2026-10-12 16:19:17,639 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-45
+2026-10-12 16:19:17,644 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-43
+2026-10-12 16:19:17,644 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-43
+2026-10-12 16:19:20,117 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-44
+2026-10-12 16:19:20,118 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-44
+2026-10-12 16:19:20,123 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-50
+2026-10-12 16:19:20,124 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-50
+2026-10-12 16:19:20,124 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-46
+2026-10-12 16:19:20,124 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-46
+2026-10-12 16:19:20,464 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-37
+2026-10-12 16:19:20,465 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-37
+2026-10-12 16:19:23,298 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-48
+2026-10-12 16:19:23,299 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-48
+2026-10-12 16:19:25,808 INFO o.a.j.t.JMeterThread: Thread is done: 무관한 조회 API (find-all-chat) 2-49
+2026-10-12 16:19:25,809 INFO o.a.j.t.JMeterThread: Thread finished: 무관한 조회 API (find-all-chat) 2-49
+2026-10-12 16:19:31,455 INFO o.a.j.r.Summariser: summary +    207 in 00:00:31 =    6.6/s Avg: 11319 Min:  2575 Max: 19916 Err:     0 (0.00%) Active: 50 Started: 100 Finished: 50
+2026-10-12 16:19:31,456 INFO o.a.j.r.Summariser: summary =    821 in 00:01:34 =    8.7/s Avg:  8698 Min:     6 Max: 20143 Err:     0 (0.00%)
+2026-10-12 16:19:54,221 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-10
+2026-10-12 16:19:54,223 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-10
+2026-10-12 16:19:57,055 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-4
+2026-10-12 16:19:57,055 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-4
+2026-10-12 16:19:57,071 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-9
+2026-10-12 16:19:57,071 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-9
+2026-10-12 16:20:00,011 INFO o.a.j.r.Summariser: summary +    108 in 00:00:29 =    3.8/s Avg: 14085 Min:  5676 Max: 22747 Err:     0 (0.00%) Active: 47 Started: 100 Finished: 53
+2026-10-12 16:20:00,014 INFO o.a.j.r.Summariser: summary =    929 in 00:02:03 =    7.6/s Avg:  9325 Min:     6 Max: 22747 Err:     0 (0.00%)
+2026-10-12 16:20:02,738 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-14
+2026-10-12 16:20:02,739 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-14
+2026-10-12 16:20:02,765 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-25
+2026-10-12 16:20:02,765 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-25
+2026-10-12 16:20:02,769 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-29
+2026-10-12 16:20:02,769 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-29
+2026-10-12 16:20:02,833 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-7
+2026-10-12 16:20:02,833 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-7
+2026-10-12 16:20:05,573 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-13
+2026-10-12 16:20:05,573 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-13
+2026-10-12 16:20:05,617 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-5
+2026-10-12 16:20:05,617 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-5
+2026-10-12 16:20:05,657 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-6
+2026-10-12 16:20:05,657 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-6
+2026-10-12 16:20:05,670 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-32
+2026-10-12 16:20:05,670 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-32
+2026-10-12 16:20:08,387 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-2
+2026-10-12 16:20:08,387 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-1
+2026-10-12 16:20:08,388 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-1
+2026-10-12 16:20:08,388 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-2
+2026-10-12 16:20:08,432 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-46
+2026-10-12 16:20:08,432 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-46
+2026-10-12 16:20:08,493 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-8
+2026-10-12 16:20:08,493 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-8
+2026-10-12 16:20:11,221 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-3
+2026-10-12 16:20:11,223 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-3
+2026-10-12 16:20:11,227 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-24
+2026-10-12 16:20:11,227 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-20
+2026-10-12 16:20:11,227 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-24
+2026-10-12 16:20:11,227 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-20
+2026-10-12 16:20:11,228 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-21
+2026-10-12 16:20:11,228 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-21
+2026-10-12 16:20:11,273 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-17
+2026-10-12 16:20:11,273 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-17
+2026-10-12 16:20:11,313 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-19
+2026-10-12 16:20:11,313 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-19
+2026-10-12 16:20:11,314 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-40
+2026-10-12 16:20:11,314 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-40
+2026-10-12 16:20:14,045 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-28
+2026-10-12 16:20:14,045 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-11
+2026-10-12 16:20:14,050 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-28
+2026-10-12 16:20:14,051 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-11
+2026-10-12 16:20:14,054 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-12
+2026-10-12 16:20:14,054 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-12
+2026-10-12 16:20:14,054 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-18
+2026-10-12 16:20:14,054 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-18
+2026-10-12 16:20:14,054 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-23
+2026-10-12 16:20:14,055 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-23
+2026-10-12 16:20:14,095 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-49
+2026-10-12 16:20:14,095 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-49
+2026-10-12 16:20:14,100 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-27
+2026-10-12 16:20:14,100 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-27
+2026-10-12 16:20:14,102 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-36
+2026-10-12 16:20:14,102 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-36
+2026-10-12 16:20:14,134 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-37
+2026-10-12 16:20:14,134 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-37
+2026-10-12 16:20:16,875 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-38
+2026-10-12 16:20:16,875 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-41
+2026-10-12 16:20:16,875 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-38
+2026-10-12 16:20:16,875 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-41
+2026-10-12 16:20:16,882 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-43
+2026-10-12 16:20:16,883 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-43
+2026-10-12 16:20:16,883 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-15
+2026-10-12 16:20:16,883 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-15
+2026-10-12 16:20:16,889 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-22
+2026-10-12 16:20:16,889 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-22
+2026-10-12 16:20:16,916 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-45
+2026-10-12 16:20:16,917 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-45
+2026-10-12 16:20:16,920 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-50
+2026-10-12 16:20:16,920 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-50
+2026-10-12 16:20:16,925 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-16
+2026-10-12 16:20:16,925 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-16
+2026-10-12 16:20:16,942 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-33
+2026-10-12 16:20:16,942 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-33
+2026-10-12 16:20:16,953 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-30
+2026-10-12 16:20:16,953 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-30
+2026-10-12 16:20:19,708 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-34
+2026-10-12 16:20:19,708 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-44
+2026-10-12 16:20:19,708 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-31
+2026-10-12 16:20:19,708 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-39
+2026-10-12 16:20:19,709 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-44
+2026-10-12 16:20:19,709 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-39
+2026-10-12 16:20:19,709 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-34
+2026-10-12 16:20:19,709 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-31
+2026-10-12 16:20:19,714 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-26
+2026-10-12 16:20:19,714 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-26
+2026-10-12 16:20:19,739 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-42
+2026-10-12 16:20:19,740 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-42
+2026-10-12 16:20:19,743 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-35
+2026-10-12 16:20:19,743 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-35
+2026-10-12 16:20:19,764 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-48
+2026-10-12 16:20:19,764 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-48
+2026-10-12 16:20:22,591 INFO o.a.j.t.JMeterThread: Thread is done: 외부호출 API (generate-image) 1-47
+2026-10-12 16:20:22,591 INFO o.a.j.t.JMeterThread: Thread finished: 외부호출 API (generate-image) 1-47
+2026-10-12 16:20:22,594 INFO o.a.j.e.StandardJMeterEngine: Notifying test listeners of end of test
+2026-10-12 16:20:22,601 INFO o.a.j.r.Summariser: summary +     71 in 00:00:23 =    3.1/s Avg: 13003 Min:  2850 Max: 22693 Err:     0 (0.00%) Active: 0 Started: 100 Finished: 100
+2026-10-12 16:20:22,602 INFO o.a.j.r.Summariser: summary =   1000 in 00:02:25 =    6.9/s Avg:  9586 Min:     6 Max: 22747 Err:     0 (0.00%)
+2026-10-12 16:20:22,608 INFO o.a.j.JMeter: Generating Dashboard
+2026-10-12 16:20:22,608 INFO o.a.j.r.d.ReportGenerator: Flushing result collector before report Generation
+2026-10-12 16:20:22,670 INFO o.a.j.r.p.NormalizerSampleConsumer: Using format, 'ms', to parse timeStamp field
+2026-10-12 16:20:22,765 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.AggregateConsumer#stopProducing(): beginDate produced 0 samples
+2026-10-12 16:20:22,765 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.AggregateConsumer#stopProducing(): endDate produced 0 samples
+2026-10-12 16:20:22,769 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.ApdexSummaryConsumer#stopProducing(): apdexSummary produced 0 samples
+2026-10-12 16:20:22,770 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.RequestsSummaryConsumer#stopProducing(): requestsSummary produced 0 samples
+2026-10-12 16:20:22,772 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.StatisticsSummaryConsumer#stopProducing(): statisticsSummary produced 0 samples
+2026-10-12 16:20:22,774 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.Top5ErrorsBySamplerConsumer#stopProducing(): top5ErrorsBySampler produced 0 samples
+2026-10-12 16:20:22,774 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.ErrorsSummaryConsumer#stopProducing(): errorsSummary produced 0 samples
+2026-10-12 16:20:22,774 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.HitsPerSecondGraphConsumer#stopProducing(): hitsPerSecond produced 0 samples
+2026-10-12 16:20:22,798 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.LatencyVSRequestGraphConsumer#stopProducing(): latencyVsRequest produced 0 samples
+2026-10-12 16:20:22,798 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.SyntheticResponseTimeDistributionGraphConsumer#stopProducing(): syntheticResponseTimeDistribution produced 0 samples
+2026-10-12 16:20:22,798 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.BytesThroughputGraphConsumer#stopProducing(): bytesThroughputOverTime produced 0 samples
+2026-10-12 16:20:22,799 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.CodesPerSecondGraphConsumer#stopProducing(): codesPerSecond produced 0 samples
+2026-10-12 16:20:22,810 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimeVSRequestGraphConsumer#stopProducing(): responseTimeVsRequest produced 0 samples
+2026-10-12 16:20:22,810 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.FilterConsumer#stopProducing(): startIntervalControlerFilter produced 7000 samples
+2026-10-12 16:20:22,810 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.TotalTPSGraphConsumer#stopProducing(): totalTPS produced 0 samples
+2026-10-12 16:20:22,810 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ActiveThreadsGraphConsumer#stopProducing(): activeThreadsOverTime produced 0 samples
+2026-10-12 16:20:22,810 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.TimeVSThreadGraphConsumer#stopProducing(): timeVsThreads produced 0 samples
+2026-10-12 16:20:22,810 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimeDistributionGraphConsumer#stopProducing(): responseTimeDistribution produced 0 samples
+2026-10-12 16:20:22,810 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.TransactionsPerSecondGraphConsumer#stopProducing(): transactionsPerSecond produced 0 samples
+2026-10-12 16:20:22,810 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimePercentilesGraphConsumer#stopProducing(): responseTimePercentiles produced 0 samples
+2026-10-12 16:20:22,812 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimePercentilesOverTimeGraphConsumer#stopProducing(): responseTimePercentilesOverTime produced 0 samples
+2026-10-12 16:20:22,812 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ResponseTimeOverTimeGraphConsumer#stopProducing(): responseTimesOverTime produced 0 samples
+2026-10-12 16:20:22,812 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.ConnectTimeOverTimeGraphConsumer#stopProducing(): connectTimeOverTime produced 0 samples
+2026-10-12 16:20:22,812 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.graph.impl.LatencyOverTimeGraphConsumer#stopProducing(): latenciesOverTime produced 0 samples
+2026-10-12 16:20:22,812 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.FilterConsumer#stopProducing(): nameFilter produced 15000 samples
+2026-10-12 16:20:22,812 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.FilterConsumer#stopProducing(): dateRangeFilter produced 3000 samples
+2026-10-12 16:20:22,812 INFO o.a.j.r.p.AbstractSampleConsumer: class org.apache.jmeter.report.processor.NormalizerSampleConsumer#stopProducing(): normalizer produced 1000 samples
+2026-10-12 16:20:22,813 INFO o.a.j.r.p.CsvFileSampleSource: produce(): 1000 samples produced in 118ms on channel 0
+2026-10-12 16:20:22,813 INFO o.a.j.r.d.ReportGenerator: Exporting data using exporter:'json' of className:'org.apache.jmeter.report.dashboard.JsonExporter'
+2026-10-12 16:20:22,862 INFO o.a.j.r.d.JsonExporter: Found data for consumer statisticsSummary in context
+2026-10-12 16:20:22,862 INFO o.a.j.r.d.JsonExporter: Creating statistics for overall
+2026-10-12 16:20:22,863 INFO o.a.j.r.d.JsonExporter: Creating statistics for other transactions
+2026-10-12 16:20:22,863 INFO o.a.j.r.d.JsonExporter: Checking output folder
+2026-10-12 16:20:22,864 INFO o.a.j.r.d.JsonExporter: Writing statistics JSON to /Users/yewon/IdeaProjects/backend/perf/results/20261012-161753-before/report/statistics.json
+2026-10-12 16:20:22,887 INFO o.a.j.r.d.ReportGenerator: Exporting data using exporter:'html' of className:'org.apache.jmeter.report.dashboard.HtmlTemplateExporter'
+2026-10-12 16:20:22,888 INFO o.a.j.r.d.HtmlTemplateExporter: Will generate dashboard in folder: /Users/yewon/IdeaProjects/backend/perf/results/20261012-161753-before/report
+2026-10-12 16:20:22,969 INFO o.a.j.r.d.HtmlTemplateExporter: Report will be generated in: /Users/yewon/IdeaProjects/backend/perf/results/20261012-161753-before/report, creating folder structure
+2026-10-12 16:20:22,970 INFO o.a.j.r.d.TemplateVisitor: Copying folder from '/opt/homebrew/Cellar/jmeter/5.6.3/libexec/bin/report-template' to '/Users/yewon/IdeaProjects/backend/perf/results/20261012-161753-before/report', got message: /Users/yewon/IdeaProjects/backend/perf/results/20261012-161753-before/report, found non empty folder with following content [/Users/yewon/IdeaProjects/backend/perf/results/20261012-161753-before/report/statistics.json], will be ignored
+2026-10-12 16:20:23,152 INFO o.a.j.JMeter: Dashboard generated

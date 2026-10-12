@@ -1,0 +1,34 @@
+{
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 500,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 7.483999999999993,
+    "medianResTime" : 7.0,
+    "minResTime" : 4.0,
+    "maxResTime" : 47.0,
+    "pct1ResTime" : 10.0,
+    "pct2ResTime" : 11.0,
+    "pct3ResTime" : 14.0,
+    "throughput" : 101.44045445323594,
+    "receivedKBytesPerSec" : 77.3681591093528,
+    "sentKBytesPerSec" : 37.0495409819436
+  },
+  "find-all-chat" : {
+    "transaction" : "find-all-chat",
+    "sampleCount" : 500,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 7.483999999999993,
+    "medianResTime" : 7.0,
+    "minResTime" : 4.0,
+    "maxResTime" : 47.0,
+    "pct1ResTime" : 10.0,
+    "pct2ResTime" : 11.0,
+    "pct3ResTime" : 14.0,
+    "throughput" : 101.44045445323594,
+    "receivedKBytesPerSec" : 77.3681591093528,
+    "sentKBytesPerSec" : 37.0495409819436
+  }
+}
