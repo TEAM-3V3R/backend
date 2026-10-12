@@ -11,5 +11,6 @@ public interface S3Service {
     String uploadImageFromBase64(String base64Image, String directory, Long userId, Long chatId, String fileName);
     String uploadJson(String jsonContent, String directory, Long userId, Long chatId, String fileName);
     File downloadImageFile(String s3Key);
+    void delete(String s3Url);
 
 }

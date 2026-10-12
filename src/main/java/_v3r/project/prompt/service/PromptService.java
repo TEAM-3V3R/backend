@@ -9,6 +9,7 @@ import _v3r.project.prompt.domain.enumtype.Paints;
 import _v3r.project.prompt.dto.response.ImageResponse;
 import _v3r.project.prompt.repository.ChatRepository;
 import _v3r.project.prompt.repository.PromptRepository;
+import _v3r.project.user.repository.UserRepository;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -19,7 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -30,29 +31,33 @@ public class PromptService {
     private final RestTemplate restTemplate;
     private final ChatRepository chatRepository;
     private final S3Service s3Service;
+    private final UserRepository userRepository;
+    private final TransactionTemplate transactionTemplate;
 
     @Value("${chatgpt.api-key}")
     private String apiKey;
-    // TODO: 외부 API 호출 분리 (비동기 or 트랜잭션 외부)
-    @Transactional
+    /**
+     * 트랜잭션 분리: DB 조회·검증(트랜잭션) → OpenAI 호출·S3 업로드(트랜잭션 밖) → DB 저장(트랜잭션).
+     * 외부 응답을 기다리는 동안 DB 커넥션을 점유하지 않는다.
+     */
     public ImageResponse generateImage(Long userId, Long chatId, Paints paints,
             String promptContent) {
 
-        Chat chat = chatRepository.findById(chatId)
-                .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
+        transactionTemplate.executeWithoutResult(status -> {
+            Chat chat = chatRepository.findById(chatId)
+                    .orElseThrow(() -> new EverException(ErrorCode.ENTITY_NOT_FOUND));
 
-        if (!chat.getUser().getUserId().equals(userId)) {
-            throw new EverException(ErrorCode.FORBIDDEN);
-        }
-        if (chat.getPaints() != paints) {
-            throw new EverException(ErrorCode.BAD_REQUEST);
-        }
+            if (!chat.getUser().getUserId().equals(userId)) {
+                throw new EverException(ErrorCode.FORBIDDEN);
+            }
+            if (chat.getPaints() != paints) {
+                throw new EverException(ErrorCode.BAD_REQUEST);
+            }
 
-        if (Boolean.TRUE.equals(chat.getIsFinished())) {
-            throw new EverException(ErrorCode.ALREADY_FINISHED);
-        }
-
-        Prompt prompt = Prompt.toEntity(chat.getUser(), promptContent, chat);
+            if (Boolean.TRUE.equals(chat.getIsFinished())) {
+                throw new EverException(ErrorCode.ALREADY_FINISHED);
+            }
+        });
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -87,10 +92,23 @@ public class PromptService {
                 fileName
         );
 
-        prompt.updateImageUrl(s3ImageUrl);
-        prompt.updateImage(false);
-        promptRepository.save(prompt);
+        try {
+            // ponytail: 검증~저장 사이에 채팅방 상태가 바뀌는 경합은 재검증하지 않음. 필요하면 저장 트랜잭션에서 isFinished 재확인.
+            return transactionTemplate.execute(status -> {
+                Prompt prompt = Prompt.toEntity(
+                        userRepository.getReferenceById(userId),
+                        promptContent,
+                        chatRepository.getReferenceById(chatId));
+                prompt.updateImageUrl(s3ImageUrl);
+                prompt.updateImage(false);
+                promptRepository.save(prompt);
 
-        return new ImageResponse(prompt.getPromptId(), List.of(new ImageResponse.ImageData(s3ImageUrl)));
+                return new ImageResponse(prompt.getPromptId(), List.of(new ImageResponse.ImageData(s3ImageUrl)));
+            });
+        } catch (RuntimeException e) {
+            // DB 저장 실패 시 S3 고아 파일 정리
+            s3Service.delete(s3ImageUrl);
+            throw e;
+        }
     }
-      }
+}

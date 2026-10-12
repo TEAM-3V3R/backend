@@ -1,0 +1,38 @@
+<configuration>
+  <springProfile name="prod">
+    <appender name="ORDINARY" class="ch.qos.logback.core.FileAppender">
+      <file>/home/ubuntu/hwarok.log</file>
+      <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss} %level [%X{traceId}] %logger{10} - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <appender name="HOTFIX" class="ch.qos.logback.core.FileAppender">
+      <file>log/hotfixLog.log</file>
+      <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss} %level [%X{traceId}] %logger{10} - %msg%n</pattern>
+      </encoder>
+      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <level>WARN</level>
+      </filter>
+    </appender>
+
+    <root level="INFO">
+      <appender-ref ref="ORDINARY" />
+    </root>
+    <logger name="org.springframework" level="WARN">
+      <appender-ref ref="HOTFIX" />
+    </logger>
+  </springProfile>
+
+  <springProfile name="local">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss} %level [%X{traceId}] %logger{10} - %msg%n</pattern>
+      </encoder>
+    </appender>
+    <root level="INFO">
+      <appender-ref ref="STDOUT" />
+    </root>
+  </springProfile>
+</configuration>
