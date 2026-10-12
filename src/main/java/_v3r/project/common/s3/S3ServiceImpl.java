@@ -21,12 +21,14 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 
 @RequiredArgsConstructor
 @Service
+@Profile("!mock")
 public class S3ServiceImpl implements S3Service {
 
     //TODO try-catch문 정리 필요
@@ -154,6 +156,11 @@ public class S3ServiceImpl implements S3Service {
         } catch (IOException | AmazonS3Exception e) {
             throw new EverException(ErrorCode.S3_DOWNLOAD_FAILED);
         }
+    }
+
+    @Override
+    public void delete(String s3Url) {
+        amazonS3.deleteObject(bucket, extractKeyFromUrl(s3Url));
     }
 
     private String extractKeyFromUrl(String s3Url) {
